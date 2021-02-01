@@ -1,0 +1,23 @@
+{
+  "dashboard": {
+    "WELCOME": "Bem vindo a... !"
+  },
+  "topbar": {
+    "search": {
+      "PLACEHOLDER": "Digite aqui ..."
+    }
+  },
+  "sidebar": {
+    "WELCOME": "Bem vindo",
+    "heading": {
+      "HEADER": "Menu"
+    },
+    "nav": {
+      "SINGLEVIEW": "Busca",
+      "menu": {
+        "MENU": "Menu",
+        "SUBMENU": "Sub Menu"
+      }
+    }
+  }
+}

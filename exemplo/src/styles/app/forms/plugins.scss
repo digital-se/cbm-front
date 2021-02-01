@@ -1,0 +1,66 @@
+/* ========================================================================
+    Component: plugins
+    - Use this stylesheet to include single css styles for plugins
+ ========================================================================== */
+
+
+/**
+ * Bootstrap Slider
+ */
+
+$slider-handle-bg: $primary;
+$slider-track-border: $primary;
+$slider-selection-bg: $slider-track-border;
+$slider-tooltip-color: #2c3037;
+
+body {
+
+    .slider-handle,
+    .slider-track,
+    .slider-selection {
+        background-image: none;
+        box-shadow: 0 0 0 #000;
+    }
+
+    .slider-handle {
+        background-color: #fff;
+        border: 1px solid $slider-handle-bg;
+        opacity: 1;
+    }
+    .slider-track {
+        background-color: #fff;
+        border: 1px solid $slider-track-border;
+    }
+    .slider-selection {
+        background-color: $slider-selection-bg;
+    }
+
+    .slider {
+        .tooltip.top .tooltip-arrow {
+            border-top-color: $slider-tooltip-color;
+        }
+        .tooltip.right .tooltip-arrow {
+            border-right-color: $slider-tooltip-color;
+        }
+        .tooltip-inner {
+            background-color: $slider-tooltip-color;
+        }
+        .tooltip.in {
+            opacity: 1;
+        }
+    }
+
+    .slider-fw .slider {
+        width: 100%;
+    }
+
+    // Select 2
+    .select2-container {
+        max-width: 100%;
+    }
+    .select2-container--bootstrap .select2-selection--single,
+    .select2-container--bootstrap .select2-selection--multiple {
+        border: 1px solid $input-border-color;
+        box-shadow: 0 0 0 #000 !important;
+    }
+} // body
