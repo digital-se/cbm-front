@@ -14,6 +14,9 @@ import UploadFiles from "../Comp/UploadFiles";
 
 import db from "../../db/db"
 
+import Swal from '../Comp/Swal';
+import SwalDoc from '../Comp/SwalDoc';
+
 class SearchResult extends React.Component {
 
     constructor(props, state) {
@@ -25,6 +28,7 @@ class SearchResult extends React.Component {
                 numeracao: "",
                 data: "",
                 dataFinal: "",
+                ocr: "ficha de alguem com um testo lid erado pero ocr\n\nmuto errao ese ocr",
                 validation: {
                     tipo: false,
                     numeracao: false,
@@ -48,7 +52,11 @@ class SearchResult extends React.Component {
         console.log("changeHandler")
         console.log(e)
         console.log(this.state)
+        console.log(e.target)
+        console.log(e.target.name)
+        console.log(e.target.value)
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
+        console.log(this.state.form.ocr)
         this.validateTeste();
     }
 
@@ -123,7 +131,7 @@ class SearchResult extends React.Component {
                 <div className="content-heading">
                     <div>{this.titulo} {this.state.form.tipo.toUpperCase()}</div>
                 </div>
-                <Row style={{justifyContent: 'center', alignItems: 'center'}} >
+                <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={3} md={6} className="text-center">
                         <FormGroup>
                             <Label for="exampleSelect">Tipo de Documento*</Label>
@@ -180,12 +188,20 @@ class SearchResult extends React.Component {
                         </FormGroup>
                     </Col>
                 </Row>
-                <Row style={{justifyContent: 'center', alignItems: 'center'}} >
+                <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={5} md={8} className="text-center" >
                         <UploadFiles />
                     </Col>
                 </Row>
-                <hr/>
+                <hr />
+                <Swal options={{
+                    width: "80%",
+                    showConfirmButton: true,
+                    showCloseButton: true,
+                    html: (<SwalDoc value={this.state.form.ocr} img="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" changeHandler={this.changeHandler} />)
+                }} className="btn">
+                    <img src="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" height="300" />
+                </Swal>
             </ContentWrapper>
         );
     }
