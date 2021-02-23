@@ -46,7 +46,7 @@ class SearchResult extends React.Component {
         return (
             <ContentWrapper>
                 <div className="content-heading">
-                    <div>Sistema Interno de Getão Documental</div>
+                    <div>Sistema Interno de Gestão Documental</div>
                 </div>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <Col xl={3} md={6}>
