@@ -18,6 +18,7 @@ const SearchResult = lazy(() => import('./components/SearchResult/SearchResult')
 const Ficha = lazy(() => import('./components/Ficha/Ficha'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
+// const CadastroFoto = lazy(() => import('./components/Cadastro/CadastroFoto'));
 
 // List of routes that uses the page layout
 // listed here to Switch between layouts
@@ -65,6 +66,7 @@ const Routes = ({ location }) => {
                                 <Route path="/ficha/:num" component={waitFor(Ficha)}/>
                                 <Route path="/inicio" component={waitFor(Inicio)}/>
                                 <Route path="/cadastro" component={waitFor(Cadastro)}/>
+                                {/* <Route path="/cadastroFoto" component={waitFor(CadastroFoto)}/> */}
 
                                 <Redirect to="/inicio"/>
                             </Switch>

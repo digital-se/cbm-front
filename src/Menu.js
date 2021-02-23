@@ -38,6 +38,10 @@ const Menu = [
                 name: 'Relatório de Processos',
                 path: '/cadastro?tipo=relatorio'
             },
+            {
+                name: 'Fotos',
+                path: '/cadastroFoto?tipo=foto'
+            }
             // {
             //     name: 'grogs',
             //     path: 'https://google.com'
