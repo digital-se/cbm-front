@@ -17,7 +17,7 @@ import db from "../../db/db"
 import Swal from '../Comp/Swal';
 import SwalDoc from '../Comp/SwalDoc';
 
-class SearchResult extends React.Component {
+class Cadastro extends React.Component {
 
     constructor(props, state) {
         super(props)
@@ -29,6 +29,7 @@ class SearchResult extends React.Component {
                 data: "",
                 dataFinal: "",
                 ocr: "ficha de alguem com um testo lid erado pero ocr\n\nmuto errao ese ocr",
+                txt: [],
                 validation: {
                     tipo: false,
                     numeracao: false,
@@ -113,6 +114,12 @@ class SearchResult extends React.Component {
         this.validateTeste()
     }
 
+    getOcr = () => {
+        db.getOcr().then(resultados => {
+            this.setState({ form: { ...this.state.form, txt: resultados.pages } })
+        })
+    }
+
     renderInput(props) {
         return (
             <>
@@ -159,14 +166,31 @@ class SearchResult extends React.Component {
                     <Col xl={3} md={6} className="text-center">
                         <FormGroup>
                             <Label for="numeracao">Numeração*</Label>
-                            <Input
+                            {/* <Input
                                 placeholder="digite aqui ..."
                                 name="numeracao"
                                 id="numeracao"
                                 valid={this.state.form.validation.numeracao}
                                 invalid={!this.state.form.validation.numeracao}
                                 value={this.state.form.numeracao} onChange={this.changeHandler}
-                            />
+                                {renderInput({}, "")}
+
+                            /> */}
+                            {/* {this.renderInput({placeholder: "digite aqui..."}, "999/9999")} */}
+
+                            <MaskedInput
+                                className="form-control" 
+                                mask="999/9999" maskChar="" 
+                                name="expiry" 
+                                placeholder="digite aqui ..." 
+                                style={{ minWidth: 182 }}
+                                name="numeracao"
+                                id="numeracao"
+                                valid={this.state.form.validation.numeracao}
+                                invalid={!this.state.form.validation.numeracao}
+                                value={this.state.form.numeracao} onChange={this.changeHandler}>
+                                {(inputProps) => <Input {...inputProps} />}
+                            </MaskedInput>
                             <FormFeedback valid>Tudo Ok</FormFeedback>
                             <FormFeedback>Campo Obrigatório</FormFeedback>
                         </FormGroup>
@@ -193,18 +217,32 @@ class SearchResult extends React.Component {
                         <UploadFiles />
                     </Col>
                 </Row>
+                <Button onClick={this.getOcr} >Enviar pro OCR</Button>
                 <hr />
-                <Swal options={{
+                {/* <Swal options={{
                     width: "80%",
                     showConfirmButton: true,
                     showCloseButton: true,
                     html: (<SwalDoc value={this.state.form.ocr} img="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" changeHandler={this.changeHandler} />)
                 }} className="btn">
                     <img src="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" height="300" />
-                </Swal>
+                </Swal> */}
+                {this.state.form.txt.map((document, index) => {
+
+                    return (
+                        <Swal options={{
+                            width: "80%",
+                            showConfirmButton: true,
+                            showCloseButton: true,
+                            html: (<SwalDoc n={index} value={document.txt} img={document.img} changeHandler={this.changeHandler} />)
+                        }} className="btn">
+                            <img src={document.thumb} height="300" />
+                        </Swal>
+                    )
+                })}
             </ContentWrapper>
         );
     }
 }
 
-export default withNamespaces('translations')(SearchResult);
+export default withNamespaces('translations')(Cadastro);

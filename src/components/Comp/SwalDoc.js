@@ -13,6 +13,7 @@ class SwalDoc extends Component {
             txtSize: 0
         }
         this.img = this.props.img
+        this.n = this.props.n
         this.ref = React.createRef();
     }
 
@@ -41,7 +42,7 @@ class SwalDoc extends Component {
             <>
                 <div>
                     <img src={this.img} style={{ maxHeight:"775px", maxWidth:"565px", verticalAlign: "unset" }} ref={this.ref} />
-                    <textarea name="ocr" rows={this.state.txtSize} cols="50" value={this.state.ocr} onChange={this.changeHandler} />
+                    <textarea name={`ocr_${this.n}`} rows={this.state.txtSize} cols="50" value={this.state.ocr} onChange={this.changeHandler} />
                     <div
                         className="swal2-actions"
                         style={{ display: "flex", fontSize: "0.9em" }}
