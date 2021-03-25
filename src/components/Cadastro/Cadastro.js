@@ -217,7 +217,7 @@ class Cadastro extends React.Component {
                         <UploadFiles />
                     </Col>
                 </Row>
-                <Button onClick={this.getOcr} >Enviar pro OCR</Button>
+                <Button onClick={this.getOcr} >Extrair texto</Button>
                 <hr />
                 {/* <Swal options={{
                     width: "80%",

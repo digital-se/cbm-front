@@ -1,4 +1,4 @@
-
+import http from 'http'
 class UploadFilesService {
   upload(file, onUploadProgress) {
     let formData = new FormData();
