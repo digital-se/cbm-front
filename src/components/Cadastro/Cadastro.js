@@ -9,6 +9,8 @@ import MaskedInput from 'react-input-mask'
 import qs from "qs";
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
+import Dropzone from 'react-dropzone';
+
 import ResultCard from "../Comp/ResultCard"
 import UploadFiles from "../Comp/UploadFiles";
 
@@ -37,12 +39,15 @@ class Cadastro extends React.Component {
                     dataFinal: false,
                     validation: false
                 }
-            }
+            },
+            files: []
         }
 
         if (qs.parse(this.props.location.search, { ignoreQueryPrefix: true })["tipo"] != undefined) {
             this.state.form["tipo"] = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })["tipo"]
         }
+
+        this.n = 0
     }
 
     changeHandler = async (e) => {
@@ -110,13 +115,10 @@ class Cadastro extends React.Component {
         });
     }
 
-    componentDidMount() {
-        this.validateTeste()
-    }
-
     getOcr = () => {
-        db.getOcr().then(resultados => {
-            this.setState({ form: { ...this.state.form, txt: resultados.pages } })
+        db.getOcr(this.state.files).then(resultados => {
+            console.log(resultados)
+            this.setState({ form: { ...this.state.form, txt: resultados.txt } })
         })
     }
 
@@ -132,7 +134,24 @@ class Cadastro extends React.Component {
         );
     }
 
+    createImageItem = (file, index) => (
+        <Col md={3} key={index}>
+            <img className="img-fluid mb-2" src={file.preview} alt="Item"/>
+        </Col>
+    )
+
+    onDrop = acceptedFiles => {
+        this.setState({
+            files: acceptedFiles.map(file =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+            )
+        },() => {console.log(this.state.files)})
+    };
+
     render() {
+        let allFiles = this.state.files;
         return (
             <ContentWrapper>
                 <div className="content-heading">
@@ -179,10 +198,10 @@ class Cadastro extends React.Component {
                             {/* {this.renderInput({placeholder: "digite aqui..."}, "999/9999")} */}
 
                             <MaskedInput
-                                className="form-control" 
-                                mask="999/9999" maskChar="" 
-                                name="expiry" 
-                                placeholder="digite aqui ..." 
+                                className="form-control"
+                                mask="999/9999" maskChar=""
+                                name="expiry"
+                                placeholder="digite aqui ..."
                                 style={{ minWidth: 182 }}
                                 name="numeracao"
                                 id="numeracao"
@@ -214,7 +233,17 @@ class Cadastro extends React.Component {
                 </Row>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={5} md={8} className="text-center" >
-                        <UploadFiles />
+                        {/* <UploadFiles /> */}
+                        <Dropzone className="card p-3" ref="dropzone" onDrop={this.onDrop} >
+                            <div className="text-center box-placeholder m-0">Arraste os arquivos aqui, ou clique para seleciona-los</div>
+                            <div className="mt-3">
+                                {this.state.files.length > 0 ?
+                                    <Row>{allFiles.map(this.createImageItem)}</Row>
+                                    :
+                                    <div><small>Sem preview no momento.</small></div>
+                                }
+                            </div>
+                        </Dropzone>
                     </Col>
                 </Row>
                 <Button onClick={this.getOcr} >Extrair texto</Button>
@@ -234,9 +263,9 @@ class Cadastro extends React.Component {
                             width: "80%",
                             showConfirmButton: true,
                             showCloseButton: true,
-                            html: (<SwalDoc n={index} value={document.txt} img={document.img} changeHandler={this.changeHandler} />)
-                        }} className="btn">
-                            <img src={document.thumb} height="300" />
+                            html: (<SwalDoc n={index} value={document} img={this.state.files[0].preview} changeHandler={this.changeHandler} />)
+                        }} className="btn" key={this.n++}>
+                            <img src={this.state.files[0].preview} height="300" />
                         </Swal>
                     )
                 })}
