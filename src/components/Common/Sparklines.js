@@ -13,6 +13,14 @@ const RESIZE_EVENT = 'resize.sparkline';
  */
 export default class Sparkline extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            values: this.props.values,
+            options: this.props.options
+        }
+    }
+
     static propTypes = {
         /** sparkline options object */
         options: PropTypes.object.isRequired,
@@ -30,15 +38,6 @@ export default class Sparkline extends Component {
         tag: 'div'
     }
 
-    state = {
-        values: this.props.values,
-        options: this.props.options
-    }
-
-    componentWillMount() {
-        this.normalizeParams();
-    }
-
     normalizeParams() {
         let { options, values } = this.state;
 
@@ -49,7 +48,9 @@ export default class Sparkline extends Component {
         this.setState({ options, values });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
+        await this.normalizeParams();
 
         // init sparkline
         $(this.element).sparkline(this.state.values, this.state.options);
@@ -72,7 +73,7 @@ export default class Sparkline extends Component {
     }
 
     render() {
-        const {tag:Tag} = this.props;
+        const { tag: Tag } = this.props;
         return (
             <Tag ref={this.setRef} {...this.props}></Tag>
         )

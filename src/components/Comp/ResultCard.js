@@ -22,12 +22,12 @@ class ResultCard extends Component {
         if (this.tipo === "ficha") {
             return (
                 <Link to={"/ficha/" + this.num} style={{ color: '#fff' }} >
-                    <Row style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <div style={{ "width": "250px"}} className="card flex-row align-items-center align-items-stretch border-0">
-                            <div style={{backgroundColor: '#a43f0a'}} className="col-3 d-flex align-items-center justify-content-center rounded-left" >
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
+                            <div style={{ backgroundColor: '#a43f0a' }} className="col-3 d-flex align-items-center justify-content-center rounded-left" >
                                 <em className="fa fa-address-card fa-3x"></em>
                             </div>
-                            <div style={{backgroundColor: '#f56e27'}} className="col-9 py-3 rounded-right" >
+                            <div style={{ backgroundColor: '#f56e27' }} className="col-9 py-3 rounded-right" >
                                 <div className="h4 mt-0">{this.titulo}</div>
                                 <div className="text-uppercase">{this.data}</div>
                             </div>
@@ -50,13 +50,13 @@ class ResultCard extends Component {
             )
         } else if (this.tipo === "diario") {
             return (
-                <a href={this.url} target="_blank" style={{ color: '#fff' }}>
-                    <Row style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <div style={{ "width": "250px"}} className="card flex-row align-items-center align-items-stretch border-0">
-                            <div style={{backgroundColor: '#ca130c'}} className="col-3 d-flex align-items-center justify-content-center rounded-left">
+                <a href={this.url} target="_blank" rel="noreferrer" style={{ color: '#fff' }}>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
+                            <div style={{ backgroundColor: '#ca130c' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
                                 <em className="fas fa-newspaper fa-3x"></em>
                             </div>
-                            <div style={{backgroundColor: '#f22d26'}} className="col-9 py-3 rounded-right">
+                            <div style={{ backgroundColor: '#f22d26' }} className="col-9 py-3 rounded-right">
                                 <div className="h3 mt-0">{this.titulo}</div>
                                 <div className="text-uppercase">{this.data}</div>
                             </div>
