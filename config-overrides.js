@@ -18,25 +18,25 @@ const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const rtlcssLoader = path.resolve(__dirname, 'rtlcss-loader.js');
 
-module.exports = (webpackConfig, env, { paths }) => {
+module.exports = (webpackConfig, env) => {
 
-/**
-    // Support for RTL
-    const sassRegex = /\.(scss|sass)$/.toString();
-    webpackConfig.module.rules[2].oneOf.some((rule, idx) => {
-        if (rule.test && rule.test.toString() === sassRegex) {
-            webpackConfig.module.rules[2].oneOf[idx]['use'].splice(
-                webpackConfig.module.rules[2].oneOf[idx]['use'].length - 1,
-                0,
-                rtlcssLoader
-            );
-            return true;
-        }
-    });
-*/
+    /**
+        // Support for RTL
+        const sassRegex = /\.(scss|sass)$/.toString();
+        webpackConfig.module.rules[2].oneOf.some((rule, idx) => {
+            if (rule.test && rule.test.toString() === sassRegex) {
+                webpackConfig.module.rules[2].oneOf[idx]['use'].splice(
+                    webpackConfig.module.rules[2].oneOf[idx]['use'].length - 1,
+                    0,
+                    rtlcssLoader
+                );
+                return true;
+            }
+        });
+    */
 
     // Fix for flot resize
-    webpackConfig.module.rules[2].oneOf.splice(0, 0, {
+    webpackConfig.module.rules[1].oneOf.splice(0, 0, {
         test: /jquery\.flot\.resize\.js$/,
         use: ['imports-loader?this=>window']
     });
@@ -47,7 +47,7 @@ module.exports = (webpackConfig, env, { paths }) => {
             const eslintUse = rule.use.find(item =>
                 Object.keys(item.options).find(key => key === 'useEslintrc')
             );
-            eslintOptions = eslintUse && eslintUse.options;
+            let eslintOptions = eslintUse && eslintUse.options;
             if (eslintOptions) {
                 eslintOptions.useEslintrc = true;
                 return true;
