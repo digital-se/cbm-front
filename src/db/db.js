@@ -10,7 +10,7 @@ class Db {
             const response = await axios.get(`${this.url}/busca`);
             let data = response.data
             return data
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -21,7 +21,7 @@ class Db {
             const response = await axios.get(`${this.url}/busca/fichas`);
             let data = response.data
             return data
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -32,7 +32,7 @@ class Db {
             const response = await axios.get(`${this.url}/busca/diarios`);
             let data = response.data
             return data
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -44,7 +44,7 @@ class Db {
             let data = response.data
             console.log(data)
             return data
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -63,7 +63,7 @@ class Db {
             let data = response.data
             // console.log(data)
             return data
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error(error);
         }

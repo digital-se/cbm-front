@@ -25,7 +25,7 @@ class BaseHorizontal extends Component {
                 <Offsidebar />
 
                 <section className="section-container">
-                    { this.props.children }
+                    {this.props.children}
                 </section>
 
                 <Footer />

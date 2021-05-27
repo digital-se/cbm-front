@@ -35,7 +35,7 @@ Swal.propType = {
 }
 
 Swal.defaultProps = {
-    callback: () => {}
+    callback: () => { }
 }
 
 export default Swal;

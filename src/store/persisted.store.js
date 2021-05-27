@@ -34,7 +34,7 @@ export const saveState = (state) => {
     try {
         let stateFilter = JSON.parse(JSON.stringify(state)); // deep clone
         ['offsidebarOpen', 'asideToggled', 'horizontal'] // states which we don't want to persist.
-        .forEach(item => delete stateFilter.settings[item])
+            .forEach(item => delete stateFilter.settings[item])
         const rawState = JSON.stringify(stateFilter);
         localStorage.setItem(STORAGE_KEY, rawState);
     } catch (err) {

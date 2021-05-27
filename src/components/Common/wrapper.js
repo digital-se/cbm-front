@@ -12,14 +12,14 @@
  * you might even need jQuery.
  */
 
-(function(global, factory) {
+(function (global, factory) {
     if (typeof exports === 'object') { // CommonJS-like
         module.exports = factory();
     } else { // Browser
         if (typeof global.jQuery === 'undefined')
             global.$ = factory();
     }
-}(this, function() {
+}(this, function () {
 
     // HELPERS
     function arrayFrom(obj) {
@@ -39,12 +39,12 @@
     }
 
     // Events handler with simple scoped events support
-    var EventHandler = function() {
+    var EventHandler = function () {
         this.events = {};
     }
     EventHandler.prototype = {
         // event accepts: 'click' or 'click.scope'
-        bind: function(event, listener, target) {
+        bind: function (event, listener, target) {
             var type = event.split('.')[0];
             target.addEventListener(type, listener, false);
             this.events[event] = {
@@ -52,7 +52,7 @@
                 listener: listener
             }
         },
-        unbind: function(event, target) {
+        unbind: function (event, target) {
             if (event in this.events) {
                 target.removeEventListener(this.events[event].type, this.events[event].listener, false);
                 delete this.events[event];
@@ -61,13 +61,13 @@
     }
 
     // Object Definition
-    var Wrap = function(selector) {
+    var Wrap = function (selector) {
         this.selector = selector;
         return this._setup([]);
     }
 
     // CONSTRUCTOR
-    Wrap.Constructor = function(param, attrs) {
+    Wrap.Constructor = function (param, attrs) {
         var el = new Wrap(param);
         return el.init(attrs);
     };
@@ -79,7 +79,7 @@
          * Initialize the object depending on param type
          * [attrs] only to handle $(htmlString, {attributes})
          */
-        init: function(attrs) {
+        init: function (attrs) {
             // empty object
             if (!this.selector) return this;
             // selector === string
@@ -104,12 +104,12 @@
          * Creates a DOM element from a string
          * Strictly supports the form: '<tag>' or '<tag/>'
          */
-        _create: function(str) {
+        _create: function (str) {
             var nodeName = str.substr(str.indexOf('<') + 1, str.indexOf('>') - 1).replace('/', '')
             return document.createElement(nodeName);
         },
         /** setup properties and array to element set */
-        _setup: function(elements) {
+        _setup: function (elements) {
             var i = 0;
             for (; i < elements.length; i++) delete this[i]; // clean up old set
             this.elements = elements;
@@ -117,12 +117,12 @@
             for (i = 0; i < elements.length; i++) this[i] = elements[i] // new set
             return this;
         },
-        _first: function(cb, ret) {
+        _first: function (cb, ret) {
             var f = this.elements[0];
             return f ? (cb ? cb.call(this, f) : f) : ret;
         },
         /** Common function for class manipulation  */
-        _classes: function(method, classname) {
+        _classes: function (method, classname) {
             var cls = classname.split(' ');
             if (cls.length > 1) {
                 cls.forEach(this._classes.bind(this, method))
@@ -131,7 +131,7 @@
                     var elem = this._first();
                     return elem ? elem.classList.contains(classname) : false;
                 }
-                return (classname === '') ? this : this.each(function(i, item) {
+                return (classname === '') ? this : this.each(function (i, item) {
                     item.classList[method](classname);
                 })
             }
@@ -141,21 +141,21 @@
          * If no value, works as a getter for the given key
          * key can be an object in the form {key: value, ...}
          */
-        _access: function(key, value, fn) {
+        _access: function (key, value, fn) {
             if (typeof key === 'object') {
                 for (var k in key) {
                     this._access(k, key[k], fn);
                 }
             } else if (value === undefined) {
-                return this._first(function(elem) {
+                return this._first(function (elem) {
                     return fn(elem, key);
                 });
             }
-            return this.each(function(i, item) {
+            return this.each(function (i, item) {
                 fn(item, key, value);
             });
         },
-        each: function(fn, arr) {
+        each: function (fn, arr) {
             arr = arr ? arr : this.elements;
             for (var i = 0; i < arr.length; i++) {
                 if (fn.call(arr[i], i, arr[i]) === false)
@@ -166,15 +166,15 @@
     }
 
     /** Allows to extend with new methods */
-    Wrap.extend = function(methods) {
-        Object.keys(methods).forEach(function(m) {
+    Wrap.extend = function (methods) {
+        Object.keys(methods).forEach(function (m) {
             Wrap.prototype[m] = methods[m]
         })
     }
 
     // DOM READY
     Wrap.extend({
-        ready: function(fn) {
+        ready: function (fn) {
             if (document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading') {
                 fn();
             } else {
@@ -186,37 +186,37 @@
     // ACCESS
     Wrap.extend({
         /** Get or set a css value */
-        css: function(key, value) {
-            var getStyle = function(e, k) { return e.style[k] || getComputedStyle(e)[k]; };
-            return this._access(key, value, function(item, k, val) {
+        css: function (key, value) {
+            var getStyle = function (e, k) { return e.style[k] || getComputedStyle(e)[k]; };
+            return this._access(key, value, function (item, k, val) {
                 var unit = (typeof val === 'number') ? 'px' : '';
                 return val === undefined ? getStyle(item, k) : (item.style[k] = val + unit);
             })
         },
         /** Get an attribute or set it */
-        attr: function(key, value) {
-            return this._access(key, value, function(item, k, val) {
+        attr: function (key, value) {
+            return this._access(key, value, function (item, k, val) {
                 return val === undefined ? item.getAttribute(k) : item.setAttribute(k, val)
             })
         },
         /** Get a property or set it */
-        prop: function(key, value) {
-            return this._access(key, value, function(item, k, val) {
+        prop: function (key, value) {
+            return this._access(key, value, function (item, k, val) {
                 return val === undefined ? item[k] : (item[k] = val);
             })
         },
-        position: function() {
-            return this._first(function(elem) {
+        position: function () {
+            return this._first(function (elem) {
                 return { left: elem.offsetLeft, top: elem.offsetTop }
             });
         },
-        scrollTop: function(value) {
-            return this._access('scrollTop', value, function(item, k, val) {
+        scrollTop: function (value) {
+            return this._access('scrollTop', value, function (item, k, val) {
                 return val === undefined ? item[k] : (item[k] = val);
             })
         },
-        outerHeight: function(includeMargin) {
-            return this._first(function(elem) {
+        outerHeight: function (includeMargin) {
+            return this._first(function (elem) {
                 var style = getComputedStyle(elem);
                 var margins = includeMargin ? (parseInt(style.marginTop, 10) + parseInt(style.marginBottom, 10)) : 0;
                 return elem.offsetHeight + margins;
@@ -226,43 +226,43 @@
          * Find the position of the first element in the set
          * relative to its sibling elements.
          */
-        index: function() {
-            return this._first(function(el) {
+        index: function () {
+            return this._first(function (el) {
                 return arrayFrom(el.parentNode.children).indexOf(el)
             }, -1);
         }
     })
     // LOOKUP
     Wrap.extend({
-        children: function(selector) {
+        children: function (selector) {
             var childs = [];
-            this.each(function(i, item) {
-                childs = childs.concat(map(item.children, function(item) {
+            this.each(function (i, item) {
+                childs = childs.concat(map(item.children, function (item) {
                     return item
                 }))
             })
             return Wrap.Constructor(childs).filter(selector);
         },
-        siblings: function() {
+        siblings: function () {
             var sibs = []
-            this.each(function(i, item) {
-                sibs = sibs.concat(filter(item.parentNode.children, function(child) {
+            this.each(function (i, item) {
+                sibs = sibs.concat(filter(item.parentNode.children, function (child) {
                     return child !== item;
                 }))
             })
             return Wrap.Constructor(sibs)
         },
         /** Return the parent of each element in the current set */
-        parent: function() {
-            var par = map(this.elements, function(item) {
+        parent: function () {
+            var par = map(this.elements, function (item) {
                 return item.parentNode;
             })
             return Wrap.Constructor(par)
         },
         /** Return ALL parents of each element in the current set */
-        parents: function(selector) {
+        parents: function (selector) {
             var par = [];
-            this.each(function(i, item) {
+            this.each(function (i, item) {
                 for (var p = item.parentElement; p; p = p.parentElement)
                     par.push(p);
             })
@@ -272,27 +272,27 @@
          * Get the descendants of each element in the set, filtered by a selector
          * Selector can't start with ">" (:scope not supported on IE).
          */
-        find: function(selector) {
+        find: function (selector) {
             var found = []
-            this.each(function(i, item) {
-                found = found.concat(map(item.querySelectorAll( /*':scope ' + */ selector), function(fitem) {
+            this.each(function (i, item) {
+                found = found.concat(map(item.querySelectorAll( /*':scope ' + */ selector), function (fitem) {
                     return fitem
                 }))
             })
             return Wrap.Constructor(found)
         },
         /** filter the actual set based on given selector */
-        filter: function(selector) {
+        filter: function (selector) {
             if (!selector) return this;
-            var res = filter(this.elements, function(item) {
+            var res = filter(this.elements, function (item) {
                 return matches(item, selector)
             })
             return Wrap.Constructor(res)
         },
         /** Works only with a string selector */
-        is: function(selector) {
+        is: function (selector) {
             var found = false;
-            this.each(function(i, item) {
+            this.each(function (i, item) {
                 return !(found = matches(item, selector))
             })
             return found;
@@ -305,9 +305,9 @@
          * expects a dom node or set
          * if element is a set, prepends only the first
          */
-        appendTo: function(elem) {
+        appendTo: function (elem) {
             elem = elem.nodeType ? elem : elem._first()
-            return this.each(function(i, item) {
+            return this.each(function (i, item) {
                 elem.appendChild(item);
             })
         },
@@ -315,9 +315,9 @@
          * Append a domNode to each element in the set
          * if element is a set, append only the first
          */
-        append: function(elem) {
+        append: function (elem) {
             elem = elem.nodeType ? elem : elem._first()
-            return this.each(function(i, item) {
+            return this.each(function (i, item) {
                 item.appendChild(elem);
             })
         },
@@ -325,9 +325,9 @@
          * Insert the current set of elements after the element
          * that matches the given selector in param
          */
-        insertAfter: function(selector) {
+        insertAfter: function (selector) {
             var target = document.querySelector(selector);
-            return this.each(function(i, item) {
+            return this.each(function (i, item) {
                 target.parentNode.insertBefore(item, target.nextSibling);
             })
         },
@@ -335,15 +335,15 @@
          * Clones all element in the set
          * returns a new set with the cloned elements
          */
-        clone: function() {
-            var clones = map(this.elements, function(item) {
+        clone: function () {
+            var clones = map(this.elements, function (item) {
                 return item.cloneNode(true)
             })
             return Wrap.Constructor(clones);
         },
         /** Remove all node in the set from DOM. */
-        remove: function() {
-            this.each(function(i, item) {
+        remove: function () {
+            this.each(function (i, item) {
                 delete item.events;
                 delete item.data;
                 if (item.parentNode) item.parentNode.removeChild(item);
@@ -358,11 +358,11 @@
          * if value provided save data into element set
          * if not, return data for the first element
          */
-        data: function(key, value) {
+        data: function (key, value) {
             var hasJSON = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
                 dataAttr = 'data-' + key.replace(/[A-Z]/g, '-$&').toLowerCase();
             if (value === undefined) {
-                return this._first(function(el) {
+                return this._first(function (el) {
                     if (el.data && el.data[key])
                         return el.data[key];
                     else {
@@ -375,7 +375,7 @@
                     }
                 });
             } else {
-                return this.each(function(i, item) {
+                return this.each(function (i, item) {
                     item.data = item.data || {};
                     item.data[key] = value;
                 });
@@ -384,30 +384,30 @@
     })
     // EVENTS
     Wrap.extend({
-        trigger: function(type) {
+        trigger: function (type) {
             type = type.split('.')[0]; // ignore namespace
             var event = document.createEvent('HTMLEvents');
             event.initEvent(type, true, false);
-            return this.each(function(i, item) {
+            return this.each(function (i, item) {
                 item.dispatchEvent(event);
             })
         },
-        blur: function() {
+        blur: function () {
             return this.trigger('blur')
         },
-        focus: function() {
+        focus: function () {
             return this.trigger('focus')
         },
-        on: function(event, callback) {
-            return this.each(function(i, item) {
+        on: function (event, callback) {
+            return this.each(function (i, item) {
                 if (!item.events) item.events = new EventHandler();
-                event.split(' ').forEach(function(ev) {
+                event.split(' ').forEach(function (ev) {
                     item.events.bind(ev, callback, item);
                 })
             })
         },
-        off: function(event) {
-            return this.each(function(i, item) {
+        off: function (event) {
+            return this.each(function (i, item) {
                 if (item.events) {
                     item.events.unbind(event, item);
                     delete item.events;
@@ -417,16 +417,16 @@
     })
     // CLASSES
     Wrap.extend({
-        toggleClass: function(classname) {
+        toggleClass: function (classname) {
             return this._classes('toggle', classname);
         },
-        addClass: function(classname) {
+        addClass: function (classname) {
             return this._classes('add', classname);
         },
-        removeClass: function(classname) {
+        removeClass: function (classname) {
             return this._classes('remove', classname);
         },
-        hasClass: function(classname) {
+        hasClass: function (classname) {
             return this._classes('contains', classname);
         }
     })

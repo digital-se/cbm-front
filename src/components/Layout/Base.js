@@ -14,7 +14,7 @@ const Base = props => (
         <Offsidebar />
 
         <section className="section-container">
-            { props.children }
+            {props.children}
         </section>
 
         <Footer />

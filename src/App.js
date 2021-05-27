@@ -29,13 +29,13 @@ class App extends Component {
     // use only if application isn't served from the root
     // for development it is forced to root only
     /* global PUBLIC_URL */
-    
+
     const basename = process.env.NODE_ENV === 'development' ? '/' : (process.env.PUBLIC_URL || '/');
 
     return (
-        <BrowserRouter basename={basename}>
-            <Routes />
-        </BrowserRouter>
+      <BrowserRouter basename={basename}>
+        <Routes />
+      </BrowserRouter>
     );
 
   }

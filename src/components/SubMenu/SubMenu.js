@@ -14,9 +14,9 @@ class SubMenu extends Component {
                     </div>
                 </div>
                 <Row>
-                   <Col lg={12}>
-                      <p>A row with content</p>
-                   </Col>
+                    <Col lg={12}>
+                        <p>A row with content</p>
+                    </Col>
                 </Row>
             </ContentWrapper>
         );

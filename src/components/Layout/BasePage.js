@@ -1,8 +1,8 @@
 import React from 'react';
 
-const BasePage = props =>(
+const BasePage = props => (
     <div className="wrapper">
-        { props.children }
+        { props.children}
     </div>
 )
 

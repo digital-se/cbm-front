@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
@@ -50,6 +50,7 @@ class CadastroFoto extends React.Component {
         try {
             e.target.value = e.target.value.format('DD/MM/YYYY')
         } catch (error) {
+            console.log(error)
         }
         console.log("changeHandler")
         console.log(e)
@@ -107,12 +108,8 @@ class CadastroFoto extends React.Component {
 
     toggle = () => {
         this.setState({
-            dropdownOpen: !this.state.dropdownOpen  
+            dropdownOpen: !this.state.dropdownOpen
         });
-    }
-
-    componentDidMount() {
-        this.validateTeste()
     }
 
     getOcr = () => {
@@ -160,7 +157,7 @@ class CadastroFoto extends React.Component {
                         </FormGroup>
                     </Col>
                 </Row>
-                
+
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Button onClick={this.getOcr} >Adicionar Foto</Button>
                 </Row>
@@ -170,4 +167,4 @@ class CadastroFoto extends React.Component {
     }
 }
 
-export default withNamespaces('translations')(CadastroFoto);
+export default withTranslation()(CadastroFoto);

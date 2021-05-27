@@ -10,7 +10,7 @@ export default (navigator, closeSidebar) => {
     // -----------------------------------
 
     var sidebarCollapse = $sidebar.find('.collapse');
-    sidebarCollapse.on('show.bs.collapse', function(event) {
+    sidebarCollapse.on('show.bs.collapse', function (event) {
 
         event.stopPropagation();
         if ($(this).parents('.collapse').length === 0)
@@ -24,7 +24,7 @@ export default (navigator, closeSidebar) => {
 
     var eventName = isTouch() ? 'click' : 'mouseenter';
     var subNav = $();
-    $sidebar.find('.sidebar-nav > li').on(eventName, function() {
+    $sidebar.find('.sidebar-nav > li').on(eventName, function () {
 
         if (isSidebarCollapsed() || useAsideHover()) {
 
@@ -42,7 +42,7 @@ export default (navigator, closeSidebar) => {
     // Allows to close
     if (typeof sidebarAnyclickClose !== 'undefined') {
 
-        $('.wrapper').on('click.sidebar', function(e) {
+        $('.wrapper').on('click.sidebar', function (e) {
             // don't check if sidebar not visible
             if (!isSidebarToggled()) return;
 
@@ -62,7 +62,7 @@ export default (navigator, closeSidebar) => {
 
     function sidebarAddBackdrop() {
         var $backdrop = $('<div/>', { 'class': 'sidebar-backdrop' });
-        $backdrop.insertAfter('.aside-container').on("click mouseenter", function() {
+        $backdrop.insertAfter('.aside-container').on("click mouseenter", function () {
             removeFloatingNav();
         });
     }
@@ -104,7 +104,7 @@ export default (navigator, closeSidebar) => {
         var vwHeight = document.body.clientHeight;
 
         subNav.find('a')
-            .on('click.subnav', function(e) {
+            .on('click.subnav', function (e) {
                 e.preventDefault();
                 var href = $(this).attr('href');
                 navigator(href);
@@ -118,7 +118,7 @@ export default (navigator, closeSidebar) => {
                 bottom: (subNav.outerHeight(true) + itemTop > vwHeight) ? 0 : 'auto'
             });
 
-        subNav.on('mouseleave', function() {
+        subNav.on('mouseleave', function () {
             toggleTouchItem($listItem);
             subNav.remove();
         });

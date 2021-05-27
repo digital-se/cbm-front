@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
@@ -54,6 +54,7 @@ class Cadastro extends React.Component {
         try {
             e.target.value = e.target.value.format('DD/MM/YYYY')
         } catch (error) {
+            console.log(error)
         }
         console.log("changeHandler")
         console.log(e)
@@ -136,7 +137,7 @@ class Cadastro extends React.Component {
 
     createImageItem = (file, index) => (
         <Col md={3} key={index}>
-            <img className="img-fluid mb-2" src={file.preview} alt="Item"/>
+            <img className="img-fluid mb-2" src={file.preview} alt="Item" />
         </Col>
     )
 
@@ -147,7 +148,7 @@ class Cadastro extends React.Component {
                     preview: URL.createObjectURL(file)
                 })
             )
-        },() => {console.log(this.state.files)})
+        }, () => { console.log(this.state.files) })
     };
 
     render() {
@@ -200,7 +201,6 @@ class Cadastro extends React.Component {
                             <MaskedInput
                                 className="form-control"
                                 mask="999/9999" maskChar=""
-                                name="expiry"
                                 placeholder="digite aqui ..."
                                 style={{ minWidth: 182 }}
                                 name="numeracao"
@@ -234,7 +234,7 @@ class Cadastro extends React.Component {
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={5} md={8} className="text-center" >
                         {/* <UploadFiles /> */}
-                        <Dropzone className="card p-3" ref="dropzone" onDrop={this.onDrop} >
+                        <Dropzone className="card p-3" onDrop={this.onDrop} >
                             <div className="text-center box-placeholder m-0">Arraste os arquivos aqui, ou clique para seleciona-los</div>
                             <div className="mt-3">
                                 {this.state.files.length > 0 ?
@@ -274,4 +274,4 @@ class Cadastro extends React.Component {
     }
 }
 
-export default withNamespaces('translations')(Cadastro);
+export default withTranslation()(Cadastro);

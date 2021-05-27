@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
@@ -47,6 +47,7 @@ class Busca extends React.Component {
         try {
             e.target.value = e.target.value.format('DD/MM/YYYY')
         } catch (error) {
+            console.log(error)
         }
         console.log("changeHandler")
         console.log(e)
@@ -91,7 +92,7 @@ class Busca extends React.Component {
             let form = Object.assign({}, this.state.form);
             delete form.validation
             let query = qs.stringify(form)
-            this.props.history.push('/searchResult?'+query);
+            this.props.history.push('/searchResult?' + query);
         }
     }
 
@@ -188,7 +189,7 @@ class Busca extends React.Component {
                                             name="dataInicial"
                                             id="dataInicial"
                                             value={this.state.form.dataInicial} onChange={moment => this.changeHandler({ target: { name: "dataInicial", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataInicial, invalid: !this.state.form.validation.dataInicial, value: this.state.form.dataInicial, autocomplete:"off" }}
+                                            inputProps={{ valid: this.state.form.validation.dataInicial, invalid: !this.state.form.validation.dataInicial, value: this.state.form.dataInicial, autocomplete: "off" }}
                                             renderInput={this.renderInput}
                                         />
                                         <FormFeedback valid>Tudo Ok</FormFeedback>
@@ -204,7 +205,7 @@ class Busca extends React.Component {
                                             name="dataFinal"
                                             id="dataFinal"
                                             value={this.state.form.dataFinal} onChange={moment => this.changeHandler({ target: { name: "dataFinal", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataFinal, invalid: !this.state.form.validation.dataFinal, value: this.state.form.dataFinal, autocomplete:"off" }}
+                                            inputProps={{ valid: this.state.form.validation.dataFinal, invalid: !this.state.form.validation.dataFinal, value: this.state.form.dataFinal, autocomplete: "off" }}
                                             renderInput={this.renderInput}
                                         />
                                         <FormFeedback valid>Tudo Ok</FormFeedback>
@@ -225,4 +226,4 @@ class Busca extends React.Component {
     }
 }
 
-export default withNamespaces('translations')(withRouter(Busca));
+export default withTranslation()(withRouter(Busca));

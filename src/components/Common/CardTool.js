@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const checkRequiredProps = (props, propName, componentName) => {
-  if (!props.dismiss && !props.refresh) {
-    return new Error(`One of 'dismiss' or 'refresh' is required by '${componentName}' component.`)
-  }
+    if (!props.dismiss && !props.refresh) {
+        return new Error(`One of 'dismiss' or 'refresh' is required by '${componentName}' component.`)
+    }
 }
 
 /**
@@ -33,9 +33,9 @@ class CardTool extends Component {
     static defaultProps = {
         refresh: false,
         dismiss: false,
-        onRemove: () => {},
-        onRemoved: () => {},
-        onRefresh: () => {},
+        onRemove: () => { },
+        onRemoved: () => { },
+        onRefresh: () => { },
         spinner: 'standard'
     }
 
@@ -61,15 +61,15 @@ class CardTool extends Component {
             this.props.onRemoved();
         }
 
-        const animate = function(item, cb) {
+        const animate = function (item, cb) {
             if ('onanimationend' in window) { // animation supported
                 item.addEventListener('animationend', cb.bind(this))
                 item.className += ' animated bounceOut'; // requires animate.css
             } else cb.call(this) // no animation, just remove
         }
 
-        const confirmRemove = function() {
-            animate(card, function() {
+        const confirmRemove = function () {
+            animate(card, function () {
                 destroyCard();
             })
         }
@@ -83,9 +83,9 @@ class CardTool extends Component {
         const WHIRL_CLASS = 'whirl';
         const card = this.getCardParent(this.element);
 
-        const showSpinner = function(card, spinner) {
+        const showSpinner = function (card, spinner) {
             card.classList.add(WHIRL_CLASS);
-            spinner.forEach(function(s) { card.classList.add(s) })
+            spinner.forEach(function (s) { card.classList.add(s) })
         }
 
         // method to clear the spinner when done
@@ -101,8 +101,8 @@ class CardTool extends Component {
     render() {
         return (
             <div ref={this.setRef} className="card-tool float-right">
-                { this.props.refresh && <em onClick={this.handleRefresh} className="fas fa-sync"></em> }
-                { this.props.dismiss && <em onClick={this.handleDismiss} className="fa fa-times"></em> }
+                { this.props.refresh && <em onClick={this.handleRefresh} className="fas fa-sync"></em>}
+                { this.props.dismiss && <em onClick={this.handleDismiss} className="fa fa-times"></em>}
             </div>
         )
     }

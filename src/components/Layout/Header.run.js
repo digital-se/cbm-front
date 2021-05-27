@@ -10,7 +10,7 @@ export default () => {
     var $searchOpen = $('[data-search-open]');
 
     $searchOpen
-        .on('click', function(e) {
+        .on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
         })
@@ -21,11 +21,11 @@ export default () => {
     var inputSelector = '.navbar-form input[type="text"]';
 
     $(inputSelector)
-        .on('click', function(e) {
+        .on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
         })
-        .on('keyup', function(e) {
+        .on('keyup', function (e) {
             if (e.keyCode === 27) // ESC
                 navSearch.dismiss();
         });
@@ -34,7 +34,7 @@ export default () => {
     $(document).on('click', navSearch.dismiss);
     // dismissable options
     $searchDismiss
-        .on('click', function(e) {
+        .on('click', function (e) {
             e.stopPropagation();
         })
         .on('click', navSearch.dismiss);
@@ -42,7 +42,7 @@ export default () => {
     function navbarSearchInput() {
         var navbarFormSelector = 'form.navbar-form';
         return {
-            toggle: function() {
+            toggle: function () {
 
                 var navbarForm = $(navbarFormSelector);
 
@@ -54,12 +54,12 @@ export default () => {
 
             },
 
-            dismiss: function() {
+            dismiss: function () {
                 $(navbarFormSelector)
                     .removeClass('open') // Close control
                     .find('input[type="text"]').blur() // remove focus
                     // .val('') // Empty input
-                ;
+                    ;
             }
         };
 

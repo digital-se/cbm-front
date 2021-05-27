@@ -75,7 +75,7 @@ export default class ToggleFullscreen extends Component {
     }
 
     render() {
-        const {tag:Tag} = this.props;
+        const { tag: Tag } = this.props;
         return (
             <Tag ref={this.setRef} {...this.props}>
                 <em className={this.state.iconClass}></em>

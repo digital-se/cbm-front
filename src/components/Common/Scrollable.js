@@ -30,7 +30,7 @@ Scrollable.propTypes = {
 }
 
 Scrollable.defaultProps = {
-  height: 250
+    height: 250
 };
 
 export default Scrollable

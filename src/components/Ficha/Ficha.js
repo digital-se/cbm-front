@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
@@ -251,4 +251,4 @@ class Ficha extends React.Component {
     }
 }
 
-export default withNamespaces('translations')(Ficha);
+export default withTranslation()(Ficha);

@@ -37,7 +37,7 @@ class Header extends Component {
         this.props.actions.toggleSetting('asideToggled');
     }
 
-    resize () {
+    resize() {
         // all IE friendly dispatchEvent
         var evt = document.createEvent('UIEvents');
         evt.initUIEvent('resize', true, false, window, 0);
@@ -49,72 +49,72 @@ class Header extends Component {
     render() {
         return (
             <header className="topnavbar-wrapper">
-                { /* START Top Navbar */ }
+                { /* START Top Navbar */}
                 <nav className="navbar topnavbar">
-                    { /* START navbar header */ }
+                    { /* START navbar header */}
                     <div className="navbar-header">
                         <a className="navbar-brand" href="#/">
                             <div className="brand-logo">
-                                <img className="img-fluid" src="img/logobomb.png" alt="App Logo"  width={45} />
+                                <img className="img-fluid" src="img/logobomb.png" alt="App Logo" width={45} />
                             </div>
                             <div className="brand-logo-collapsed">
-                                <img className="img-fluid" src="img/logobomb.png" alt="App Logo" width={45}/>
+                                <img className="img-fluid" src="img/logobomb.png" alt="App Logo" width={45} />
                             </div>
                         </a>
                     </div>
-                    { /* END navbar header */ }
+                    { /* END navbar header */}
 
-                    { /* START Left navbar */ }
+                    { /* START Left navbar */}
                     <ul className="navbar-nav mr-auto flex-row">
                         <li className="nav-item">
-                            { /* Button used to collapse the left sidebar. Only visible on tablet and desktops */ }
-                            <a href="" className="nav-link d-none d-md-block d-lg-block d-xl-block" onClick={ this.toggleCollapsed }>
+                            { /* Button used to collapse the left sidebar. Only visible on tablet and desktops */}
+                            <a href="" className="nav-link d-none d-md-block d-lg-block d-xl-block" onClick={this.toggleCollapsed}>
                                 <em className="fas fa-bars"></em>
                             </a>
-                            { /* Button to show/hide the sidebar on mobile. Visible on mobile only. */ }
-                            <a href=""  className="nav-link sidebar-toggle d-md-none" onClick={ this.toggleAside }>
+                            { /* Button to show/hide the sidebar on mobile. Visible on mobile only. */}
+                            <a href="" className="nav-link sidebar-toggle d-md-none" onClick={this.toggleAside}>
                                 <em className="fas fa-bars"></em>
                             </a>
                         </li>
-                        { /* START User avatar toggle */ }
+                        { /* START User avatar toggle */}
                         {/* <li className="nav-item d-none d-md-block">
                             <a  className="nav-link" onClick={ this.toggleUserblock }>
                                 <em className="icon-user"></em>
                             </a>
                         </li> */}
-                        { /* END User avatar toggle */ }
-                        { /* START lock screen */ }
+                        { /* END User avatar toggle */}
+                        { /* START lock screen */}
                         {/* <li className="nav-item d-none d-md-block">
                             <Link to="lock" title="Lock screen" className="nav-link">
                                 <em className="icon-lock"></em>
                             </Link>
                         </li> */}
-                        { /* END lock screen */ }
+                        { /* END lock screen */}
                     </ul>
-                    { /* END Left navbar */ }
-                    { /* START Right Navbar */ }
+                    { /* END Left navbar */}
+                    { /* START Right Navbar */}
                     <ul className="navbar-nav flex-row">
-                        { /* Search icon */ }
+                        { /* Search icon */}
                         <li className="nav-item">
                             <a className="nav-link" href="" data-search-open="">
                                 <em className="icon-magnifier"></em>
                             </a>
                         </li>
-                        { /* Fullscreen (only desktops) */ }
+                        { /* Fullscreen (only desktops) */}
                         {/* <li className="nav-item d-none d-md-block">
                             <ToggleFullscreen className="nav-link"/>
                         </li> */}
-                        { /* START Alert menu */ }
+                        { /* START Alert menu */}
                         {/* <UncontrolledDropdown nav inNavbar className="dropdown-list">
                             <DropdownToggle nav className="dropdown-toggle-nocaret">
                                 <em className="icon-bell"></em>
                                 <span className="badge badge-danger">11</span>
                             </DropdownToggle> */}
-                            { /* START Dropdown menu */ }
-                            {/* <DropdownMenu right className="dropdown-menu-right animated flipInX">
+                        { /* START Dropdown menu */}
+                        {/* <DropdownMenu right className="dropdown-menu-right animated flipInX">
                                 <DropdownItem> */}
-                                    { /* START list group */ }
-                                    {/* <ListGroup>
+                        { /* START list group */}
+                        {/* <ListGroup>
                                        <ListGroupItem action tag="a" href="" onClick={e => e.preventDefault()}>
                                           <div className="media">
                                              <div className="align-self-start mr-2">
@@ -155,35 +155,35 @@ class Header extends Component {
                                           </span>
                                        </ListGroupItem>
                                     </ListGroup> */}
-                                    { /* END list group */ }
-                                {/* </DropdownItem>
+                        { /* END list group */}
+                        {/* </DropdownItem>
                             </DropdownMenu> */}
-                            { /* END Dropdown menu */ }
+                        { /* END Dropdown menu */}
                         {/* </UncontrolledDropdown> */}
-                        { /* END Alert menu */ }
-                        { /* START Offsidebar button */ }
-                        <li className="nav-item" style={{display:"none"}}>
+                        { /* END Alert menu */}
+                        { /* START Offsidebar button */}
+                        <li className="nav-item" style={{ display: "none" }}>
                             <a className="nav-link" href="" onClick={this.toggleOffsidebar}>
                                 <em className="icon-notebook"></em>
                             </a>
                         </li>
-                        { /* END Offsidebar menu */ }
+                        { /* END Offsidebar menu */}
                     </ul>
-                    { /* END Right Navbar */ }
+                    { /* END Right Navbar */}
 
-                    { /* START Search form */ }
+                    { /* START Search form */}
                     <form className="navbar-form" role="search" action="search.html">
-                       <div className="form-group">
-                          <input className="form-control" type="text" placeholder="digite aqui ..."/>
-                          <div className="fa fa-times navbar-form-close" data-search-dismiss=""></div>
-                       </div>
-                       <button className="d-none" type="submit">Submit</button>
+                        <div className="form-group">
+                            <input className="form-control" type="text" placeholder="digite aqui ..." />
+                            <div className="fa fa-times navbar-form-close" data-search-dismiss=""></div>
+                        </div>
+                        <button className="d-none" type="submit">Submit</button>
                     </form>
-                    { /* END Search form */ }
+                    { /* END Search form */}
                 </nav>
-                { /* END Top Navbar */ }
+                { /* END Top Navbar */}
             </header>
-            );
+        );
     }
 
 }

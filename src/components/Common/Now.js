@@ -24,7 +24,7 @@ export default class Now extends Component {
     }
 
     componentWillUnmount() {
-        if(this.interval)
+        if (this.interval)
             clearInterval(this.interval);
     }
 
@@ -36,7 +36,7 @@ export default class Now extends Component {
 
     render() {
         return (
-            <div {...this.props} style={{display: 'inline-block'}}>
+            <div {...this.props} style={{ display: 'inline-block' }}>
                 {this.state.currentTime}
             </div>
         )

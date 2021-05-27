@@ -41,7 +41,7 @@ class SwalDoc extends Component {
         return (
             <>
                 <div>
-                    <img src={this.img} style={{ maxHeight:"775px", maxWidth:"565px", verticalAlign: "unset" }} ref={this.ref} />
+                    <img src={this.img} style={{ maxHeight: "775px", maxWidth: "565px", verticalAlign: "unset" }} ref={this.ref} />
                     <textarea name={`ocr_${this.n}`} rows={this.state.txtSize} cols="50" value={this.state.ocr} onChange={this.changeHandler} />
                     <div
                         className="swal2-actions"
