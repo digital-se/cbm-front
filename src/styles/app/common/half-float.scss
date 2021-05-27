@@ -1,3 +1,5 @@
+@use "sass:math";
+
 /* ========================================================================
      Component: half-float
  ========================================================================== */
@@ -16,21 +18,21 @@ $half-aligned-gutter : 5px;
 
 .half-float {
     position: relative;
-    margin-bottom: ($half-aligned-size/2) + $half-aligned-gutter;
+    margin-bottom: math.div($half-aligned-size, 2) + $half-aligned-gutter;
 
     .half-float-bottom,
     .half-float-top {
         position: absolute;
         left: 50%;
-        bottom: -($half-aligned-size/2);
+        bottom: -(math.div($half-aligned-size, 2));
         width: $half-aligned-size;
         height: $half-aligned-size;
-        margin-left: -($half-aligned-size/2);
+        margin-left: -(math.div($half-aligned-size, 2));
         z-index: 2;
     }
 
     .half-float-top {
         bottom: auto;
-        top: -($half-aligned-size/2);
+        top: -(math.div($half-aligned-size, 2));
     }
 }
