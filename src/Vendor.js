@@ -1,7 +1,7 @@
 // Modernizr
 import './modernizr.js';
 // Whirl
-import 'whirl/dist/whirl.css';
+import './styles/whirl/whirl.css';
 // Font Awesome
 import '@fortawesome/fontawesome-free/css/brands.css';
 import '@fortawesome/fontawesome-free/css/regular.css';
