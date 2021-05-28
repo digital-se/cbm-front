@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+
+  digitalse-cbm-front:
+    container_name: digitalse-cbm-front
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - '3303:80'
