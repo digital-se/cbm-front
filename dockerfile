@@ -1,5 +1,5 @@
 # build environment
-FROM node:13.12.0-alpine as build
+FROM node:14.17.0 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
@@ -9,8 +9,8 @@ COPY . ./
 RUN npm run build
 
 # production environment
-FROM nginx:stable-alpine
-COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM webdevops/nginx:alpine
+COPY --from=build /app/build /app
+COPY nginx/main.conf /opt/docker/etc/nginx/main.conf
+COPY nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
+EXPOSE 80 443
