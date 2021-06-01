@@ -30,7 +30,7 @@ class Cadastro extends React.Component {
                 numeracao: "",
                 data: "",
                 dataFinal: "",
-                ocr: "ficha de alguem com um testo lid erado pero ocr\n\nmuto errao ese ocr",
+                ocr: "ficha de alguém",
                 txt: [],
                 validation: {
                     tipo: false,
@@ -186,18 +186,6 @@ class Cadastro extends React.Component {
                     <Col xl={3} md={6} className="text-center">
                         <FormGroup>
                             <Label for="numeracao">Numeração*</Label>
-                            {/* <Input
-                                placeholder="digite aqui ..."
-                                name="numeracao"
-                                id="numeracao"
-                                valid={this.state.form.validation.numeracao}
-                                invalid={!this.state.form.validation.numeracao}
-                                value={this.state.form.numeracao} onChange={this.changeHandler}
-                                {renderInput({}, "")}
-
-                            /> */}
-                            {/* {this.renderInput({placeholder: "digite aqui..."}, "999/9999")} */}
-
                             <MaskedInput
                                 className="form-control"
                                 mask="999/9999" maskChar=""
@@ -248,14 +236,6 @@ class Cadastro extends React.Component {
                 </Row>
                 <Button onClick={this.getOcr} >Extrair texto</Button>
                 <hr />
-                {/* <Swal options={{
-                    width: "80%",
-                    showConfirmButton: true,
-                    showCloseButton: true,
-                    html: (<SwalDoc value={this.state.form.ocr} img="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" changeHandler={this.changeHandler} />)
-                }} className="btn">
-                    <img src="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" height="300" />
-                </Swal> */}
                 {this.state.form.txt.map((document, index) => {
 
                     return (
