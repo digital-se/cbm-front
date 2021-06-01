@@ -117,7 +117,7 @@ class Busca extends React.Component {
             <ContentWrapper>
                 <div className="content-heading">
                     <div>
-                        <h1>Busca Documental</h1>
+                        <h2>Busca Documental</h2>
                       {/* <small><Trans i18nKey='dashboard.WELCOME'></Trans></small> */}
                     </div>
                     { /* START Language list */}
