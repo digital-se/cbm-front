@@ -6,6 +6,8 @@ import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+
+
 import qs from "qs";
 
 import ResultCard from "../Comp/ResultCard"
@@ -81,7 +83,12 @@ class SearchResult extends React.Component {
                             </Row>
                         </Link>
                     </Col>
-                </Row>
+                </Row> 
+                <div>
+                    <Button className="buttonMenu">
+                        
+                    </Button>
+                </div>
             </ContentWrapper>
         );
     }
