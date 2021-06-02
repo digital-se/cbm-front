@@ -10,3 +10,8 @@ services:
     ports:
       - '3303:80'
       - '3304:443'
+
+networks:
+  default:
+    external:
+      name: internal
