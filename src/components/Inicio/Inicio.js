@@ -48,40 +48,43 @@ class SearchResult extends React.Component {
                 <div className="content-heading">
                    <div>
                     <h2>Sistema Interno de Gestão Documental</h2>
-                    </div>
+                    </div>   
+                </div>
+                <div>
+                   <p>  </p>
                 </div>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                
                     <Col xl={3} md={6}>
-                        <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}}> 
-                            <Row style={{ justifyContent: 'center', alignItems: 'center'} }>
+                        <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
+                            <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}}> 
                                 <div style={{ "width": "250px"}} className="card flex-row align-items-center align-items-stretch border-0">
+                                    <div style = {{ backgroundColor: '#fff'}} className="btn-outline-light"></div>
                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
                                         <em className="fa icon-magnifier fa-3x" />
                                     </div>
-                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right " >
+                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right btn-outline-light" >
                                         <div className="h2  mt-0">Busca</div>
                                         <div className="text-uppercase">{this.data}</div>
                                     </div>                   
-                                </div>               
-                            </Row>     
-                        </Link> 
+                                </div>   
+                            </Link>             
+                        </Row>    
                     </Col>
                     
-                    <Col xl={3} md={6} className="text-center " >
-                        <Link to={"/cadastro"} style={{ color: '#fff',textDecoration: 'none' }}>
-                            <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
+                    <Col xl={3} md={6} className="text-center " > 
+                        <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
+                            <Link to={"/cadastro"} style={{ color: '#fff',textDecoration: 'none' }}>
                                 <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left" >
                                         <em className="fa fa-file fa-3x" />
                                     </div>
-                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right" >
+                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right btn-outline-light" >
                                         <div className="h2  mt-0">Cadastro</div>
                                         <div className="text-uppercase">{this.data}</div>
                                     </div>
                                 </div>
-                            </Row>
-                        </Link>
+                            </Link>
+                        </Row>        
                     </Col>
                 </Row>
             </ContentWrapper>
