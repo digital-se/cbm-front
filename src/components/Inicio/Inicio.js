@@ -5,6 +5,7 @@ import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownIt
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import styles from './inicio.module.scss';
 
 import qs from "qs";
 
@@ -51,27 +52,29 @@ class SearchResult extends React.Component {
                     </div>
                 </div>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                
                     <Col xl={3} md={6}>
-                        <Link to={"/busca"} style={{ color: '#fff' }}>
-                            <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
-                                    <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left" >
-                                        <em className="fa icon-magnifier fa-3x"></em>
+                        <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}} className={styles.hoverLink}> 
+                            <Row style={{ justifyContent: 'center', alignItems: 'center'} }>
+                                <div style={{ "width": "250px"}} className="card flex-row align-items-center align-items-stretch border-0">
+                                    <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
+                                        <em className="fa icon-magnifier fa-3x" />
                                     </div>
-                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right" >
+                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right " >
                                         <div className="h2  mt-0">Busca</div>
                                         <div className="text-uppercase">{this.data}</div>
-                                    </div>
-                                </div>
-                            </Row>
-                        </Link>
+                                    </div>                   
+                                </div>               
+                            </Row>     
+                        </Link> 
                     </Col>
-                    <Col xl={3} md={6}>
-                        <Link to={"/cadastro"} style={{ color: '#fff' }}>
-                            <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    
+                    <Col xl={3} md={6} className="text-center " >
+                        <Link to={"/cadastro"} style={{ color: '#fff',textDecoration: 'none' }}>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
                                 <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left" >
-                                        <em className="fa fa-file fa-3x"></em>
+                                        <em className="fa fa-file fa-3x" />
                                     </div>
                                     <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right" >
                                         <div className="h2  mt-0">Cadastro</div>
