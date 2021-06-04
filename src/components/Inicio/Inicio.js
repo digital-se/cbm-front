@@ -46,8 +46,8 @@ class SearchResult extends React.Component {
         return (
             <ContentWrapper>
                 <div className="content-heading">
-                    <div>
-                     <h2> Sistema Interno de Gestão Documental </h2> 
+                   <div>
+                    <h2>Sistema Interno de Gestão Documental</h2>
                     </div>
                 </div>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>

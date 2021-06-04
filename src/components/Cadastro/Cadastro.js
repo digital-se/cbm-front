@@ -30,7 +30,7 @@ class Cadastro extends React.Component {
                 numeracao: "",
                 data: "",
                 dataFinal: "",
-                ocr: "ficha de alguém ",
+                ocr: "ficha de alguém",
                 txt: [],
                 validation: {
                     tipo: false,
@@ -236,14 +236,6 @@ class Cadastro extends React.Component {
                 </Row>
                 <Button onClick={this.getOcr} >Extrair texto</Button>
                 <hr />
-                {/* <Swal options={{
-                    width: "80%",
-                    showConfirmButton: true,
-                    showCloseButton: true,
-                    html: (<SwalDoc value={this.state.form.ocr} img="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" changeHandler={this.changeHandler} />)
-                }} className="btn">
-                    <img src="https://i.pinimg.com/originals/63/0e/e9/630ee90be2c9956a1c10bdb000108841.png" height="300" />
-                </Swal> */}
                 {this.state.form.txt.map((document, index) => {
 
                     return (
