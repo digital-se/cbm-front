@@ -33,19 +33,7 @@ class ResultCard extends Component {
                             </div>
                         </div>
                     </Row>
-                    {/* <Card body inverse style={{ "maxWidth": "300px", backgroundColor: '#f56e27', borderColor: '#f56e27' }} >
-                        <Row className="align-items-center">
-                            <Col md={4} xl={2} className="text-center" >
-                                <div style={{ backgroundColor: '#a43f0a' }}>
-                                <em className="fa fa-address-card fa-3x" style={{ marginRight: "10px" }}></em>
-                                </div>
-                            </Col>
-                            <Col md={8} xl={10}>
-                                <CardTitle tag="h4" className="text-center">{this.titulo}</CardTitle>
-                                <CardText className="text-center">{this.data}</CardText>
-                            </Col>
-                        </Row>
-                    </Card> */}
+    
                 </Link>
             )
         } else if (this.tipo === "diario") {
@@ -62,17 +50,6 @@ class ResultCard extends Component {
                             </div>
                         </div>
                     </ Row>
-                    {/* <Card body inverse color="danger" style={{ "maxWidth": "300px" }} >
-                        <Row className="align-items-center">
-                            <Col sm={2} className="text-center">
-                                <em className="fas fa-newspaper fa-3x" style={{ marginRight: "10px" }}></em>
-                            </Col>
-                            <Col sm={10}>
-                                <CardTitle tag="h4" className="text-center">{this.titulo}</CardTitle>
-                                <CardText className="text-center">{this.data}</CardText>
-                            </Col>
-                        </Row>
-                    </Card> */}
                 </a>
             )
         }

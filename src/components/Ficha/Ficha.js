@@ -161,73 +161,25 @@ class Ficha extends React.Component {
             <ContentWrapper>
                 <div className="content-heading">
                     <div>{this.state.ficha.nomeCompleto}
-                        {/* <small><Trans i18nKey='dashboard.WELCOME'></Trans></small> */}
                     </div>
-                    { /* START Language list */}
-                    {/* <div className="ml-auto">
-                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                            <DropdownToggle>
-                                English
-                            </DropdownToggle>
-                            <DropdownMenu className="dropdown-menu-right-forced animated fadeInUpShort">
-                                <DropdownItem onClick={() => this.changeLanguage('en')}>English</DropdownItem>
-                                <DropdownItem onClick={() => this.changeLanguage('es')}>Spanish</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div> */}
-                    { /* END Language list */}
                 </div>
-                {/* <Col xs={12} className="text-center">
-                        <h2 className="text-thin">Single view content</h2>
-                        <p>
-                            This project is an application skeleton. You can use it to quickly bootstrap your ReactJS webapp projects and dev environment for these projects.
-                            <br />
-                            The seed app doesn't do much and has most of the feature removed so you can add theme as per your needs just following the demo app examples.
-                        </p>
-                    </Col> */}
                 <div>
-                    {/* <p>{this.state.ficha.nomeCompleto}</p> */}
                     <ul>
                         {Object.keys(this.state.ficha.campos).map((key, index) => {
                             return <li key={this.n++}><p> {key}</p><p>{this.state.ficha.campos[key]}</p></li>
                         })}
                     </ul>
-                    {/* <ul>
-                        {this.state.ficha.files.map(url => {
-                            return <li key={this.n++}><img className="rounded thumb64" src={url} style={{ "maxWidth": "600px" }}></img></li>
-                        })}
-                    </ul> */}
+
                 </div>
 
-                {/* <div className="col-md-6"> */}
-                {/* START card- */}
-                {/* <div className="card bg-purple"> */}
-                {/* <div className="card-body text-center">
-                        <p className="mb-3">
-                            <img className="rounded thumb64" src="img/user/08.jpg" alt="Demo" />
-                        </p> */}
                 <Card className="card-default" style={{ justifyContent: 'center' }}>
                     <CardHeader>
                         <legend>Fotos</legend>
                     </CardHeader>
                     <CardBody>
                         <Row >
-                            {/* <ul style={{ "listStyleType": "none" }}> */}
+
                             {this.state.ficha.files.map(url => {
-
-                                // return <li key={this.n++} style={{ float: "left" }}>
-                                //     // <img className="rounded thumb64" src={url} style={{ "maxWidth": "600px" }}></img> 
-                                //     <Swal options={{
-                                //         imageUrl: url,
-                                //         //imageHeight: 1500,
-                                //         imageAlt: 'Carregando...',
-                                //         showConfirmButton: false,
-                                //         showCloseButton: true
-                                //     }} className="btn">
-                                //         <img className="rounded" style={{ width: 246, height: 246 }} src={url} alt="Demo" />
-                                //     </Swal>
-                                // </li>
-
                                 return <Col className="ml-auto mr-auto" md={6} lg={4} xl={3} key={this.n++}>
                                     {/* <img className="rounded thumb64" src={url} style={{ "maxWidth": "600px" }}></img> */}
                                     <Swal options={{
