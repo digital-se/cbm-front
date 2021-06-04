@@ -5,7 +5,6 @@ import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownIt
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import styles from './inicio.module.scss';
 
 import qs from "qs";
 
@@ -54,7 +53,7 @@ class SearchResult extends React.Component {
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                 
                     <Col xl={3} md={6}>
-                        <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}} className={styles.hoverLink}> 
+                        <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}}> 
                             <Row style={{ justifyContent: 'center', alignItems: 'center'} }>
                                 <div style={{ "width": "250px"}} className="card flex-row align-items-center align-items-stretch border-0">
                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
