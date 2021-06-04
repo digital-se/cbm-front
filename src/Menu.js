@@ -42,10 +42,7 @@ const Menu = [
                 name: 'Fotos',
                 path: '/cadastroFoto?tipo=foto'
             }
-            // {
-            //     name: 'grogs',
-            //     path: 'https://google.com'
-            // }
+
         ]
     },
 ];

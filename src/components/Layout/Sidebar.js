@@ -121,18 +121,12 @@ class Sidebar extends Component {
     render() {
         return (
             <aside className='aside-container'>
-                { /* START Sidebar (left) */}
                 <div className="aside-inner">
                     <nav data-sidebar-anyclick-close="" className="sidebar">
-                        { /* START sidebar nav */}
                         <ul className="sidebar-nav">
-                            { /* START user info */}
                             <li className="has-user-block">
                                 <SidebarUserBlock />
                             </li>
-                            { /* END user info */}
-
-                            { /* Iterates over all sidebar items */}
                             {
                                 Menu.map((item, i) => {
                                     // heading
@@ -161,10 +155,8 @@ class Sidebar extends Component {
                                 })
                             }
                         </ul>
-                        { /* END sidebar nav */}
                     </nav>
                 </div>
-                { /* END Sidebar (left) */}
             </aside>
         );
     }

@@ -7,7 +7,7 @@ import PageLoader from './components/Common/PageLoader';
 
 import Base from './components/Layout/Base';
 import BasePage from './components/Layout/BasePage';
-// import BaseHorizontal from './components/Layout/BaseHorizontal';
+
 
 /* Used to render a lazy component with react-router */
 const waitFor = Tag => props => <Tag {...props} />;
@@ -18,7 +18,7 @@ const SearchResult = lazy(() => import('./components/SearchResult/SearchResult')
 const Ficha = lazy(() => import('./components/Ficha/Ficha'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
-// const CadastroFoto = lazy(() => import('./components/Cadastro/CadastroFoto'));
+
 
 // List of routes that uses the page layout
 // listed here to Switch between layouts
@@ -31,10 +31,6 @@ const Routes = ({ location }) => {
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
 
-    // Animations supported
-    //      'rag-fadeIn'
-    //      'rag-fadeInRight'
-    //      'rag-fadeInLeft'
 
     const animationName = 'rag-fadeIn'
 

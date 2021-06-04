@@ -116,7 +116,6 @@ class Busca extends React.Component {
         return (
             <ContentWrapper>
                 <div className="content-heading">
-
                     <div>
                         <h2>Busca Documental</h2>
                     </div>
