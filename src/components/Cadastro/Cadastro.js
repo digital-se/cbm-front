@@ -129,7 +129,6 @@ class Cadastro extends React.Component {
                 <MaskedInput {...props} className="form-control" mask="99/99/9999" maskChar="" name="expiry" placeholder="dd/mm/aaaa" style={{ minWidth: 182 }}>
                     {(inputProps) => <Input {...inputProps} />}
                 </MaskedInput>
-                <FormFeedback valid>Tudo Ok</FormFeedback>
                 <FormFeedback>Campo Obrigatório</FormFeedback>
             </>
         );
@@ -156,7 +155,11 @@ class Cadastro extends React.Component {
         return (
             <ContentWrapper>
                 <div className="content-heading">
-                    <div>{this.titulo} {this.state.form.tipo.toUpperCase()}</div>
+
+                <div> <h2> Cadastro </h2></div>
+
+                    <div><h2>{this.titulo} {this.state.form.tipo.toUpperCase()}</h2></div>
+  
                 </div>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={3} md={6} className="text-center">
@@ -168,9 +171,10 @@ class Cadastro extends React.Component {
                                 id="tipo"
                                 value={this.state.form.tipo}
                                 valid={this.state.form.validation.tipo}
-                                invalid={!this.state.form.validation.tipo}
+                                //invalid={!this.state.form.validation.tipo}
                                 onChange={this.changeHandler}
                             >
+                                
                                 <option disabled value="">Escolha o tipo</option>
                                 <option value="bga">BGA</option>
                                 <option value="bgo">BGO</option>
@@ -178,9 +182,9 @@ class Cadastro extends React.Component {
                                 <option value="diario">Diário Oficial</option>
                                 <option value="ficha">Ficha</option>
                                 <option value="relatorio">Relatório de Processos</option>
-                            </Input>
+                            </Input>{/*}
                             <FormFeedback valid>Tudo Ok</FormFeedback>
-                            <FormFeedback>Campo Obrigatório</FormFeedback>
+                            <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                         </FormGroup>
                     </Col>
                     <Col xl={3} md={6} className="text-center">
@@ -194,12 +198,11 @@ class Cadastro extends React.Component {
                                 name="numeracao"
                                 id="numeracao"
                                 valid={this.state.form.validation.numeracao}
-                                invalid={!this.state.form.validation.numeracao}
+                               // invalid={!this.state.form.validation.numeracao}
                                 value={this.state.form.numeracao} onChange={this.changeHandler}>
                                 {(inputProps) => <Input {...inputProps} />}
-                            </MaskedInput>
-                            <FormFeedback valid>Tudo Ok</FormFeedback>
-                            <FormFeedback>Campo Obrigatório</FormFeedback>
+                            </MaskedInput>{/*
+                            <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                         </FormGroup>
                     </Col>
                     <Col xl={3} md={6} className="text-center" >
@@ -211,11 +214,12 @@ class Cadastro extends React.Component {
                                 name="data"
                                 id="data"
                                 value={this.state.form.data} onChange={moment => this.changeHandler({ target: { name: "data", value: moment } })}
-                                inputProps={{ valid: this.state.form.validation.data, invalid: !this.state.form.validation.data, value: this.state.form.data, autocomplete: "off" }}
+                                inputProps={{ valid: this.state.form.validation.data
+                                   // , invalid: !this.state.form.validation.data, value: this.state.form.data, autocomplete: "off" 
+                                }}
                                 renderInput={this.renderInput}
-                            />
-                            <FormFeedback valid>Tudo Ok</FormFeedback>
-                            <FormFeedback>Campo Obrigatório</FormFeedback>
+                            />{/*
+                            <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                         </FormGroup>
                     </Col>
                 </Row>

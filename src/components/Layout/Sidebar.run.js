@@ -127,10 +127,6 @@ export default (navigator, closeSidebar) => {
     }
 
     function reactClone(domNode) {
-        // quick element clone using a dummy reactid
-        // domNode.find('[data-reactid]').andSelf().each(function(idx, el){
-        //     el.setAttribute('data-reactid', el.getAttribute('data-reactid') + ('.0'+idx));
-        // });
         return domNode;
     }
 

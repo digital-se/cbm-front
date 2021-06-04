@@ -47,15 +47,6 @@ class SwalDoc extends Component {
                         className="swal2-actions"
                         style={{ display: "flex", fontSize: "0.9em" }}
                     >
-                        {/* <button
-                        type="submit"
-                        className="swal2-confirm swal2-styled"
-                    >
-                        OK
-                    </button>
-                    <button onClick={} className="swal2-cancel swal2-styled">
-                        Cancel
-                    </button> */}
                     </div>
                 </div>
             </>

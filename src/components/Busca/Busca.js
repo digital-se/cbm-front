@@ -106,8 +106,7 @@ class Busca extends React.Component {
                 <MaskedInput {...props} className="form-control" mask="99/99/9999" maskChar="" name="expiry" placeholder="dd/mm/aaaa" style={{ minWidth: 182 }}>
                     {(inputProps) => <Input {...inputProps} />}
                 </MaskedInput>
-                <FormFeedback valid>Tudo Ok</FormFeedback>
-                <FormFeedback>Campo Obrigatório</FormFeedback>
+                <FormFeedback>Campo Obrigatório*</FormFeedback>
             </>
         );
     }
@@ -126,22 +125,19 @@ class Busca extends React.Component {
                             <Row >
                                 <Col className="text-center">
                                     <FormGroup>
-                                        <Label for="exampleSelect">Tipo de Documento*</Label>
+                                        <Label for="exampleSelect">Tipo de Documento</Label>
                                         <Input
                                             type="select"
                                             name="tipo"
                                             id="tipo"
                                             value={this.state.form.tipo}
-                                            valid={this.state.form.validation.tipo}
-                                            invalid={!this.state.form.validation.tipo}
+
                                             onChange={this.changeHandler}
                                         >
                                             <option value="all">Todos</option>
                                             <option value="fichas">Fichas</option>
                                             <option value="diario">Diário Oficial</option>
-                                        </Input>
-                                        <FormFeedback valid>Tudo Ok</FormFeedback>
-                                        <FormFeedback>Campo Obrigatório</FormFeedback>
+                                        </Input>  
                                     </FormGroup>
                                 </Col>
                                 <Col className="text-center">
@@ -152,11 +148,10 @@ class Busca extends React.Component {
                                             name="searchString"
                                             id="searchString"
                                             valid={this.state.form.validation.searchString}
-                                            invalid={!this.state.form.validation.searchString}
+                                            //invalid={!this.state.form.validation.searchString}
                                             value={this.state.form.searchString} onChange={this.changeHandler}
                                         />
-                                        <FormFeedback valid>Tudo Ok</FormFeedback>
-                                        <FormFeedback>Campo Obrigatório</FormFeedback>
+                                        {/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
                                 </Col>
                                 <Col className="text-center" >
@@ -168,11 +163,12 @@ class Busca extends React.Component {
                                             name="dataInicial"
                                             id="dataInicial"
                                             value={this.state.form.dataInicial} onChange={moment => this.changeHandler({ target: { name: "dataInicial", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataInicial, invalid: !this.state.form.validation.dataInicial, value: this.state.form.dataInicial, autocomplete: "off" }}
+                                            inputProps={{ valid: this.state.form.validation.dataInicial
+                                               // ,invalid: !this.state.form.validation.dataInicial, value: this.state.form.dataInicial, autocomplete: "off" 
+                                            }}
                                             renderInput={this.renderInput}
-                                        />
-                                        <FormFeedback valid>Tudo Ok</FormFeedback>
-                                        <FormFeedback>Campo Obrigatório</FormFeedback>
+                                        />{/*
+                                        <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
                                 </Col>
                                 <Col className="text-center">
@@ -184,15 +180,19 @@ class Busca extends React.Component {
                                             name="dataFinal"
                                             id="dataFinal"
                                             value={this.state.form.dataFinal} onChange={moment => this.changeHandler({ target: { name: "dataFinal", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataFinal, invalid: !this.state.form.validation.dataFinal, value: this.state.form.dataFinal, autocomplete: "off" }}
+                                            inputProps={{ valid: this.state.form.validation.dataFinal
+                                                //, invalid: !this.state.form.validation.dataFinal, value: this.state.form.dataFinal, autocomplete: "off" 
+                                            }}
                                             renderInput={this.renderInput}
-                                        />
-                                        <FormFeedback valid>Tudo Ok</FormFeedback>
-                                        <FormFeedback>Campo Obrigatório</FormFeedback>
+                                        />{/* 
+                                       <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
                                 </Col>
                             </Row>
+                            <p/>
+                            <p/>
                             <Row>
+                                
                                 <Col className="text-center">
                                     <Button color="danger" type="submit">Buscar&nbsp;&nbsp;<em className="icon-magnifier" /></Button>{' '}
                                 </Col>
