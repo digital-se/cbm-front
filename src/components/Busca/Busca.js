@@ -140,37 +140,44 @@ class Busca extends React.Component {
                                         </Input>  
                                     </FormGroup>
                                 </Col>
+
                                 <Col className="text-center">
                                     <FormGroup>
-                                        <Label for="searchString">Valor de busca*</Label>
+                                        <Label for="searchString" class="form-label">Valor de busca*</Label>
                                         <Input
                                             placeholder="digite aqui ..."
                                             name="searchString"
                                             id="searchString"
                                             valid={this.state.form.validation.searchString}
+                                            class="form-control"
                                             //invalid={!this.state.form.validation.searchString}
-                                            value={this.state.form.searchString} onChange={this.changeHandler}
+                                            value={this.state.form.searchString} 
+                                            onChange={this.changeHandler}
+                                            required //new (Preencha este campo)
                                         />
                                         {/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
-                                    </FormGroup>
+                                    </FormGroup>                      
                                 </Col>
                                 <Col className="text-center" >
                                     <FormGroup>
-                                        <Label for="dataInicial">Data inicial*</Label>
+                                        <Label for="dataInicial" class="form-label">Data inicial*</Label>
                                         <Datetime
+
                                             dateFormat="DD-MM-YYYY"
                                             timeFormat={false}
                                             name="dataInicial"
                                             id="dataInicial"
-                                            value={this.state.form.dataInicial} onChange={moment => this.changeHandler({ target: { name: "dataInicial", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataInicial
-                                               // ,invalid: !this.state.form.validation.dataInicial, value: this.state.form.dataInicial, autocomplete: "off" 
+                                            value={this.state.form.dataInicial} 
+                                            onChange={moment => this.changeHandler({ target: { name: "dataInicial", value: moment } })}
+                                            inputProps={{ valid: this.state.form.validation.dataInicial, value: this.state.form.dataInicial, required: true                                             
                                             }}
-                                            renderInput={this.renderInput}
-                                        />{/*
+                                            renderInput={this.renderInput}            
+                                        />
+                                        {/*
                                         <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
                                 </Col>
+
                                 <Col className="text-center">
                                     <FormGroup>
                                         <Label for="dataFinal">Data final*</Label>
@@ -180,10 +187,11 @@ class Busca extends React.Component {
                                             name="dataFinal"
                                             id="dataFinal"
                                             value={this.state.form.dataFinal} onChange={moment => this.changeHandler({ target: { name: "dataFinal", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataFinal
-                                                //, invalid: !this.state.form.validation.dataFinal, value: this.state.form.dataFinal, autocomplete: "off" 
+                                            inputProps={{ valid: this.state.form.validation.dataFinal, required: true   
                                             }}
+
                                             renderInput={this.renderInput}
+                                            
                                         />{/* 
                                        <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
