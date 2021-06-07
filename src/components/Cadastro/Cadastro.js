@@ -161,6 +161,8 @@ class Cadastro extends React.Component {
                     <div><h2>{this.titulo} {this.state.form.tipo.toUpperCase()}</h2></div>
   
                 </div>
+                <Form onSubmit={this.handleSubmit}>
+
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={3} md={6} className="text-center">
                         <FormGroup>
@@ -171,8 +173,8 @@ class Cadastro extends React.Component {
                                 id="tipo"
                                 value={this.state.form.tipo}
                                 valid={this.state.form.validation.tipo}
-                                //invalid={!this.state.form.validation.tipo}
                                 onChange={this.changeHandler}
+                                required={this.state.form.validation}
                             >
                                 
                                 <option disabled value="">Escolha o tipo</option>
@@ -182,9 +184,7 @@ class Cadastro extends React.Component {
                                 <option value="diario">Diário Oficial</option>
                                 <option value="ficha">Ficha</option>
                                 <option value="relatorio">Relatório de Processos</option>
-                            </Input>{/*}
-                            <FormFeedback valid>Tudo Ok</FormFeedback>
-                            <FormFeedback>Campo Obrigatório</FormFeedback>*/}
+                            </Input>
                         </FormGroup>
                     </Col>
                     <Col xl={3} md={6} className="text-center">
@@ -198,9 +198,9 @@ class Cadastro extends React.Component {
                                 name="numeracao"
                                 id="numeracao"
                                 valid={this.state.form.validation.numeracao}
-                               // invalid={!this.state.form.validation.numeracao}
                                 value={this.state.form.numeracao} onChange={this.changeHandler}>
                                 {(inputProps) => <Input {...inputProps} />}
+
                             </MaskedInput>{/*
                             <FormFeedback>Campo Obrigatório</FormFeedback>*/}
                         </FormGroup>
@@ -214,19 +214,18 @@ class Cadastro extends React.Component {
                                 name="data"
                                 id="data"
                                 value={this.state.form.data} onChange={moment => this.changeHandler({ target: { name: "data", value: moment } })}
-                                inputProps={{ valid: this.state.form.validation.data
-                                   // , invalid: !this.state.form.validation.data, value: this.state.form.data, autocomplete: "off" 
+                                inputProps={{ valid: this.state.form.validation.data, required: true  
                                 }}
                                 renderInput={this.renderInput}
-                            />{/*
-                            <FormFeedback>Campo Obrigatório</FormFeedback>*/}
+                            />
+                            <FormFeedback>Campo Obrigatório</FormFeedback>
                         </FormGroup>
                     </Col>
                 </Row>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
                     <Col xl={5} md={8} className="text-center" >
                         {/* <UploadFiles /> */}
-                        <Dropzone className="card p-3" onDrop={this.onDrop} >
+                        <Dropzone className="card p-3" onDrop={this.onDrop} required>
                             <div className="text-center box-placeholder m-0">Arraste os arquivos aqui, ou clique para seleciona-los</div>
                             <div className="mt-3">
                                 {this.state.files.length > 0 ?
@@ -238,7 +237,8 @@ class Cadastro extends React.Component {
                         </Dropzone>
                     </Col>
                 </Row>
-                <Button onClick={this.getOcr} >Extrair texto</Button>
+                <Button class="btn btn-primary" type="submit" onClick={this.getOcr} >Extrair texto</Button>
+                
                 <hr />
                 {this.state.form.txt.map((document, index) => {
 
@@ -253,6 +253,7 @@ class Cadastro extends React.Component {
                         </Swal>
                     )
                 })}
+                </Form>
             </ContentWrapper>
         );
     }
