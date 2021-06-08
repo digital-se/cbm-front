@@ -92,7 +92,7 @@ class Cadastro extends React.Component {
         let tipo = this.state.form.validation.tipo
         let numeracao = this.state.form.validation.numeracao
         let data = this.state.form.validation.data
-        let dataFinal = this.state.form.validation.dataFinal
+        
 
         if (tipo && numeracao && data) {
             let form = Object.assign({}, this.state.form);
@@ -158,7 +158,7 @@ class Cadastro extends React.Component {
 
                 <div> <h2> Cadastro </h2></div>
 
-                    <div><h2>{this.titulo} {this.state.form.tipo.toUpperCase()}</h2></div>
+                    <div><h2>{this.titulo} {this.state.form.value}</h2></div>
   
                 </div>
                 <Form onSubmit={this.handleSubmit}>
@@ -177,13 +177,15 @@ class Cadastro extends React.Component {
                                 required={this.state.form.validation}
                             >
                                 
-                                <option disabled value="">Escolha o tipo</option>
-                                <option value="bga">BGA</option>
-                                <option value="bgo">BGO</option>
-                                <option value="bir">BIR</option>
-                                <option value="diario">Diário Oficial</option>
-                                <option value="ficha">Ficha</option>
-                                <option value="relatorio">Relatório de Processos</option>
+                                    <option disabled value="">Escolha o tipo</option>
+                                    <option value="bga">BGA</option>
+                                    <option value="bgo">BGO</option>
+                                    <option value="bir">BIR</option>
+                                    <option value="diario">Diário Oficial</option>
+                                    <option value="ficha">Ficha</option>
+                                    <option value="relatorio">Relatório de Processos</option>
+                                
+
                             </Input>
                         </FormGroup>
                     </Col>
@@ -198,7 +200,8 @@ class Cadastro extends React.Component {
                                 name="numeracao"
                                 id="numeracao"
                                 valid={this.state.form.validation.numeracao}
-                                value={this.state.form.numeracao} onChange={this.changeHandler}>
+                                value={this.state.form.numeracao} 
+                                onChange={this.changeHandler}>
                                 {(inputProps) => <Input {...inputProps} />}
 
                             </MaskedInput>{/*

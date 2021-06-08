@@ -150,12 +150,10 @@ class Busca extends React.Component {
                                             id="searchString"
                                             valid={this.state.form.validation.searchString}
                                             class="form-control"
-                                            //invalid={!this.state.form.validation.searchString}
                                             value={this.state.form.searchString} 
                                             onChange={this.changeHandler}
                                             required //new (Preencha este campo)
                                         />
-                                        {/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>                      
                                 </Col>
                                 <Col className="text-center" >
@@ -173,8 +171,7 @@ class Busca extends React.Component {
                                             }}
                                             renderInput={this.renderInput}            
                                         />
-                                        {/*
-                                        <FormFeedback>Campo Obrigatório</FormFeedback>*/}
+                                        {/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
                                 </Col>
 
@@ -192,8 +189,7 @@ class Busca extends React.Component {
 
                                             renderInput={this.renderInput}
                                             
-                                        />{/* 
-                                       <FormFeedback>Campo Obrigatório</FormFeedback>*/}
+                                        />{/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
                                     </FormGroup>
                                 </Col>
                             </Row>
