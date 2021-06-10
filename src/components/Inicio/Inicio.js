@@ -46,7 +46,7 @@ class SearchResult extends React.Component {
     componentDidMount() {
         this.getSearch()
     }
-    UNSAFE_componentWillMount(){ //pegar o tamanho da pagina pra centralizar 
+    UNSAFE_componentWillMount(){
         this.setState({height: window.outerHeight*0.575 + 'px'});
       }
 
