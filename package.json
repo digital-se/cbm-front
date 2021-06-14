@@ -1,8 +1,8 @@
 {
-  "name": "angle",
-  "version": "0.0.0",
-  "description": "Angle - Bootstrap Admin Template",
-  "author": "@themicon_co",
+  "name": "digitalse-cbm",
+  "version": "0.1.0",
+  "description": "Projeto DigitalSE - CBM",
+  "author": "digitalse",
   "license": "https://wrapbootstrap.com/help/licenses",
   "private": true,
   "homepage": ".",
