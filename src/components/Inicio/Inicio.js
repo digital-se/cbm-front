@@ -46,24 +46,30 @@ class SearchResult extends React.Component {
     componentDidMount() {
         this.getSearch()
     }
+    
     UNSAFE_componentWillMount(){
-        this.setState({height: window.outerHeight*0.575 + 'px'});
+        this.setState({height: window.outerHeight*0.575 + 'px'}); //remover, manter 620 como padrão é melhor :s
       }
 
     render() {
         return (
+        
         <ContentWrapper>
-            <div className="d-flex align-items-center justify-content-center container container-table" style={{"height": this.state.height}}>
+            <div className="d-flex align-items-center justify-content-center container container-table" style={{"height": "630px"}}>
                 <Row style={{ justifyContent: 'center', alignItems: 'center',display:'flex'}} class="col-xs-4 col-xs-offset-4">
-                    <Card style={ {width: "400px" }} class="shadow-lg p-3 mb-5 bg-white rounded">
-                        <CardHeader><center><h1>Home</h1></center></CardHeader>
+                    <Card style={ {"width": "520px", "height": "570px"}} class="shadow-lg p-3 mb-5 bg-white rounded">
+
+                        <CardHeader><center><h1 style={{"font-size":"4.5rem"}}>Home</h1></center></CardHeader>
+
                             <CardBody>
+                                <div style={{"height" : "40px"}}></div>
                                 <Col style={{ justifyContent: 'center', alignItems: 'center'}}>
                                     <div className="text-center">
                                         <Row style={{ justifyContent: 'center', 
                                                     alignItems: 'center'}}>
                                             <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}}> 
-                                                <div style={{ "width": "250px","height": "100px"}} className="card flex-row align-items-center align-items-stretch border-0 rounded-3">
+                                            {/*atualizar para nav e aumentar uns 25% de tudo ai*/}
+                                                <div style={{ "width": "350px","height": "130px"}} className="card flex-row align-items-center align-items-stretch border-0 rounded-3">
                                                     <div style = {{ backgroundColor: '#fff'}} className="btn-outline-light"></div>
                                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
                                                         <em className="fa icon-magnifier fa-3x" />
@@ -76,11 +82,12 @@ class SearchResult extends React.Component {
                                             </Link>                                                                
                                         </Row>                                         
                                     </div>
+                                    <div style={{"height" : "20px"}}></div>
 
                                     <div className="text-center "> 
                                         <Row style={{ justifyContent: 'center', alignItems: 'center'}}>
                                             <Link to={"/cadastro"} style={{ color: '#fff',textDecoration: 'none' }}>
-                                                <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
+                                                <div style={{ "width": "350px","height": "130px" }} className="card flex-row align-items-center align-items-stretch border-0">
                                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left" >
                                                         <em className="fa fa-file fa-3x" />
                                                     </div>
