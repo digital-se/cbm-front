@@ -1,265 +1,215 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withTranslation, Trans } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText, FormFeedback } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import MaskedInput from 'react-input-mask'
-import qs from "qs";
-import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css';
-import Dropzone from 'react-dropzone';
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardGroup,
+    TabContent,
+    TabPane,
+    Nav,
+    NavItem,
+    NavLink,
+    Button,
+    Row,
+    Col
+} from 'reactstrap';
+import classnames from 'classnames';
 
-import ResultCard from "../Comp/ResultCard"
-import UploadFiles from "../Comp/UploadFiles";
+const stepNavitemStyle = {
+    backgroundColor: '#fcfcfc'
+    
+};
 
-import db from "../../db/db"
-
-import Swal from '../Comp/Swal';
-import SwalDoc from '../Comp/SwalDoc';
-
-class Cadastro extends React.Component {
-
-    constructor(props, state) {
-        super(props)
-        this.state = {
-            dropdownOpen: false,
-            form: {
-                tipo: "",
-                numeracao: "",
-                data: "",
-                dataFinal: "",
-                ocr: "ficha de alguém",
-                txt: [],
-                validation: {
-                    tipo: false,
-                    numeracao: false,
-                    data: false,
-                    dataFinal: false,
-                    validation: false
-                }
-            },
-            files: []
-        }
-
-        if (qs.parse(this.props.location.search, { ignoreQueryPrefix: true })["tipo"] != undefined) {
-            this.state.form["tipo"] = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })["tipo"]
-        }
-
-        this.n = 0
-    }
-
-    changeHandler = async (e) => {
-        try {
-            e.target.value = e.target.value.format('DD/MM/YYYY')
-        } catch (error) {
-            console.log(error)
-        }
-        console.log("changeHandler")
-        console.log(e)
-        console.log(this.state)
-        console.log(e.target)
-        console.log(e.target.name)
-        console.log(e.target.value)
-        await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
-        console.log(this.state.form.ocr)
-        this.validateTeste();
-    }
-
-    validateTeste = async () => {
-
-        if (this.state.form.tipo === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, tipo: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.validation, tipo: true } } });
-        }
-        if (this.state.form.numeracao === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, numeracao: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, numeracao: true } } });
-        }
-        if (this.state.form.data === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, data: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, data: true } } });
-        }
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-
-        let tipo = this.state.form.validation.tipo
-        let numeracao = this.state.form.validation.numeracao
-        let data = this.state.form.validation.data
-        
-
-        if (tipo && numeracao && data) {
-            let form = Object.assign({}, this.state.form);
-            delete form.validation
-            let query = qs.stringify(form)
-            this.props.history.push('/inicio?' + query);
-        }
-    }
-
-    componentDidMount() {
-        this.validateTeste()
-    }
-
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
-    }
-
-    toggle = () => {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen
-        });
-    }
-
-    getOcr = () => {
-        db.getOcr(this.state.files).then(resultados => {
-            console.log(resultados)
-            this.setState({ form: { ...this.state.form, txt: resultados.txt } })
-        })
-    }
-
-    renderInput(props) {
-        return (
-            <>
-                <MaskedInput {...props} className="form-control" mask="99/99/9999" maskChar="" name="expiry" placeholder="dd/mm/aaaa" style={{ minWidth: 182 }}>
-                    {(inputProps) => <Input {...inputProps} />}
-                </MaskedInput>
-                <FormFeedback>Campo Obrigatório</FormFeedback>
-            </>
-        );
-    }
-
-    createImageItem = (file, index) => (
-        <Col md={3} key={index}>
-            <img className="img-fluid mb-2" src={file.preview} alt="Item" />
-        </Col>
-    )
-
-    onDrop = acceptedFiles => {
-        this.setState({
-            files: acceptedFiles.map(file =>
-                Object.assign(file, {
-                    preview: URL.createObjectURL(file)
-                })
-            )
-        }, () => { console.log(this.state.files) })
+class FormWizardVertical extends Component {
+    state = {
+        activeStep: '1'
     };
 
-    render() {
-        let allFiles = this.state.files;
-        return (
-            <ContentWrapper>
-                <div className="content-heading">
+    toggleStep = activeStep => () => {
+        if (this.state.activeStep !== activeStep) {
+            this.setState({
+                activeStep
+            });
+        }
+    };
 
-                <div> <h2> Cadastro </h2></div>
+    done = () => {
+        alert('cavalo');
+    };
 
-                    <div><h2>{this.titulo} {this.state.form.value}</h2></div>
-  
-                </div>
-                <Form onSubmit={this.handleSubmit}>
+render() {
+    return (
 
-                <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
-                    <Col xl={3} md={6} className="text-center">
-                        <FormGroup>
-                            <Label for="exampleSelect">Tipo de Documento*</Label>
-                            <Input
-                                type="select"
-                                name="tipo"
-                                id="tipo"
-                                value={this.state.form.tipo}
-                                valid={this.state.form.validation.tipo}
-                                onChange={this.changeHandler}
-                                required={this.state.form.validation}
-                            >
-                                
-                                    <option disabled value="">Escolha o tipo</option>
-                                    <option value="bga">BGA</option>
-                                    <option value="bgo">BGO</option>
-                                    <option value="bir">BIR</option>
-                                    <option value="diario">Diário Oficial</option>
-                                    <option value="ficha">Ficha</option>
-                                    <option value="relatorio">Relatório de Processos</option>
-                                
-
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                    <Col xl={3} md={6} className="text-center">
-                        <FormGroup>
-                            <Label for="numeracao">Numeração*</Label>
-                            <MaskedInput
-                                className="form-control"
-                                mask="999/9999" maskChar=""
-                                placeholder="digite aqui ..."
-                                style={{ minWidth: 182 }}
-                                name="numeracao"
-                                id="numeracao"
-                                valid={this.state.form.validation.numeracao}
-                                value={this.state.form.numeracao} 
-                                onChange={this.changeHandler}>
-                                {(inputProps) => <Input {...inputProps} />}
-
-                            </MaskedInput>{/*
-                            <FormFeedback>Campo Obrigatório</FormFeedback>*/}
-                        </FormGroup>
-                    </Col>
-                    <Col xl={3} md={6} className="text-center" >
-                        <FormGroup>
-                            <Label for="data">Data*</Label>
-                            <Datetime
-                                dateFormat="DD-MM-YYYY"
-                                timeFormat={false}
-                                name="data"
-                                id="data"
-                                value={this.state.form.data} onChange={moment => this.changeHandler({ target: { name: "data", value: moment } })}
-                                inputProps={{ valid: this.state.form.validation.data, required: true  
-                                }}
-                                renderInput={this.renderInput}
-                            />
-                            <FormFeedback>Campo Obrigatório</FormFeedback>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row style={{ justifyContent: 'center', alignItems: 'center' }} >
-                    <Col xl={5} md={8} className="text-center" >
-                        {/* <UploadFiles /> */}
-                        <Dropzone className="card p-3" onDrop={this.onDrop} required>
-                            <div className="text-center box-placeholder m-0">Arraste os arquivos aqui, ou clique para seleciona-los</div>
-                            <div className="mt-3">
-                                {this.state.files.length > 0 ?
-                                    <Row>{allFiles.map(this.createImageItem)}</Row>
-                                    :
-                                    <div><small>Sem preview no momento.</small></div>
-                                }
-                            </div>
-                        </Dropzone>
-                    </Col>
-                </Row>
-                <Button class="btn btn-primary" type="submit" onClick={this.getOcr} >Extrair texto</Button>
+        <div className="d-flex align-items-center justify-content-center container container-table" style={{"height": "800px"}}>
+        <Card style={ {"width": "900px", "height": "720px", borderRadius: '20px', "box-shadow": "#ccc"}} class="shadow-lg p-3 mb-5 bg-white rounded ">
+            <CardHeader><h3>Cadastro de documentos</h3></CardHeader>
+            <CardBody>
+                <Row>
                 
-                <hr />
-                {this.state.form.txt.map((document, index) => {
-
-                    return (
-                        <Swal options={{
-                            width: "80%",
-                            showConfirmButton: true,
-                            showCloseButton: true,
-                            html: (<SwalDoc n={index} value={document} img={this.state.files[0].preview} changeHandler={this.changeHandler} />)
-                        }} className="btn" key={this.n++}>
-                            <img src={this.state.files[0].preview} height="300" />
-                        </Swal>
-                    )
-                })}
-                </Form>
-            </ContentWrapper>
-        );
-    }
+                    <Col xs="4" style={{ justifyContent: 'center', alignItems: 'center'}} className="border-end">
+                        <Nav pills vertical={true} >
+                            <NavItem  >
+                                <Button
+                                    outline color="danger"
+                                    tag="div"
+                                    className={classnames({
+                                        active: this.state.activeStep === '1'
+                                    }) }
+                                    onClick={this.toggleStep('1')}
+                                    style={{ "width": "230px",borderRadius: '15px', border: '2px solid'}}
+                                >
+                                    <h4 style={{"font-size":"1.8rem"}} className="text-center my-3">Dados iniciais</h4>
+                                </Button>
+                                <div style={{"height" : "25px"}}></div>
+                            </NavItem>
+                            <NavItem >
+                                <Button
+                                    outline color="danger"
+                                    tag="div"
+                                    className={classnames({
+                                        active: this.state.activeStep === '2'
+                                    })}
+                                    onClick={this.toggleStep('2')}
+                                    style={{ "width": "230px",borderRadius: '15px', border: '2px solid'}}
+                                >
+                                    <h4 style={{"font-size":"1.7rem"}} className="text-center my-3">Edição</h4>
+                                </Button>
+                                <div style={{"height" : "25px"}}></div>
+                            </NavItem>
+                            <NavItem >
+                                <Button
+                                    outline color="danger"
+                                    tag="div"
+                                    className={classnames({
+                                        active: this.state.activeStep === '3'
+                                    })}
+                                    onClick={this.toggleStep('3')}
+                                    style={{ "width": "230px",borderRadius: '15px', border: '2px solid'}}
+                                >
+                                    <h4 style={{"font-size":"1.7rem"}} className=" text-center my-3">Arquivos</h4>
+                                </Button>
+                                <div style={{"height" : "25px"}}></div>
+                            </NavItem>
+                            <NavItem >
+                                <Button
+                                    outline color="danger"
+                                    tag="div"
+                                    className={classnames({
+                                        active: this.state.activeStep === '4'
+                                    })}
+                                    onClick={this.toggleStep('4')}
+                                    style={{ "width": "230px",borderRadius: '15px', border: '2px solid',}}
+                                >
+                                    <h4 style={{"font-size":"1.7rem"}} className="text-center my-3">Militares</h4>
+                                </Button>
+                                <div style={{"height" : "25px"}}></div>          
+                            </NavItem>
+                        </Nav>        
+                    </Col>
+                    <Col xs="8">
+                        <TabContent activeTab={this.state.activeStep} className="border-0">
+                            <TabPane tabId="1">
+                                <div className="pt-3 mb-3">
+                                    <fieldset>
+                                        <h2>Dados Iniciais</h2>
+                                        <p className="lead">
+                                            Arroz.{' '}
+                                        </p>
+                                    </fieldset>
+                                </div>
+                                <hr />
+                                <div className="d-flex">
+                                    <Button
+                                        className="ml-auto"
+                                        color = "success"
+                                        onClick={this.toggleStep('2')}
+                                    >
+                                        Avançar
+                                    </Button>
+                                </div>
+                            </TabPane>
+                            <TabPane tabId="2">
+                                <div className="pt-3 mb-3">
+                                    <fieldset>
+                                        <h2>Edição</h2>
+                                        <p className="lead">
+                                            Feijão{' '}
+                                        </p>
+                                    </fieldset>
+                                </div>
+                                <hr />
+                                <div className="d-flex">
+                                    <Button color="danger" onClick={this.toggleStep('1')}>
+                                        Voltar
+                                    </Button>
+                                    <Button
+                                        className="ml-auto"
+                                        color = "success"
+                                        onClick={this.toggleStep('3')}
+                                    >
+                                        Avançar
+                                    </Button>
+                                </div>
+                                </TabPane>
+                            <TabPane tabId="3">
+                                <div className="pt-3 mb-3">
+                                    <fieldset>
+                                        <h2>Arquivos</h2>
+                                        <p className="lead">
+                                            Batata{' '}
+                                        </p>
+                                    </fieldset>
+                                </div>
+                                <hr />
+                                <div className="d-flex">
+                                    <Button color="danger" onClick={this.toggleStep('2')}>
+                                        Voltar
+                                    </Button>
+                                    <Button
+                                        className="ml-auto"
+                                        color = "success"
+                                        onClick={this.toggleStep('4')}
+                                    >
+                                        Avançar
+                                    </Button>
+                                </div>
+                            </TabPane>
+                            <TabPane tabId="4">
+                                <div className="pt-3 mb-3">
+                                    <fieldset>
+                                        <h2>Militares</h2>
+                                        <p className="lead">
+                                            Arroz, feijão e batata.{' '}
+                                        </p>
+                                    </fieldset>
+                                </div>
+                                <hr />
+                                <div className="d-flex">
+                                    <Button color="danger" onClick={this.toggleStep('3')}>
+                                        Voltar
+                                    </Button>
+                                    <Button
+                                        className="ml-auto" //submit
+                                        color="success" 
+                                        onClick={this.done} //fazer oq?
+                                    >
+                                        Cadastrar
+                                    </Button>
+                                </div>
+                            </TabPane>
+                        </TabContent>
+                    </Col>
+                </Row>
+            </CardBody>
+        </Card>
+    </div>
+    );
+  }
 }
 
-export default withTranslation()(Cadastro);
+export default FormWizardVertical;
+
+
+

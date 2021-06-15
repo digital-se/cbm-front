@@ -51,16 +51,18 @@ class SearchResult extends React.Component {
         this.setState({height: window.outerHeight*0.575 + 'px'}); //remover, manter 620 como padrão é melhor :s
       }
 
+
     render() {
         return (
         
+        
         <ContentWrapper>
+        
             <div className="d-flex align-items-center justify-content-center container container-table" style={{"height": "630px"}}>
                 <Row style={{ justifyContent: 'center', alignItems: 'center',display:'flex'}} class="col-xs-4 col-xs-offset-4">
-                    <Card style={ {"width": "520px", "height": "570px"}} class="shadow-lg p-3 mb-5 bg-white rounded">
+                    <Card style={ {"width": "520px", "height": "570px", borderRadius: '20px', "box-shadow": "#ccc"}} class="shadow-lg p-3 mb-5 bg-white rounded">
 
                         <CardHeader><center><h1 style={{"font-size":"4.5rem"}}>Home</h1></center></CardHeader>
-
                             <CardBody>
                                 <div style={{"height" : "40px"}}></div>
                                 <Col style={{ justifyContent: 'center', alignItems: 'center'}}>
@@ -69,7 +71,7 @@ class SearchResult extends React.Component {
                                                     alignItems: 'center'}}>
                                             <Link to={"/busca"} style={{ color: '#fff',textDecoration: 'none'}}> 
                                             {/*atualizar para nav e aumentar uns 25% de tudo ai*/}
-                                                <div style={{ "width": "350px","height": "130px"}} className="card flex-row align-items-center align-items-stretch border-0 rounded-3">
+                                                <div style={{ "width": "350px","height": "130px", borderRadius: '20px'}} className="card flex-row align-items-center align-items-stretch border-0 rounded">
                                                     <div style = {{ backgroundColor: '#fff'}} className="btn-outline-light"></div>
                                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
                                                         <em className="fa icon-magnifier fa-3x" />
