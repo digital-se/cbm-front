@@ -32,7 +32,6 @@ class SwalDoc extends Component {
     }
 
     componentDidMount = async () => {
-        // let tamanho = await this.getMeta(this.img)
         let tamanho = Math.floor(this.ref.current.offsetHeight / 23)
         this.setState({ txtSize: tamanho })
     }
