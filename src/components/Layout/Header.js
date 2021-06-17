@@ -78,6 +78,7 @@ class Header extends Component {
                         </li>
                     </ul>
                     { /* END Left navbar */}
+                    
                     { /* START Right Navbar */}
                     <ul className="navbar-nav flex-row">
                         { /* Search icon */}
@@ -106,6 +107,7 @@ class Header extends Component {
                         <button className="d-none" type="submit">Submit</button>
                     </form>
                     { /* END Search form */}
+                    { /* ADD o status de funcionario logado, como? descubra nos próximos capitulos */}
                 </nav>
                 { /* END Top Navbar */}
             </header>
