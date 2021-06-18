@@ -327,7 +327,7 @@ class Cadastro extends Component {
                                                     <fieldset>
                                                         <h2>Arquivos</h2>
                                                         <p className="lead">
-                                                            Gerencie os arquivos neste documento
+                                                            Gerencie os arquivos neste documento!
                                                         </p>
                                                         <hr />
                                                         <h3>Insira um Arquivo {this.state.files.length}</h3>
