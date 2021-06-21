@@ -17,7 +17,7 @@ const Base = props => (
             {props.children}
         </section>
 
-        <Footer />
+        {/* <Footer /> */}
     </div>
 )
 

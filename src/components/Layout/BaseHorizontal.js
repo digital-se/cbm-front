@@ -28,7 +28,7 @@ class BaseHorizontal extends Component {
                     {this.props.children}
                 </section>
 
-                <Footer />
+                {/* <Footer /> */}
             </div>
         );
     }
