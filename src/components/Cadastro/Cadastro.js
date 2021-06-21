@@ -4,6 +4,7 @@ import ContentWrapper from '../Layout/ContentWrapper';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label, FormText, FormFeedback } from 'reactstrap';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 import {
     Card,
@@ -20,12 +21,15 @@ import {
     NavLink,
     ButtonGroup,
     Row,
-    Col
+    Col,
+    Table
 } from 'reactstrap';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
 import { thresholdFreedmanDiaconis } from 'd3';
+
+import Swal from '../Comp/Swal';
 
 const stepNavitemStyle = {
     backgroundColor: '#fcfcfc' //padronization
@@ -34,6 +38,7 @@ const stepNavitemStyle = {
 class Cadastro extends Component {
     state = {
         activeStep: '1',
+        windowSize: '900px',
         form: {
             nome: "",
             numeracao: "",
@@ -42,8 +47,11 @@ class Cadastro extends Component {
             data: "",
             descrição: "",
             matricula: "",
+            typeBusca: "",
+            valorBusca: "",
         },
-        matriculas: [],
+        busca: [{ nome: "a", matricula: "b" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }],
+        militares: [],
         files: []
     };
 
@@ -86,10 +94,58 @@ class Cadastro extends Component {
     };
 
     createImageItem = (file, index) => (
-        <Col md={3} key={index}>
-            <img className="img-fluid mb-2" src={file.preview} alt="Item" />
-        </Col>
+        <tr key={index}>
+            <th scope="row">{index + 1}</th>
+            <td>{file.name}</td>
+            <td>
+                <Swal options={{
+                    imageUrl: file.preview,
+                    //imageHeight: 1500,
+                    width: "80%",
+                    imageAlt: 'Carregando...',
+                    showConfirmButton: false,
+                    showCloseButton: true
+                }} className="btn m-0 p-0">
+                    <Button color="primary">a</Button>
+                </Swal>
+                <Button color="danger">b</Button>
+                <Button color="warning">c</Button>
+                <Button color="secondary">d</Button>
+            </td>
+        </tr>
     )
+
+    createBuscaItem = (militar, index) => (
+        <tr key={index}>
+            <th scope="row">{index + 1}</th>
+            <td>{militar.nome}</td>
+            <td>{militar.matricula}</td>
+            <td>
+                <Button color="success" onClick={() => this.addMilitar(militar)}>+</Button>
+            </td>
+        </tr>
+    )
+
+    createMilitarItem = (militar, index) => (
+        <tr key={index}>
+            <th scope="row">{index + 1}</th>
+            <td>{militar.nome}</td>
+            <td>{militar.matricula}</td>
+            <td>
+                <Button color="danger" onClick={() => this.removeMilitar(index)}>-</Button>
+            </td>
+        </tr>
+    )
+
+    removeMilitar = async (index) => {
+        this.state.militares.splice(index, 1)
+        await this.setState({ militares: this.state.militares })
+    }
+
+    addMilitar = async (militar) => {
+        this.state.militares.push(militar)
+        await this.setState({ militares: this.state.militares })
+    }
 
     selectedFiles = () => {
         return (
@@ -97,31 +153,30 @@ class Cadastro extends Component {
         )
     }
 
-    addMatricula = async () => {
-        await this.setState({ matriculas: [...this.state.matriculas, this.state.form.matricula] });
-        console.log(this.state.matriculas);
+    addMilitares = async () => {
+        await this.setState({ militares: [...this.state.militares, this.state.form.matricula] });
+        console.log(this.state.militares);
     }
 
     onSubmit = (e) => {
         e.preventDefault()
     }
 
-    cleanMatricula = async () => {
-        await this.setState({ matriculas: [] })
+    cleanMilitares = async () => {
+        await this.setState({ militares: [] })
     }
 
     render() {
-        const allFiles = this.state.files;
         return (
-            <div className="d-flex align-items-center justify-content-center container container-table" style={{ "height": "800px" }}>
+            <div className="d-flex align-items-center justify-content-center container container-table" style={{ "height": "900px" }}>
                 <Form onSubmit={this.onSubmit}>
-                    <Card style={{ "width": "900px", "height": "720px", borderRadius: '20px', "box-shadow": "#ccc", minWidth: "800px" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
+                    <Card style={{ "width": this.state.activeStep == '4' ? "1200px" : "900px", "height": "850px", borderRadius: '20px', "box-shadow": "#ccc", minWidth: "800px", backgroundColor: "#FFF" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
                         <CardHeader><h3>Cadastro de documentos</h3></CardHeader>
                         <CardBody>
                             <Row>
                                 <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Nav pills vertical={true} >
-                                        <NavItem  >
+                                        <NavItem >
                                             <Button
                                                 outline color="danger"
                                                 tag="div"
@@ -340,7 +395,18 @@ class Cadastro extends Component {
                                                         </Dropzone>
                                                         <div className="mt-3">
                                                             {this.state.files.length > 0 ?
-                                                                <Row>{allFiles.map(this.createImageItem)}</Row>
+                                                                (<div style={{ "maxHeight": "250px", "overflow": "auto" }}>
+                                                                    <Table>
+                                                                        <thead>
+                                                                            <th>#</th>
+                                                                            <th>Nome do Arquivo</th>
+                                                                            <th>Ações</th>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.state.files.map(this.createImageItem)}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>)
                                                                 :
                                                                 <div><small>Sem preview no momento.</small></div>
                                                             }
@@ -368,16 +434,32 @@ class Cadastro extends Component {
                                                             Adicione os militares que estão ligados ao documento
                                                         </p>
                                                         <hr />
+                                                        <div style={{ "height": "25px" }} />
+                                                        <FormGroup>
+                                                            <Label for="typeBusca"><h3>Busca por nome ou matrícula de militares</h3></Label>
+                                                            <Input className="form-control"
+                                                                type="select"
+                                                                name="typeBusca"
+                                                                id="typeBusca"
+                                                                value={this.state.form.typeBusca}
+                                                                onChange={this.changeHandler}
+                                                            >
+                                                                <option disabled value="">Tipo da busca</option>
+                                                                <option value="nome">Nome</option>
+                                                                <option value="matrícula">Matrícula</option>
+                                                            </Input>
+                                                        </FormGroup>
+                                                        <div style={{ "height": "25px" }} />
                                                         <FormGroup >
-                                                            <Label for="matricula"><h3>Inserir matricula do militar * {this.state.form.militares}</h3></Label>
+                                                            <Label for="matricula"><h3>Buscar {this.state.form.typeBusca}</h3></Label>
                                                             <Row>
                                                                 <Col sm={8}>
                                                                     <Input
                                                                         className="form-control"
-                                                                        placeholder="Insira a matricula"
+                                                                        placeholder={this.state.form.typeBusca}
                                                                         name="matricula"
                                                                         id="matricula"
-                                                                        value={this.state.form.matricula}
+                                                                        value={this.state.form.matricula}//busca
                                                                         onChange={this.changeHandler}
                                                                     >
                                                                     </Input>
@@ -385,14 +467,14 @@ class Cadastro extends Component {
                                                                 <Col sm={2}>
                                                                     <Button
                                                                         className="ml-2"
-                                                                        onClick={this.addMatricula}
+                                                                        onClick={this.addMilitares} //busca
                                                                         color="success"
                                                                         style={{ "height": "35px" }}
                                                                     >
-                                                                        Adicionar
+                                                                        Buscar
                                                                     </Button>
                                                                 </Col>
-                                                                <Col sm={2}>
+                                                                {/* <Col sm={2}>
                                                                     <Button
                                                                         className="ml-2"
                                                                         onClick={this.cleanMatricula}
@@ -401,28 +483,58 @@ class Cadastro extends Component {
                                                                     >
                                                                         Limpar
                                                                     </Button>
-                                                                </Col>
+                                                                </Col> */}
                                                             </Row>
-                                                            <div>
-                                                                <ul>
-                                                                    {this.state.matriculas.map((value, index) =>
-                                                                        <li key={index}>{value}</li>)}
-                                                                </ul>
-                                                            </div>
-                                                        </FormGroup>
-                                                        <div style={{ "height": "25px" }} />
-                                                        <FormGroup>
-                                                            <Label for="buscaNome"><h3>Busca por nome do militar</h3></Label>
-                                                            <Input className="form-control"
-                                                                placeholder="Buscar por nome"
-                                                                name="buscaNome"
-                                                                id="buscaNome"
-                                                                value={this.state.form.militares}
-                                                                onChange={this.changeHandler}
-                                                            >
-                                                            </Input>
                                                         </FormGroup>
                                                     </fieldset>
+                                                    {/* <div>
+                                                            <ul>
+                                                                {this.state.militares.map((value, index) =>
+                                                                    <li key={index}>{value}</li>)
+                                                                }
+                                                            </ul>
+                                                        </div> */}
+                                                    <Row>
+                                                        <Col className="mt-3">
+                                                            {this.state.busca.length > 0 ?
+                                                                (<div style={{ "maxHeight": "250px", "overflow": "auto" }}>
+                                                                    <Table>
+                                                                        <thead>
+                                                                            <th>#</th>
+                                                                            <th>Nome</th>
+                                                                            <th>Matricula</th>
+                                                                            <th>Ações</th>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.state.busca.map(this.createBuscaItem)}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>)
+                                                                :
+                                                                <div><small>Sem preview no momento.</small></div>
+                                                            }
+                                                        </Col>
+                                                        <hr />
+                                                        <Col className="mt-3">
+                                                            {this.state.militares.length > 0 ?
+                                                                (<div style={{ "maxHeight": "250px", "overflow": "auto" }}>
+                                                                    <Table>
+                                                                        <thead>
+                                                                            <th>#</th>
+                                                                            <th>Nome</th>
+                                                                            <th>Matricula</th>
+                                                                            <th>Ações</th>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.state.militares.map(this.createMilitarItem)}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>)
+                                                                :
+                                                                <div><small>Sem preview no momento.</small></div>
+                                                            }
+                                                        </Col>
+                                                    </Row>
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
