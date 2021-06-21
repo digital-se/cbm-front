@@ -38,7 +38,6 @@ const stepNavitemStyle = {
 class Cadastro extends Component {
     state = {
         activeStep: '1',
-        windowSize: '900px',
         form: {
             nome: "",
             numeracao: "",
@@ -50,7 +49,7 @@ class Cadastro extends Component {
             typeBusca: "",
             valorBusca: "",
         },
-        busca: [{ nome: "a", matricula: "b" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }],
+        busca: [{ nome: "João Pedro Nimuendaju Santana Santos", matricula: "12345678T" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }],
         militares: [],
         files: []
     };
@@ -121,7 +120,7 @@ class Cadastro extends Component {
             <td>{militar.nome}</td>
             <td>{militar.matricula}</td>
             <td>
-                <Button color="success" onClick={() => this.addMilitar(militar)}>+</Button>
+                <Button color="success" onClick={() => this.addMilitar(militar, index)}>+</Button>
             </td>
         </tr>
     )
@@ -142,9 +141,10 @@ class Cadastro extends Component {
         await this.setState({ militares: this.state.militares })
     }
 
-    addMilitar = async (militar) => {
+    addMilitar = async (militar, index) => {
         this.state.militares.push(militar)
-        await this.setState({ militares: this.state.militares })
+        this.state.busca.splice(index, 1)
+        await this.setState({ militares: this.state.militares, busca: this.state.busca })
     }
 
     selectedFiles = () => {
@@ -168,131 +168,144 @@ class Cadastro extends Component {
 
     render() {
         return (
-            <div className="d-flex align-items-center justify-content-center container container-table" style={{ "height": "900px" }}>
+            <div className="d-flex align-items-center justify-content-center container container-table">
                 <Form onSubmit={this.onSubmit}>
-                    <Card style={{ "width": this.state.activeStep == '4' ? "1200px" : "900px", "height": "850px", borderRadius: '20px', "box-shadow": "#ccc", minWidth: "800px", backgroundColor: "#FFF" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
+                    <div style={{ "height": "25px" }} />
+                    <Card style={{ "height": "830px", borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
                         <CardHeader><h3>Cadastro de documentos</h3></CardHeader>
                         <CardBody>
                             <Row>
-                                <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Col md={12} lg={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Nav pills vertical={true} >
-                                        <NavItem >
-                                            <Button
-                                                outline color="danger"
-                                                tag="div"
-                                                className={classnames({
-                                                    active: this.state.activeStep === '1'
-                                                })}
-                                                onClick={this.toggleStep('1')}
-                                                style={{ "width": "230px", borderRadius: '15px', border: '2px solid' }}
-                                            >
-                                                <h4 style={{ "font-size": "1.8rem" }} className="text-center my-3">Dados iniciais</h4>
-                                            </Button>
-                                            <div style={{ "height": "25px" }}></div>
-                                        </NavItem>
-                                        <NavItem >
-                                            <Button
-                                                outline color="danger"
-                                                tag="div"
-                                                className={classnames({
-                                                    active: this.state.activeStep === '2'
-                                                })}
-                                                onClick={this.toggleStep('2')}
-                                                style={{ "width": "230px", borderRadius: '15px', border: '2px solid' }}
-                                            >
-                                                <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Edição</h4>
-                                            </Button>
-                                            <div style={{ "height": "25px" }}></div>
-                                        </NavItem>
-                                        <NavItem >
-                                            <Button
-                                                outline color="danger"
-                                                tag="div"
-                                                className={classnames({
-                                                    active: this.state.activeStep === '3'
-                                                })}
-                                                onClick={this.toggleStep('3')}
-                                                style={{ "width": "230px", borderRadius: '15px', border: '2px solid' }}
-                                            >
-                                                <h4 style={{ "font-size": "1.7rem" }} className=" text-center my-3">Arquivos</h4>
-                                            </Button>
-                                            <div style={{ "height": "25px" }}></div>
-                                        </NavItem>
-                                        <NavItem >
-                                            <Button
-                                                outline color="danger"
-                                                tag="div"
-                                                className={classnames({
-                                                    active: this.state.activeStep === '4'
-                                                })}
-                                                onClick={this.toggleStep('4')}
-                                                style={{ "width": "230px", borderRadius: '15px', border: '2px solid', }}
-                                            >
-                                                <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Militares</h4>
-                                            </Button>
-                                            <div style={{ "height": "25px" }} />
-                                        </NavItem>
+                                        <Row>
+                                            <Col sm={6} lg={12}>
+                                                <NavItem >
+                                                    <Button
+                                                        outline color="danger"
+                                                        tag="div"
+                                                        className={classnames({
+                                                            active: this.state.activeStep === '1'
+                                                        })}
+                                                        onClick={this.toggleStep('1')}
+                                                        style={{ borderRadius: '15px', border: '2px solid' }}
+                                                        block
+                                                    >
+                                                        <h4 style={{ "font-size": "1.8rem" }} className="text-center my-3">Dados iniciais</h4>
+                                                    </Button>
+                                                    <div style={{ "height": "25px" }}></div>
+                                                </NavItem>
+                                            </Col>
+                                            <Col sm={6} lg={12}>
+                                                <NavItem >
+                                                    <Button
+                                                        outline color="danger"
+                                                        tag="div"
+                                                        className={classnames({
+                                                            active: this.state.activeStep === '2'
+                                                        })}
+                                                        onClick={this.toggleStep('2')}
+                                                        style={{ borderRadius: '15px', border: '2px solid' }}
+                                                        block
+                                                    >
+                                                        <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Edição</h4>
+                                                    </Button>
+                                                    <div style={{ "height": "25px" }}></div>
+                                                </NavItem>
+                                            </Col>
+                                            <Col sm={6} lg={12}>
+                                                <NavItem >
+                                                    <Button
+                                                        outline color="danger"
+                                                        tag="div"
+                                                        className={classnames({
+                                                            active: this.state.activeStep === '3'
+                                                        })}
+                                                        onClick={this.toggleStep('3')}
+                                                        style={{ borderRadius: '15px', border: '2px solid' }}
+                                                        block
+                                                    >
+                                                        <h4 style={{ "font-size": "1.7rem" }} className=" text-center my-3">Arquivos</h4>
+                                                    </Button>
+                                                    <div style={{ "height": "25px" }}></div>
+                                                </NavItem>
+                                            </Col>
+                                            <Col sm={6} lg={12}>
+                                                <NavItem >
+                                                    <Button
+                                                        outline color="danger"
+                                                        tag="div"
+                                                        className={classnames({
+                                                            active: this.state.activeStep === '4'
+                                                        })}
+                                                        onClick={this.toggleStep('4')}
+                                                        style={{ borderRadius: '15px', border: '2px solid', }}
+                                                        block
+                                                    >
+                                                        <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Militares</h4>
+                                                    </Button>
+                                                    <div style={{ "height": "25px" }} />
+                                                </NavItem>
+                                            </Col>
+                                        </Row>
                                     </Nav>
                                 </Col>
-                                <div style={{ "height": "550px", borderLeft: ' 2px solid' }} />
-                                <Col xs="8">
+                                {/*linha vertical*/}
+                                <div style={{ "height": "600 px", borderLeft: ' 0.1px solid' }} />
+                                <Col>
                                     <div className="justify-content-center align-items-center">
                                         <TabContent activeTab={this.state.activeStep} className="border-0">
                                             <TabPane tabId="1">
                                                 <div className="pt-3 mb-3">
                                                     <fieldset>
+                                                        {/* <FormGroup> */}
+                                                        <div className="border-bottom">
+                                                            <h2>Dados Iniciais</h2>
+                                                            <p className="lead">
+                                                                Digite as informações essenciais do arquivo
+                                                            </p>
+                                                        </div> <div style={{ "height": "25px" }} />
                                                         <FormGroup>
-                                                            <div className="border-bottom">
-                                                                <h2>Dados Iniciais</h2>
-                                                                <p className="lead">
-                                                                    Digite as informações essenciais do arquivo
-                                                                </p>
-                                                            </div> <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="nome"><h3>Nome do Documento *</h3></Label>
-                                                                <Input
-                                                                    className="form-control"
-                                                                    placeholder="Insira o nome do documento"
-                                                                    style={{ minWidth: 182 }}
-                                                                    name="nome"
-                                                                    id="nome"
-                                                                    value={this.state.form.nome}
-                                                                    onChange={this.changeHandler}>
-                                                                </Input>
-                                                            </FormGroup>
-                                                            <div >
-                                                                <ul>
-                                                                </ul>
-                                                            </div>
-                                                            <FormGroup>
-                                                                <Label for="numeracao"><h3>Numeração do documento (Opcional)</h3></Label>
-                                                                <Input
-                                                                    className="form-control"
-                                                                    placeholder="Ex: 123456"
-                                                                    style={{ minWidth: 182 }}
-                                                                    name="numeracao"
-                                                                    id="numeracao"
-                                                                    value={this.state.form.numeração}
-                                                                    onChange={this.changeHandler}>
-                                                                    {(inputProps) => <Input {...inputProps} />}
-                                                                </Input>
-                                                            </FormGroup>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="visibilidade"><h3>Quem pode ver esse documento? {this.state.form.visibilidade}</h3></Label>
-                                                                <Input className="select"
-                                                                    type="select"
-                                                                    name="visibilidade"
-                                                                    id="visibilidade"
-                                                                    value={this.state.form.visibilidade}
-                                                                    onChange={this.changeHandler}
-                                                                >
-                                                                    <option disabled value="">Selecione</option>
-                                                                    <option value={true}>Todos</option>
-                                                                    <option value={false}>Pessoas autorizadas</option>
-                                                                </Input>
-                                                            </FormGroup>
+                                                            <Label for="nome"><h3>Nome do Documento *</h3></Label>
+                                                            <Input
+                                                                className="form-control"
+                                                                placeholder="Insira o nome do documento"
+                                                                style={{ minWidth: 182 }}
+                                                                name="nome"
+                                                                id="nome"
+                                                                value={this.state.form.nome}
+                                                                onChange={this.changeHandler}>
+                                                            </Input>
                                                         </FormGroup>
+                                                        <div style={{ "height": "25px" }} />
+                                                        <FormGroup>
+                                                            <Label for="numeracao"><h3>Numeração do documento (Opcional)</h3></Label>
+                                                            <Input
+                                                                className="form-control"
+                                                                placeholder="Ex: 123456"
+                                                                style={{ minWidth: 182 }}
+                                                                name="numeracao"
+                                                                id="numeracao"
+                                                                value={this.state.form.numeração}
+                                                                onChange={this.changeHandler}>
+                                                                {(inputProps) => <Input {...inputProps} />}
+                                                            </Input>
+                                                        </FormGroup>
+                                                        <div style={{ "height": "25px" }} />
+                                                        <FormGroup>
+                                                            <Label for="visibilidade"><h3>Quem pode ver esse documento? {this.state.form.visibilidade}</h3></Label>
+                                                            <Input className="select"
+                                                                type="select"
+                                                                name="visibilidade"
+                                                                id="visibilidade"
+                                                                value={this.state.form.visibilidade}
+                                                                onChange={this.changeHandler}
+                                                            >
+                                                                <option disabled value="">Selecione</option>
+                                                                <option value={true}>Todos</option>
+                                                                <option value={false}>Pessoas autorizadas</option>
+                                                            </Input>
+                                                        </FormGroup>
+                                                        {/* </FormGroup> */}
                                                     </fieldset>
                                                 </div>
                                                 <hr />
@@ -312,11 +325,18 @@ class Cadastro extends Component {
                                             <TabPane tabId="2">
                                                 <div className="pt-3 mb-3">
                                                     <fieldset>
-                                                        <h2>Edição</h2>
+                                                        {/* <h2>Edição</h2>
                                                         <p className="lead">
                                                             Informações do documento
                                                         </p>
-                                                        <hr />
+                                                        <hr /> */}
+                                                        <div className="border-bottom">
+                                                            <h2>Edição</h2>
+                                                            <p className="lead">
+                                                                Digite mais informações sobre o documento
+                                                            </p>
+                                                        </div>
+                                                        <div style={{ "height": "25px" }} />
                                                         <FormGroup>
                                                             <Label for="selectTipo"><h3>Tipo de Documento*</h3></Label>
                                                             <Input
@@ -356,7 +376,7 @@ class Cadastro extends Component {
                                                                 name="descrição"
                                                                 id="descrição"
                                                                 maxlength="300"
-                                                                value={this.state.form.descrição}
+                                                                value={this.    state.form.descrição}
                                                                 onChange={this.changeHandler}
                                                                 style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
                                                             />
@@ -450,42 +470,44 @@ class Cadastro extends Component {
                                                             </Input>
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
-                                                        <FormGroup >
-                                                            <Label for="matricula"><h3>Buscar {this.state.form.typeBusca}</h3></Label>
-                                                            <Row>
-                                                                <Col sm={8}>
-                                                                    <Input
-                                                                        className="form-control"
-                                                                        placeholder={this.state.form.typeBusca}
-                                                                        name="matricula"
-                                                                        id="matricula"
-                                                                        value={this.state.form.matricula}//busca
-                                                                        onChange={this.changeHandler}
-                                                                    >
-                                                                    </Input>
-                                                                </Col>
-                                                                <Col sm={2}>
-                                                                    <Button
-                                                                        className="ml-2"
-                                                                        onClick={this.addMilitares} //busca
-                                                                        color="success"
-                                                                        style={{ "height": "35px" }}
-                                                                    >
-                                                                        Buscar
-                                                                    </Button>
-                                                                </Col>
-                                                                {/* <Col sm={2}>
-                                                                    <Button
-                                                                        className="ml-2"
-                                                                        onClick={this.cleanMatricula}
-                                                                        color="danger"
-                                                                        style={{ "height": "35px" }}
-                                                                    >
-                                                                        Limpar
-                                                                    </Button>
-                                                                </Col> */}
-                                                            </Row>
-                                                        </FormGroup>
+                                                        <Card>
+                                                            <FormGroup >
+                                                                <Label for="matricula"><h3>Buscar {this.state.form.typeBusca}</h3></Label>
+                                                                <Row>
+                                                                    <Col sm={8}>
+                                                                        <Input
+                                                                            className="form-control"
+                                                                            placeholder={this.state.form.typeBusca}
+                                                                            name="matricula"
+                                                                            id="matricula"
+                                                                            value={this.state.form.matricula}//busca 
+                                                                            onChange={this.changeHandler}
+                                                                        >
+                                                                        </Input>
+                                                                    </Col>
+                                                                    <Col sm={2}>
+                                                                        <Button
+                                                                            className="ml-2"
+                                                                            onClick={this.addMilitares} //busca
+                                                                            color="success"
+                                                                            style={{ "height": "35px" }}
+                                                                        >
+                                                                            Buscar
+                                                                        </Button>
+                                                                    </Col>
+                                                                    {/* <Col sm={2}>
+                                                                        <Button
+                                                                            className="ml-2"
+                                                                            onClick={this.cleanMatricula}
+                                                                            color="danger"
+                                                                            style={{ "height": "35px" }}
+                                                                        >
+                                                                            Limpar
+                                                                        </Button>
+                                                                    </Col> */}
+                                                                </Row>
+                                                            </FormGroup>
+                                                        </Card>
                                                     </fieldset>
                                                     {/* <div>
                                                             <ul>
