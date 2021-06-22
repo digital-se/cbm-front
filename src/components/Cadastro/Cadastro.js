@@ -49,10 +49,50 @@ class Cadastro extends Component {
             typeBusca: "",
             valorBusca: "",
         },
+        fullValidate: false,
+        validation: {
+            nome: false,
+            visibilidade: false,
+            tipo: false,
+            data: false,
+            descrição: false,
+        },
         busca: [{ nome: "João Pedro Nimuendaju Santana Santos", matricula: "12345678T" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }],
         militares: [],
         files: []
     };
+
+    validate = async () => {
+        if(this.state.form.nome.length === "") {
+            await this.setState({validation: {...this.state.validation,  nome: false } });
+        } else {
+            await this.setState({validation: {...this.state.validation,  nome: true } });
+        }
+
+        if(this.state.form.visibilidade === "") {
+            await this.setState({validation: {...this.state.validation,  visibilidade: false } });
+        } else {
+            await this.setState({validation: {...this.state.validation,  visibilidade: true } });
+        }
+
+        if(this.state.form.tipo === "") {
+            await this.setState({validation: {...this.state.validation,  tipo: false } });
+        } else {
+            await this.setState({validation: {...this.state.validation,  tipo: true } });
+        }
+
+        if (this.state.validation.numeracao === "") { //questionavel
+            await this.setState({validation: {...this.state.validation,  numeracao: false } });
+        } else {
+            await this.setState({validation: {...this.state.validation,  numeracao: true } });
+        }
+        
+        if (this.state.form.data.length <= 10) {
+            await this.setState({validation: {...this.state.validation,  data: false } });
+        } else {
+            await this.setState({validation: {...this.state.validation,  data: true } });
+        }    
+    }
 
     changeHandler = async (e) => {
         try {
@@ -60,10 +100,10 @@ class Cadastro extends Component {
         } catch (error) {
             console.log(error)
         }
-        console.log("changeHandler")
-        console.log(e)
-        console.log(this.state)
+
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
+        console.log(this.state)
+        this.validate();
     }
 
     toggleStep = activeStep => () => {
@@ -72,10 +112,6 @@ class Cadastro extends Component {
                 activeStep
             });
         }
-    };
-
-    done = () => {
-        alert('cavalo');
     };
 
     onDrop = acceptedFiles => {
@@ -159,7 +195,10 @@ class Cadastro extends Component {
     }
 
     onSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        this.setState()
+        
     }
 
     cleanMilitares = async () => {
@@ -168,17 +207,16 @@ class Cadastro extends Component {
 
     render() {
         return (
-            <div className="d-flex align-items-center justify-content-center container container-table">
+            <div className="d-flex align-items-center justify-content-center container container-table pt-4">
                 <Form onSubmit={this.onSubmit}>
-                    <div style={{ "height": "25px" }} />
-                    <Card style={{ "height": "830px", borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
+                    <Card style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
                         <CardHeader><h3>Cadastro de documentos</h3></CardHeader>
                         <CardBody>
                             <Row>
                                 <Col md={12} lg={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Nav pills vertical={true} >
                                         <Row>
-                                            <Col sm={6} lg={12}>
+                                            <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
                                                         outline color="danger"
@@ -195,7 +233,7 @@ class Cadastro extends Component {
                                                     <div style={{ "height": "25px" }}></div>
                                                 </NavItem>
                                             </Col>
-                                            <Col sm={6} lg={12}>
+                                            <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
                                                         outline color="danger"
@@ -206,13 +244,14 @@ class Cadastro extends Component {
                                                         onClick={this.toggleStep('2')}
                                                         style={{ borderRadius: '15px', border: '2px solid' }}
                                                         block
+                                                        
                                                     >
                                                         <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Edição</h4>
                                                     </Button>
                                                     <div style={{ "height": "25px" }}></div>
                                                 </NavItem>
                                             </Col>
-                                            <Col sm={6} lg={12}>
+                                            <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
                                                         outline color="danger"
@@ -229,7 +268,7 @@ class Cadastro extends Component {
                                                     <div style={{ "height": "25px" }}></div>
                                                 </NavItem>
                                             </Col>
-                                            <Col sm={6} lg={12}>
+                                            <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
                                                         outline color="danger"
@@ -250,14 +289,13 @@ class Cadastro extends Component {
                                     </Nav>
                                 </Col>
                                 {/*linha vertical*/}
-                                <div style={{ "height": "600 px", borderLeft: ' 0.1px solid' }} />
+                                <div style={{ borderWidth: '1 px', borderLeft: ' 0.1px solid' }} />
                                 <Col>
                                     <div className="justify-content-center align-items-center">
                                         <TabContent activeTab={this.state.activeStep} className="border-0">
                                             <TabPane tabId="1">
                                                 <div className="pt-3 mb-3">
                                                     <fieldset>
-                                                        {/* <FormGroup> */}
                                                         <div className="border-bottom">
                                                             <h2>Dados Iniciais</h2>
                                                             <p className="lead">
@@ -273,8 +311,12 @@ class Cadastro extends Component {
                                                                 name="nome"
                                                                 id="nome"
                                                                 value={this.state.form.nome}
-                                                                onChange={this.changeHandler}>
-                                                            </Input>
+                                                                onChange={this.changeHandler}
+                                                                valid={(this.state.form.nome != "" && this.state.validation.nome)}
+                                                                invalid={((this.state.form.nome != "" || this.state.fullValidate) && !this.state.validation.nome)}
+                                                            />
+                                                            <span>{''}</span>
+                                                            <span className="invalid-feedback">opora</span>
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
                                                         <FormGroup>
@@ -285,27 +327,28 @@ class Cadastro extends Component {
                                                                 style={{ minWidth: 182 }}
                                                                 name="numeracao"
                                                                 id="numeracao"
-                                                                value={this.state.form.numeração}
-                                                                onChange={this.changeHandler}>
-                                                                {(inputProps) => <Input {...inputProps} />}
-                                                            </Input>
+                                                                value={this.state.form.numeracao}
+                                                                onChange={this.changeHandler}
+                                                                valid={(this.state.form.numeracao.size > 0)}
+                                                                
+                                                            />
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
                                                         <FormGroup>
-                                                            <Label for="visibilidade"><h3>Quem pode ver esse documento? {this.state.form.visibilidade}</h3></Label>
+                                                            <Label for="visibilidade"><h3>Quem pode ver esse documento?</h3></Label>
                                                             <Input className="select"
                                                                 type="select"
                                                                 name="visibilidade"
                                                                 id="visibilidade"
                                                                 value={this.state.form.visibilidade}
                                                                 onChange={this.changeHandler}
+                                                                valid={(this.state.validation.visibilidade)}
                                                             >
-                                                                <option disabled value="">Selecione</option>
+                                                                <option hidden disabled value="">Selecione</option>
                                                                 <option value={true}>Todos</option>
                                                                 <option value={false}>Pessoas autorizadas</option>
                                                             </Input>
                                                         </FormGroup>
-                                                        {/* </FormGroup> */}
                                                     </fieldset>
                                                 </div>
                                                 <hr />
@@ -325,11 +368,6 @@ class Cadastro extends Component {
                                             <TabPane tabId="2">
                                                 <div className="pt-3 mb-3">
                                                     <fieldset>
-                                                        {/* <h2>Edição</h2>
-                                                        <p className="lead">
-                                                            Informações do documento
-                                                        </p>
-                                                        <hr /> */}
                                                         <div className="border-bottom">
                                                             <h2>Edição</h2>
                                                             <p className="lead">
@@ -345,14 +383,15 @@ class Cadastro extends Component {
                                                                 id="tipo"
                                                                 value={this.state.form.tipo}
                                                                 onChange={this.changeHandler}
+                                                                valid={(this.state.validation.tipo)}
                                                             >
-                                                                <option disabled value="">Escolha o tipo</option>
+                                                                <option hidden disabled value="">Escolha o tipo</option>
                                                                 <option value="bga">BGA</option>
                                                                 <option value="bgo">BGO</option>
                                                                 <option value="bir">BIR</option>
-                                                                <option value="diario">Diário Oficial</option>
-                                                                <option value="ficha">Ficha</option>
-                                                                <option value="relatorio">Relatório de Processos</option>
+                                                                <option value="diario" disabled>Diário Oficial</option>
+                                                                <option value="ficha" disabled>Ficha</option>
+                                                                <option value="relatorio" disabled>Relatório de Processos</option>
                                                             </Input>
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
@@ -365,8 +404,9 @@ class Cadastro extends Component {
                                                                 max="9999-12-30"
                                                                 value={this.state.form.data}
                                                                 onChange={this.changeHandler}
-                                                            >
-                                                            </Input>
+                                                                valid={(this.state.form.data != "" && this.state.validation.data)}
+                                                                invalid={((this.state.form.data != "" || this.state.fullValidate) && !this.state.validation.data)}
+                                                            />
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
                                                         <FormGroup>
@@ -376,9 +416,11 @@ class Cadastro extends Component {
                                                                 name="descrição"
                                                                 id="descrição"
                                                                 maxlength="300"
-                                                                value={this.    state.form.descrição}
+                                                                value={this.state.form.descrição}
                                                                 onChange={this.changeHandler}
                                                                 style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
+                                                                valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
+                                                                invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                             />
                                                         </FormGroup>
                                                     </fieldset>
@@ -448,13 +490,12 @@ class Cadastro extends Component {
                                             </TabPane>
                                             <TabPane tabId="4">
                                                 <div className="pt-3 mb-3">
-                                                    <fieldset>
+                                                    <fieldset className="mb-1 pb-1">
                                                         <h2>Militares</h2>
                                                         <p className="lead">
                                                             Adicione os militares que estão ligados ao documento
                                                         </p>
                                                         <hr />
-                                                        <div style={{ "height": "25px" }} />
                                                         <FormGroup>
                                                             <Label for="typeBusca"><h3>Busca por nome ou matrícula de militares</h3></Label>
                                                             <Input className="form-control"
@@ -464,13 +505,13 @@ class Cadastro extends Component {
                                                                 value={this.state.form.typeBusca}
                                                                 onChange={this.changeHandler}
                                                             >
-                                                                <option disabled value="">Tipo da busca</option>
+                                                                <option hidden disabled value="">Tipo da busca</option>
                                                                 <option value="nome">Nome</option>
                                                                 <option value="matrícula">Matrícula</option>
                                                             </Input>
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
-                                                        <Card>
+                                                        <div>
                                                             <FormGroup >
                                                                 <Label for="matricula"><h3>Buscar {this.state.form.typeBusca}</h3></Label>
                                                                 <Row>
@@ -482,8 +523,7 @@ class Cadastro extends Component {
                                                                             id="matricula"
                                                                             value={this.state.form.matricula}//busca 
                                                                             onChange={this.changeHandler}
-                                                                        >
-                                                                        </Input>
+                                                                        />
                                                                     </Col>
                                                                     <Col sm={2}>
                                                                         <Button
@@ -495,31 +535,14 @@ class Cadastro extends Component {
                                                                             Buscar
                                                                         </Button>
                                                                     </Col>
-                                                                    {/* <Col sm={2}>
-                                                                        <Button
-                                                                            className="ml-2"
-                                                                            onClick={this.cleanMatricula}
-                                                                            color="danger"
-                                                                            style={{ "height": "35px" }}
-                                                                        >
-                                                                            Limpar
-                                                                        </Button>
-                                                                    </Col> */}
                                                                 </Row>
                                                             </FormGroup>
-                                                        </Card>
+                                                        </div>
                                                     </fieldset>
-                                                    {/* <div>
-                                                            <ul>
-                                                                {this.state.militares.map((value, index) =>
-                                                                    <li key={index}>{value}</li>)
-                                                                }
-                                                            </ul>
-                                                        </div> */}
                                                     <Row>
                                                         <Col className="mt-3">
                                                             {this.state.busca.length > 0 ?
-                                                                (<div style={{ "maxHeight": "250px", "overflow": "auto" }}>
+                                                                (<div style={{ "maxHeight": "220px", "overflow": "auto" }}>
                                                                     <Table>
                                                                         <thead>
                                                                             <th>#</th>
@@ -539,7 +562,7 @@ class Cadastro extends Component {
                                                         <hr />
                                                         <Col className="mt-3">
                                                             {this.state.militares.length > 0 ?
-                                                                (<div style={{ "maxHeight": "250px", "overflow": "auto" }}>
+                                                                (<div style={{ "maxHeight": "220px", "overflow": "auto" }}>
                                                                     <Table>
                                                                         <thead>
                                                                             <th>#</th>
@@ -567,7 +590,6 @@ class Cadastro extends Component {
                                                         className="ml-auto"
                                                         type="submit"
                                                         color="success"
-                                                        onClick={this.done} //fazer oq?
                                                     >
                                                         Cadastrar
                                                     </Button>
