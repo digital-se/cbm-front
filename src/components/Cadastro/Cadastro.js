@@ -50,6 +50,7 @@ class Cadastro extends Component {
             valorBusca: "",
         },
         fullValidate: false,
+        allValid: false,
         validation: {
             nome: false,
             visibilidade: false,
@@ -63,50 +64,51 @@ class Cadastro extends Component {
     };
 
     validate = async () => {
-        if(this.state.form.nome.length === "") {
-            await this.setState({validation: {...this.state.validation,  nome: false } });
+        await this.setState({ allValid: true });
+
+        if (this.state.form.nome.length < 3) {
+            await this.setState({ allValid: false, validation: { ...this.state.validation, nome: false } });
         } else {
-            await this.setState({validation: {...this.state.validation,  nome: true } });
+            await this.setState({ validation: { ...this.state.validation, nome: true } });
         }
 
-        if(this.state.form.visibilidade === "") {
-            await this.setState({validation: {...this.state.validation,  visibilidade: false } });
+        if (this.state.form.visibilidade === "") {
+            await this.setState({ allValid: false, validation: { ...this.state.validation, visibilidade: false } });
         } else {
-            await this.setState({validation: {...this.state.validation,  visibilidade: true } });
+            await this.setState({ validation: { ...this.state.validation, visibilidade: true } });
         }
 
-        if(this.state.form.tipo === "") {
-            await this.setState({validation: {...this.state.validation,  tipo: false } });
+        if (this.state.form.tipo === "") {
+            await this.setState({ allValid: false, validation: { ...this.state.validation, tipo: false } });
         } else {
-            await this.setState({validation: {...this.state.validation,  tipo: true } });
+            await this.setState({ validation: { ...this.state.validation, tipo: true } });
         }
 
-        if (this.state.validation.numeracao === "") { //questionavel
-            await this.setState({validation: {...this.state.validation,  numeracao: false } });
+        if (this.state.form.data.length != 10) {
+            await this.setState({ allValid: false, validation: { ...this.state.validation, data: false } });
         } else {
-            await this.setState({validation: {...this.state.validation,  numeracao: true } });
+            await this.setState({ validation: { ...this.state.validation, data: true } });
         }
-        
-        if (this.state.form.data.length <= 10) {
-            await this.setState({validation: {...this.state.validation,  data: false } });
+
+        if (this.state.form.descrição.length <= 10) {
+            await this.setState({ allValid: false, validation: { ...this.state.validation, descrição: false } });
         } else {
-            await this.setState({validation: {...this.state.validation,  data: true } });
-        }    
+            await this.setState({ validation: { ...this.state.validation, descrição: true } });
+        }
     }
 
     changeHandler = async (e) => {
-        try {
-            e.target.value = e.target.value.format('YYYY-MM-DD')
-        } catch (error) {
-            console.log(error)
-        }
-
+        // try {
+        //     e.target.value = e.target.value.format('YYYY-MM-DD')
+        // } catch (error) {
+        //     console.log(error)
+        // }
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
         console.log(this.state)
-        this.validate();
+        await this.validate();
     }
 
-    toggleStep = activeStep => () => {
+    toggleStep = async (activeStep) => {
         if (this.state.activeStep !== activeStep) {
             this.setState({
                 activeStep
@@ -194,11 +196,17 @@ class Cadastro extends Component {
         console.log(this.state.militares);
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
 
-        this.setState()
-        
+        await this.setState({ fullValidate: true });
+
+        await this.validate()
+
+        if (!this.state.allValid) return await this.toggleStep('1');
+
+        alert("cadastrado com sucesso")
+
     }
 
     cleanMilitares = async () => {
@@ -219,12 +227,13 @@ class Cadastro extends Component {
                                             <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
+                                                        type="button"
                                                         outline color="danger"
                                                         tag="div"
                                                         className={classnames({
                                                             active: this.state.activeStep === '1'
                                                         })}
-                                                        onClick={this.toggleStep('1')}
+                                                        onClick={() => this.toggleStep('1')}
                                                         style={{ borderRadius: '15px', border: '2px solid' }}
                                                         block
                                                     >
@@ -236,15 +245,15 @@ class Cadastro extends Component {
                                             <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
+                                                        type="button"
                                                         outline color="danger"
                                                         tag="div"
                                                         className={classnames({
                                                             active: this.state.activeStep === '2'
                                                         })}
-                                                        onClick={this.toggleStep('2')}
+                                                        onClick={() => this.toggleStep('2')}
                                                         style={{ borderRadius: '15px', border: '2px solid' }}
                                                         block
-                                                        
                                                     >
                                                         <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Edição</h4>
                                                     </Button>
@@ -254,12 +263,13 @@ class Cadastro extends Component {
                                             <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
+                                                        type="button"
                                                         outline color="danger"
                                                         tag="div"
                                                         className={classnames({
                                                             active: this.state.activeStep === '3'
                                                         })}
-                                                        onClick={this.toggleStep('3')}
+                                                        onClick={() => this.toggleStep('3')}
                                                         style={{ borderRadius: '15px', border: '2px solid' }}
                                                         block
                                                     >
@@ -271,12 +281,13 @@ class Cadastro extends Component {
                                             <Col sm={6} lg={10}>
                                                 <NavItem >
                                                     <Button
+                                                        type="button"
                                                         outline color="danger"
                                                         tag="div"
                                                         className={classnames({
                                                             active: this.state.activeStep === '4'
                                                         })}
-                                                        onClick={this.toggleStep('4')}
+                                                        onClick={() => this.toggleStep('4')}
                                                         style={{ borderRadius: '15px', border: '2px solid', }}
                                                         block
                                                     >
@@ -315,8 +326,7 @@ class Cadastro extends Component {
                                                                 valid={(this.state.form.nome != "" && this.state.validation.nome)}
                                                                 invalid={((this.state.form.nome != "" || this.state.fullValidate) && !this.state.validation.nome)}
                                                             />
-                                                            <span>{''}</span>
-                                                            <span className="invalid-feedback">opora</span>
+                                                            <span className="invalid-feedback">Insira um nome válido</span>
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
                                                         <FormGroup>
@@ -329,8 +339,7 @@ class Cadastro extends Component {
                                                                 id="numeracao"
                                                                 value={this.state.form.numeracao}
                                                                 onChange={this.changeHandler}
-                                                                valid={(this.state.form.numeracao.size > 0)}
-                                                                
+                                                                valid={(this.state.form.numeracao.length > 0)}
                                                             />
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
@@ -343,23 +352,26 @@ class Cadastro extends Component {
                                                                 value={this.state.form.visibilidade}
                                                                 onChange={this.changeHandler}
                                                                 valid={(this.state.validation.visibilidade)}
+                                                                invalid={((this.state.form.visibilidade != "" || this.state.fullValidate) && !this.state.validation.visibilidade)}
                                                             >
                                                                 <option hidden disabled value="">Selecione</option>
                                                                 <option value={true}>Todos</option>
                                                                 <option value={false}>Pessoas autorizadas</option>
                                                             </Input>
+                                                            <span className="invalid-feedback">Selecione a visibilidade do documento</span>
                                                         </FormGroup>
                                                     </fieldset>
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
-                                                    <Button color="danger" href="#/" onClick={window.location.href}>
+                                                    <Button type="button" color="danger" href="#/" onClick={window.location.href}>
                                                         Voltar
                                                     </Button>
                                                     <Button
+                                                        type="button"
                                                         className="ml-auto"
                                                         color="success"
-                                                        onClick={this.toggleStep('2')}
+                                                        onClick={() => this.toggleStep('2')}
                                                     >
                                                         Avançar
                                                     </Button>
@@ -384,6 +396,7 @@ class Cadastro extends Component {
                                                                 value={this.state.form.tipo}
                                                                 onChange={this.changeHandler}
                                                                 valid={(this.state.validation.tipo)}
+                                                                invalid={((this.state.form.tipo != "" || this.state.fullValidate) && !this.state.validation.tipo)}
                                                             >
                                                                 <option hidden disabled value="">Escolha o tipo</option>
                                                                 <option value="bga">BGA</option>
@@ -393,6 +406,7 @@ class Cadastro extends Component {
                                                                 <option value="ficha" disabled>Ficha</option>
                                                                 <option value="relatorio" disabled>Relatório de Processos</option>
                                                             </Input>
+                                                            <span className="invalid-feedback">Selecione o tipo do documento</span>
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
                                                         <FormGroup>
@@ -422,18 +436,20 @@ class Cadastro extends Component {
                                                                 valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
                                                                 invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                             />
+                                                            <span className="invalid-feedback">Insira a descrição do documento</span>
                                                         </FormGroup>
                                                     </fieldset>
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
-                                                    <Button color="danger" onClick={this.toggleStep('1')}>
+                                                    <Button type="button" color="danger" onClick={() => this.toggleStep('1')}>
                                                         Voltar
                                                     </Button>
                                                     <Button
+                                                        type="button"
                                                         className="ml-auto"
                                                         color="success"
-                                                        onClick={this.toggleStep('3')}
+                                                        onClick={() => this.toggleStep('3')}
                                                     >
                                                         Avançar
                                                     </Button>
@@ -476,13 +492,14 @@ class Cadastro extends Component {
                                                     </fieldset>
                                                 </div>
                                                 <div className="d-flex">
-                                                    <Button color="danger" onClick={this.toggleStep('2')}>
+                                                    <Button type="button" color="danger" onClick={() => this.toggleStep('2')}>
                                                         Voltar
                                                     </Button>
                                                     <Button
+                                                        type="button"
                                                         className="ml-auto"
                                                         color="success"
-                                                        onClick={this.toggleStep('4')}
+                                                        onClick={() => this.toggleStep('4')}
                                                     >
                                                         Avançar
                                                     </Button>
@@ -527,6 +544,7 @@ class Cadastro extends Component {
                                                                     </Col>
                                                                     <Col sm={2}>
                                                                         <Button
+                                                                            type="button"
                                                                             className="ml-2"
                                                                             onClick={this.addMilitares} //busca
                                                                             color="success"
@@ -583,7 +601,7 @@ class Cadastro extends Component {
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
-                                                    <Button color="danger" onClick={this.toggleStep('3')}>
+                                                    <Button type="button" color="danger" onClick={() => this.toggleStep('3')}>
                                                         Voltar
                                                     </Button>
                                                     <Button
