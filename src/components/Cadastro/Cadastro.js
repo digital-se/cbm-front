@@ -58,7 +58,7 @@ class Cadastro extends Component {
             data: false,
             descrição: false,
         },
-        busca: [{ nome: "João Pedro Nimuendaju Santana Santos", matricula: "12345678T" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }],
+        busca: [],
         militares: [],
         files: []
     };
@@ -123,12 +123,25 @@ class Cadastro extends Component {
                     ...this.state.files,
                     ...acceptedFiles.map(file =>
                         Object.assign(file, {
-                            preview: URL.createObjectURL(file)
+                            preview: URL.createObjectURL(file),
+                            ocr: true
                         })
                     )
                 ]
             });
     };
+
+    removeArquivo = async (index) => {
+        this.state.files.splice(index, 1)
+        await this.setState({ files: this.state.files })
+        // console.log(this.state.files)
+    }
+
+    changeOcr = async (index) => {
+        this.state.files[index].ocr = !this.state.files[index].ocr
+        await this.setState({ files: this.state.files })
+        // console.log(this.state.files)
+    }
 
     createImageItem = (file, index) => (
         <tr key={index}>
@@ -143,14 +156,27 @@ class Cadastro extends Component {
                     showConfirmButton: false,
                     showCloseButton: true
                 }} className="btn m-0 p-0">
-                    <Button color="primary">a</Button>
+                    <Button color="primary"><em style={{ fontSize: "18px" }} className="fas fa-expand" /></Button>
                 </Swal>
-                <Button color="danger">b</Button>
-                <Button color="warning">c</Button>
-                <Button color="secondary">d</Button>
+                <Button color="danger" onClick={() => this.removeArquivo(index)} className="ml-2"><em style={{ fontSize: "18px" }} className="fas fa-file-excel" /></Button>
+                <Button color="warning" onClick={() => this.changeOcr(index)} className="ml-2">
+                    {
+                        this.state.files[index].ocr ?
+                            (<em style={{ fontSize: "18px" }} className="far fa-eye" />)
+                            :
+                            (<em style={{ fontSize: "18px" }} className="far fa-eye-slash" />)
+                    }
+                </Button>
+                <Button color="secondary" className="ml-2" disabled><em style={{ fontSize: "18px" }} className="fas fa-bars" /></Button>
             </td>
         </tr>
     )
+
+    buscarMilitares = async () => {
+        let militares = [{ nome: "João Pedro Nimuendaju Santana Santos", matricula: "12345678T" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }]
+
+        await this.setState({ busca: militares })
+    }
 
     createBuscaItem = (militar, index) => (
         <tr key={index}>
@@ -314,14 +340,11 @@ class Cadastro extends Component {
                                                             </p>
                                                         </div>
                                                         <div style={{ "height": "25px" }} />
-
                                                         <FormGroup>
                                                             <Label for="nome"><h3>Nome do Documento *</h3></Label>
                                                             <Input
-
                                                                 className="form-control"
                                                                 placeholder="Insira o nome do documento"
-                                                                style={{ backgroundColor: "#E6E8EB", minWidth: 182 }}
                                                                 name="nome"
                                                                 id="nome"
                                                                 value={this.state.form.nome}
@@ -337,7 +360,6 @@ class Cadastro extends Component {
                                                             <Input
                                                                 className="form-control"
                                                                 placeholder="Ex: 123456"
-                                                                style={{ backgroundColor: "#E6E8EB", minWidth: 182 }}
                                                                 name="numeracao"
                                                                 id="numeracao"
                                                                 value={this.state.form.numeracao}
@@ -350,7 +372,6 @@ class Cadastro extends Component {
                                                             <Label for="visibilidade"><h3>Quem pode ver esse documento?</h3></Label>
                                                             <Input className="select"
                                                                 type="select"
-                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 name="visibilidade"
                                                                 id="visibilidade"
                                                                 value={this.state.form.visibilidade}
@@ -377,7 +398,6 @@ class Cadastro extends Component {
                                                         color="success"
                                                         onClick={() => this.toggleStep('2')}>
                                                         Avançar<em className="fa ml-2 fas fa-arrow-right" />
-
                                                     </Button>
                                                 </div>
                                             </TabPane>
@@ -397,7 +417,6 @@ class Cadastro extends Component {
                                                                 type="select"
                                                                 name="tipo"
                                                                 id="tipo"
-                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 value={this.state.form.tipo}
                                                                 onChange={this.changeHandler}
                                                                 valid={(this.state.validation.tipo)}
@@ -418,7 +437,6 @@ class Cadastro extends Component {
                                                             <Label for="data"><h3>Data do documento*</h3></Label>
                                                             <Input
                                                                 type="date"
-                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 name="data"
                                                                 id="data"
                                                                 max="9999-12-30"
@@ -438,7 +456,7 @@ class Cadastro extends Component {
                                                                 maxlength="300"
                                                                 value={this.state.form.descrição}
                                                                 onChange={this.changeHandler}
-                                                                style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical", backgroundColor: "#E6E8EB" }}
+                                                                style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
                                                                 valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
                                                                 invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                             />
@@ -469,7 +487,7 @@ class Cadastro extends Component {
                                                             Gerencie os arquivos neste documento!
                                                         </p>
                                                         <hr />
-                                                        <h3>Insira um Arquivo {this.state.files.length}</h3>
+                                                        <h3>Insira um Arquivo</h3>
                                                         <Dropzone className="card p-3" onDrop={this.onDrop}>
                                                             <div className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px' }}>
                                                                 Arraste os arquivos aqui, ou clique para seleciona-los
@@ -479,7 +497,7 @@ class Cadastro extends Component {
                                                         </Dropzone>
                                                         <div className="mt-3">
                                                             {this.state.files.length > 0 ?
-                                                                (<div style={{ "maxHeight": "250px", "overflow": "auto" }}>
+                                                                (<div style={{ "maxHeight": "180px", "overflow": "auto" }}>
                                                                     <Table>
                                                                         <thead>
                                                                             <th>#</th>
@@ -525,7 +543,6 @@ class Cadastro extends Component {
                                                                 type="select"
                                                                 name="typeBusca"
                                                                 id="typeBusca"
-                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 value={this.state.form.typeBusca}
                                                                 onChange={this.changeHandler}
                                                             >
@@ -543,10 +560,9 @@ class Cadastro extends Component {
                                                                         <Input
                                                                             className="form-control"
                                                                             placeholder={this.state.form.typeBusca}
-                                                                            style={{ backgroundColor: "#E6E8EB" }}
                                                                             name="matricula"
                                                                             id="matricula"
-                                                                            value={this.state.form.matricula}//busca 
+                                                                            value={this.state.form.matricula}
                                                                             onChange={this.changeHandler}
                                                                         />
                                                                     </Col>
@@ -554,7 +570,7 @@ class Cadastro extends Component {
                                                                         <Button
                                                                             type="button"
                                                                             className="ml-2"
-                                                                            onClick={this.addMilitares} //busca
+                                                                            onClick={this.buscarMilitares}
                                                                             color="success"
                                                                             style={{ "height": "35px" }}
                                                                         >
