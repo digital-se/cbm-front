@@ -22,7 +22,7 @@ class BaseHorizontal extends Component {
             <div className="wrapper">
                 <HeaderHorizontal />
 
-                <Offsidebar />
+                {/* <Offsidebar /> */}
 
                 <section className="section-container">
                     {this.props.children}

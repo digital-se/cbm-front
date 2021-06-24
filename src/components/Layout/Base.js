@@ -11,7 +11,7 @@ const Base = props => (
 
         <Sidebar />
 
-        <Offsidebar />
+        {/* <Offsidebar /> */}
 
         <section className="section-container">
             {props.children}
