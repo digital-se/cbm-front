@@ -312,13 +312,16 @@ class Cadastro extends Component {
                                                             <p className="lead">
                                                                 Digite as informações essenciais do arquivo
                                                             </p>
-                                                        </div> <div style={{ "height": "25px" }} />
+                                                        </div>
+                                                        <div style={{ "height": "25px" }} />
+
                                                         <FormGroup>
                                                             <Label for="nome"><h3>Nome do Documento *</h3></Label>
                                                             <Input
+
                                                                 className="form-control"
                                                                 placeholder="Insira o nome do documento"
-                                                                style={{ minWidth: 182 }}
+                                                                style={{ backgroundColor: "#E6E8EB", minWidth: 182 }}
                                                                 name="nome"
                                                                 id="nome"
                                                                 value={this.state.form.nome}
@@ -334,7 +337,7 @@ class Cadastro extends Component {
                                                             <Input
                                                                 className="form-control"
                                                                 placeholder="Ex: 123456"
-                                                                style={{ minWidth: 182 }}
+                                                                style={{ backgroundColor: "#E6E8EB", minWidth: 182 }}
                                                                 name="numeracao"
                                                                 id="numeracao"
                                                                 value={this.state.form.numeracao}
@@ -347,6 +350,7 @@ class Cadastro extends Component {
                                                             <Label for="visibilidade"><h3>Quem pode ver esse documento?</h3></Label>
                                                             <Input className="select"
                                                                 type="select"
+                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 name="visibilidade"
                                                                 id="visibilidade"
                                                                 value={this.state.form.visibilidade}
@@ -365,15 +369,15 @@ class Cadastro extends Component {
                                                 <hr />
                                                 <div className="d-flex">
                                                     <Button type="button" color="danger" href="#/" onClick={window.location.href}>
-                                                        Voltar
+                                                        <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
                                                         type="button"
                                                         className="ml-auto"
                                                         color="success"
-                                                        onClick={() => this.toggleStep('2')}
-                                                    >
-                                                        Avançar
+                                                        onClick={() => this.toggleStep('2')}>
+                                                        Avançar<em className="fa ml-2 fas fa-arrow-right" />
+
                                                     </Button>
                                                 </div>
                                             </TabPane>
@@ -393,6 +397,7 @@ class Cadastro extends Component {
                                                                 type="select"
                                                                 name="tipo"
                                                                 id="tipo"
+                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 value={this.state.form.tipo}
                                                                 onChange={this.changeHandler}
                                                                 valid={(this.state.validation.tipo)}
@@ -413,6 +418,7 @@ class Cadastro extends Component {
                                                             <Label for="data"><h3>Data do documento*</h3></Label>
                                                             <Input
                                                                 type="date"
+                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 name="data"
                                                                 id="data"
                                                                 max="9999-12-30"
@@ -432,7 +438,7 @@ class Cadastro extends Component {
                                                                 maxlength="300"
                                                                 value={this.state.form.descrição}
                                                                 onChange={this.changeHandler}
-                                                                style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
+                                                                style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical", backgroundColor: "#E6E8EB" }}
                                                                 valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
                                                                 invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                             />
@@ -443,7 +449,7 @@ class Cadastro extends Component {
                                                 <hr />
                                                 <div className="d-flex">
                                                     <Button type="button" color="danger" onClick={() => this.toggleStep('1')}>
-                                                        Voltar
+                                                        <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
                                                         type="button"
@@ -451,7 +457,7 @@ class Cadastro extends Component {
                                                         color="success"
                                                         onClick={() => this.toggleStep('3')}
                                                     >
-                                                        Avançar
+                                                        Avançar<em className="fa ml-2 fas fa-arrow-right" />
                                                     </Button>
                                                 </div>
                                             </TabPane>
@@ -493,7 +499,7 @@ class Cadastro extends Component {
                                                 </div>
                                                 <div className="d-flex">
                                                     <Button type="button" color="danger" onClick={() => this.toggleStep('2')}>
-                                                        Voltar
+                                                        <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
                                                         type="button"
@@ -501,7 +507,7 @@ class Cadastro extends Component {
                                                         color="success"
                                                         onClick={() => this.toggleStep('4')}
                                                     >
-                                                        Avançar
+                                                        Avançar<em className="fa ml-2 fas fa-arrow-right" />
                                                     </Button>
                                                 </div>
                                             </TabPane>
@@ -519,6 +525,7 @@ class Cadastro extends Component {
                                                                 type="select"
                                                                 name="typeBusca"
                                                                 id="typeBusca"
+                                                                style={{ backgroundColor: "#E6E8EB" }}
                                                                 value={this.state.form.typeBusca}
                                                                 onChange={this.changeHandler}
                                                             >
@@ -536,13 +543,14 @@ class Cadastro extends Component {
                                                                         <Input
                                                                             className="form-control"
                                                                             placeholder={this.state.form.typeBusca}
+                                                                            style={{ backgroundColor: "#E6E8EB" }}
                                                                             name="matricula"
                                                                             id="matricula"
                                                                             value={this.state.form.matricula}//busca 
                                                                             onChange={this.changeHandler}
                                                                         />
                                                                     </Col>
-                                                                    <Col sm={2}>
+                                                                    <Col sm={3}>
                                                                         <Button
                                                                             type="button"
                                                                             className="ml-2"
@@ -550,7 +558,7 @@ class Cadastro extends Component {
                                                                             color="success"
                                                                             style={{ "height": "35px" }}
                                                                         >
-                                                                            Buscar
+                                                                            <em className="fa mr-2 fas fa-search" />Buscar
                                                                         </Button>
                                                                     </Col>
                                                                 </Row>
@@ -602,14 +610,14 @@ class Cadastro extends Component {
                                                 <hr />
                                                 <div className="d-flex">
                                                     <Button type="button" color="danger" onClick={() => this.toggleStep('3')}>
-                                                        Voltar
+                                                        <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
                                                         className="ml-auto"
                                                         type="submit"
                                                         color="success"
                                                     >
-                                                        Cadastrar
+                                                        Cadastrar<em className="fa ml-2 fas fa-check" />
                                                     </Button>
                                                 </div>
                                             </TabPane>
@@ -620,7 +628,7 @@ class Cadastro extends Component {
                         </CardBody>
                     </Card>
                 </Form>
-            </div>
+            </div >
         );
     }
 }
