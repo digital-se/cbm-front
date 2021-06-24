@@ -18,7 +18,7 @@ const SearchResult = lazy(() => import('./components/SearchResult/SearchResult')
 const Ficha = lazy(() => import('./components/Ficha/Ficha'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
-
+const GerenciarDocumento = lazy(() => import("./components/GerenciarDocumento/GerenciarDocumento"));
 
 // List of routes that uses the page layout
 // listed here to Switch between layouts
@@ -30,7 +30,6 @@ const listofPages = [
 const Routes = ({ location }) => {
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
-
 
     const animationName = 'rag-fadeIn'
 
@@ -65,7 +64,7 @@ const Routes = ({ location }) => {
                                         <Route path="/ficha/:num" component={waitFor(Ficha)} />
                                         <Route path="/inicio" component={waitFor(Inicio)} />
                                         <Route path="/cadastro" component={waitFor(Cadastro)} />
-                                        {/* <Route path="/cadastroFoto" component={waitFor(CadastroFoto)}/> */}
+                                        <Route path="/gerenciar" component={waitFor(GerenciarDocumento)} />
 
                                         <Redirect to="/inicio" />
                                     </Switch>
