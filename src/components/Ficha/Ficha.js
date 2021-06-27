@@ -14,13 +14,7 @@ import {
 } from 'reactstrap';
 
 import Swal from '../Comp/Swal';
-
-// import { withSwalInstance } from 'sweetalert2-react';
-// import sweetalert2 from 'sweetalert2';
-
 import db from "../../db/db"
-
-// const Swal = withSwalInstance(sweetalert2);
 
 const items = [
     {
@@ -181,7 +175,6 @@ class Ficha extends React.Component {
 
                             {this.state.ficha.files.map(url => {
                                 return <Col className="ml-auto mr-auto" md={6} lg={4} xl={3} key={this.n++}>
-                                    {/* <img className="rounded thumb64" src={url} style={{ "maxWidth": "600px" }}></img> */}
                                     <Swal options={{
                                         imageUrl: url,
                                         //imageHeight: 1500,
@@ -194,7 +187,6 @@ class Ficha extends React.Component {
                                     </Swal>
                                 </Col>
                             })}
-                            {/* </ul> */}
                         </Row>
                     </CardBody>
                 </Card>
