@@ -9,11 +9,17 @@ import App from './App';
 import './i18n';
 
 import configureStore from './store/store';
+
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import keycloak from './keycloak';
+
 const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <ReactKeycloakProvider authClient={keycloak}>
+            <App />
+        </ReactKeycloakProvider>
     </Provider>,
     document.getElementById('app')
 );
