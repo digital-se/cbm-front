@@ -8,12 +8,16 @@ import { bindActionCreators } from 'redux';
 import * as actions from '../../store/actions/actions';
 
 import ToggleFullscreen from '../Common/ToggleFullscreen';
-import HeaderRun from './Header.run'
+// import HeaderRun from './Header.run'
+
+import { Button } from 'reactstrap'
+
+import { withKeycloak } from '@react-keycloak/web';
 
 class Header extends Component {
 
     componentDidMount() {
-        HeaderRun();
+        // HeaderRun();
     }
 
     toggleUserblock = e => {
@@ -78,16 +82,18 @@ class Header extends Component {
                         </li>
                     </ul>
                     { /* END Left navbar */}
-                    
+
                     { /* START Right Navbar */}
                     <ul className="navbar-nav flex-row">
                         { /* Search icon */}
                         <li className="nav-item">
                             <a className="nav-link" href="" data-search-open="">
-                                <em className="icon-magnifier"></em>
+                                {this.props.keycloak?.authenticated ?
+                                    (<Button onClick={(e) => { e.preventDefault(); this.props.keycloak.logout() }}>Logout ({this.props.keycloak.tokenParsed.preferred_username}) <em className="icon-user"></em></Button>)
+                                    :
+                                    (<Button onClick={(e) => { e.preventDefault(); this.props.keycloak.login() }}>Login <em className="icon-user"></em></Button>)}
                             </a>
                         </li>
-
                         { /* START Offsidebar button */}
                         <li className="nav-item" style={{ display: "none" }}>
                             <a className="nav-link" href="" onClick={this.toggleOffsidebar}>
@@ -99,13 +105,13 @@ class Header extends Component {
                     { /* END Right Navbar */}
 
                     { /* START Search form */}
-                    <form className="navbar-form" role="search" action="search.html">
+                    {/* <form className="navbar-form" role="search" action="search.html">
                         <div className="form-group">
                             <input className="form-control" type="text" placeholder="digite aqui ..." />
                             <div className="fa fa-times navbar-form-close" data-search-dismiss=""></div>
                         </div>
                         <button className="d-none" type="submit">Submit</button>
-                    </form>
+                    </form> */}
                     { /* END Search form */}
                     { /* ADD o status de funcionario logado, como? descubra nos próximos capitulos */}
                 </nav>
@@ -118,7 +124,8 @@ class Header extends Component {
 
 Header.propTypes = {
     actions: PropTypes.object,
-    settings: PropTypes.object
+    settings: PropTypes.object,
+    keycloak: PropTypes.object
 };
 
 const mapStateToProps = state => ({ settings: state.settings })
@@ -127,4 +134,4 @@ const mapDispatchToProps = dispatch => ({ actions: bindActionCreators(actions, d
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Header);
+)(withKeycloak(Header));
