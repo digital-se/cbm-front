@@ -30,8 +30,6 @@ class SearchResult extends React.Component {
 
     getSearch() {
         this.n = 0
-        console.log(this.props)
-        console.log(qs.parse(this.props.location.search, { ignoreQueryPrefix: true }))
         db.getSearch().then(resultados => {
             this.setState({ resultados: resultados.documents })
         })
@@ -44,12 +42,8 @@ class SearchResult extends React.Component {
     render() {
         return (
             <ContentWrapper>
-                <div className="content-heading">
-                    <div>
-                        <h2>Resultado da busca</h2>
-                    </div>
-                </div>
                 <div>
+                    {this.state.resultados.length} resultado(s)
                     <Container>
                         <Row>
                             {this.state.resultados.map(document => (
