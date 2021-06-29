@@ -52,7 +52,8 @@ class Busca extends React.Component {
         e.preventDefault();
 
     }
-    showResult= () => {
+
+    showResult= () => { //isso é literalmente um toggle pra exibir ShowResult kkkkk 
         this.setState({
             busca: !this.state.busca
         });
@@ -195,8 +196,8 @@ class Busca extends React.Component {
 
                             
                             <Col>
-
-                            {this.state.busca ?
+                            
+                            {this.state.busca ? //bota um scrollzinho pa 
                             <SearchResult/>
                             :
                             <p>kkk sim</p>
