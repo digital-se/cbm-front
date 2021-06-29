@@ -4,11 +4,12 @@ import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label, FormText, FormFeedback } from 'reactstrap';
+import { Card, CardBody, CardHeader } from 'reactstrap';
+import SearchResult from '../SearchResult/SearchResult';
+
 // DateTimePicker
-import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 // Masked Input
-import MaskedInput from 'react-input-mask'
 
 import { withRouter } from 'react-router-dom';
 
@@ -16,31 +17,25 @@ import qs from "qs";
 
 class Busca extends React.Component {
 
+    //vazio = todos 
     state = {
         dropdownOpen: false,
+        busca: false, //qnd true exibe o search result 
         form: {
-            tipo: "all",
+            nome: "",
+            tipo: "",
             searchString: "",
             dataInicial: "",
             dataFinal: "",
-            validation: {
-                tipo: false,
-                searchString: false,
-                dataInicial: false,
-                dataFinal: false,
-                validation: false
-            }
-        }
+            matricula: "",
+            nomeMilitar: "",
+        },
+        resultados: []
+
     }
 
     changeLanguage = lng => {
         this.props.i18n.changeLanguage(lng);
-    }
-
-    toggle = () => {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen
-        });
     }
 
     changeHandler = async (e) => {
@@ -49,163 +44,170 @@ class Busca extends React.Component {
         } catch (error) {
             console.log(error)
         }
-        console.log("changeHandler")
-        console.log(e)
-        console.log(this.state)
+
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
-        this.validateTeste();
-    }
-
-    validateTeste = async () => {
-
-        if (this.state.form.tipo === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, tipo: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.validation, tipo: true } } });
-        }
-        if (this.state.form.searchString === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, searchString: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, searchString: true } } });
-        }
-        if (this.state.form.dataInicial === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, dataInicial: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, dataInicial: true } } });
-        }
-        if (this.state.form.dataFinal === "") {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, dataFinal: false } } });
-        } else {
-            await this.setState({ form: { ...this.state.form, validation: { ...this.state.form.validation, dataFinal: true } } });
-        }
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
 
-        let tipo = this.state.form.validation.tipo
-        let searchString = this.state.form.validation.searchString
-        let dataInicial = this.state.form.validation.dataInicial
-        let dataFinal = this.state.form.validation.dataFinal
-
-        if (tipo && searchString && dataInicial && dataFinal) {
-            let form = Object.assign({}, this.state.form);
-            delete form.validation
-            let query = qs.stringify(form)
-            this.props.history.push('/searchResult?' + query);
-        }
     }
-
-    componentDidMount() {
-        this.validateTeste()
-    }
-
-    renderInput(props) {
-        return (
-            <>
-                <MaskedInput {...props} className="form-control" mask="99/99/9999" maskChar="" name="expiry" placeholder="dd/mm/aaaa" style={{ minWidth: 182 }}>
-                    {(inputProps) => <Input {...inputProps} />}
-                </MaskedInput>
-                <FormFeedback>Campo Obrigatório*</FormFeedback>
-            </>
-        );
+    showResult= () => {
+        this.setState({
+            busca: !this.state.busca
+        });
     }
 
     render() {
         return (
             <ContentWrapper>
-                <div className="content-heading">
-                    <div>
-                        <h2>Busca Documental</h2>
-                    </div>
-                </div>
-                <div>
-                    <Container>
-                        <Form onSubmit={this.handleSubmit}>
-                            <Row >
-                                <Col className="text-center">
-                                    <FormGroup>
-                                        <Label for="exampleSelect">Tipo de Documento</Label>
-                                        <Input
-                                            type="select"
-                                            name="tipo"
-                                            id="tipo"
-                                            value={this.state.form.tipo}
+                <Row>
+                    <Col>
+                        <Row>
+                            <Col lg={12} xl={4}>
+                                <Card className="card-default" style={{ justifyContent: 'center' }}>
+                                    <CardHeader>
+                                        <h3>Busca documental</h3>
+                                    </CardHeader>
+                                    <CardBody>
+                                        <div>
+                                            <Col >
+                                                <Row>
+                                                    <Col sm={12}>
+                                                        <FormGroup>
+                                                            <Label for="nome"><h5>Insira o nome do documento</h5></Label>
+                                                            <Input
+                                                                name="nome"
+                                                                id="nome"
+                                                                value={this.state.form.nome}
+                                                                onChange={this.changeHandler}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col sm={6}>
+                                                        <FormGroup>
+                                                            <Label for="tipo"><h5>Selecione o tipo do documento*</h5></Label>
+                                                            <Input
+                                                                type="select"
+                                                                name="tipo"
+                                                                id="tipo"
+                                                                value={this.state.form.tipo}
+                                                                onChange={this.changeHandler}
+                                                            >
+                                                                <option value="">Todos</option>
+                                                                <option value="bga">BGA</option>
+                                                                <option value="bgo">BGO</option>
+                                                                <option value="bir">BIR</option>
+                                                                <option value="diario">Diário Oficial</option>
+                                                                <option value="ficha" >Ficha</option>
+                                                                <option value="relatorio">Relatório de Processos</option>
+                                                            </Input>
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col sm={6}>
+                                                        <FormGroup>
+                                                            <Label for="numeracao"><h5>Insira o número do documento</h5></Label>
+                                                            <Input
+                                                                name="numeracao"
+                                                                id="numeracao"
+                                                                value={this.state.form.numeracao}
+                                                                onChange={this.changeHandler}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col sm={6}>
+                                                        <FormGroup>
+                                                            <Label for="dataInicial"><h5> Insira a data inicial</h5></Label>
+                                                            <Input
+                                                                type="date"
+                                                                name="dataInicial"
+                                                                id="dataInicial"
+                                                                max="2021-07-01" //maximo deve ser a data atual - ALTERAR
+                                                                value={this.state.form.dataInicial}
+                                                                onChange={this.changeHandler} />
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col sm={6}>
+                                                        <FormGroup>
+                                                            <Label for="dataFinal"><h5> Insira a data final</h5></Label>
+                                                            <Input
+                                                                type="date"
+                                                                name="dataFinal"
+                                                                id="dataFinal"
+                                                                max="2021-07-01" //maximo deve ser a data atual - ALTERAR
+                                                                value={this.state.form.dataFinal}
+                                                                onChange={this.changeHandler}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col sm={6}>
+                                                        <FormGroup>
+                                                            <Label for="matricula"><h5> Insira a matricula do militar</h5></Label>
+                                                            <Input
+                                                                name="matricula"
+                                                                id="matricula"
+                                                                value={this.state.form.matricula}
+                                                                onChange={this.changeHandler}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col sm={6}>
+                                                        <FormGroup>
+                                                            <Label for="nomeMilitar"><h5>Insira o nome do militar</h5></Label>
+                                                            <Input
+                                                                name="nomeMilitar"
+                                                                id="nomeMilitar"
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col sm={12}>
+                                                        <FormGroup>
+                                                            <Label for="palavrasChave"><h5>Insira as palavras-chave</h5></Label>
+                                                            <Input
+                                                                name="palavrasChave"
+                                                                id="palavrasChave"
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col sm={12}>
+                                                <Button
+                                                    type="button"
+                                                    color="success"
+                                                    style={{ "height": "35px", "float": "right" }}
+                                                    onClick={this.showResult}>
+                                                    <em className="fa mr-2 fas fa-search" />Buscar
+                                                </Button>
+                                            </Col>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
 
-                                            onChange={this.changeHandler}
-                                        >
-                                            <option value="all">Todos</option>
-                                            <option value="fichas">Fichas</option>
-                                            <option value="diario">Diário Oficial</option>
-                                        </Input>  
-                                    </FormGroup>
-                                </Col>
+                            
+                            <Col>
 
-                                <Col className="text-center">
-                                    <FormGroup>
-                                        <Label for="searchString" class="form-label">Valor de busca*</Label>
-                                        <Input
-                                            placeholder="digite aqui ..."
-                                            name="searchString"
-                                            id="searchString"
-                                            valid={this.state.form.validation.searchString}
-                                            class="form-control"
-                                            value={this.state.form.searchString} 
-                                            onChange={this.changeHandler}
-                                            required //new (Preencha este campo)
-                                        />
-                                    </FormGroup>                      
-                                </Col>
-                                <Col className="text-center" >
-                                    <FormGroup>
-                                        <Label for="dataInicial" class="form-label">Data inicial*</Label>
-                                        <Datetime
-
-                                            dateFormat="DD-MM-YYYY"
-                                            timeFormat={false}
-                                            name="dataInicial"
-                                            id="dataInicial"
-                                            value={this.state.form.dataInicial} 
-                                            onChange={moment => this.changeHandler({ target: { name: "dataInicial", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataInicial, value: this.state.form.dataInicial, required: true                                             
-                                            }}
-                                            renderInput={this.renderInput}            
-                                        />
-                                        {/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
-                                    </FormGroup>
-                                </Col>
-
-                                <Col className="text-center">
-                                    <FormGroup>
-                                        <Label for="dataFinal">Data final*</Label>
-                                        <Datetime
-                                            dateFormat="DD-MM-YYYY"
-                                            timeFormat={false}
-                                            name="dataFinal"
-                                            id="dataFinal"
-                                            value={this.state.form.dataFinal} onChange={moment => this.changeHandler({ target: { name: "dataFinal", value: moment } })}
-                                            inputProps={{ valid: this.state.form.validation.dataFinal, required: true   
-                                            }}
-
-                                            renderInput={this.renderInput}
-                                            
-                                        />{/*<FormFeedback>Campo Obrigatório</FormFeedback>*/}
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <p/>
-                            <p/>
-                            <Row>
+                            {this.state.busca ?
+                            <SearchResult/>
+                            :
+                            <p>kkk sim</p>
+                            }
                                 
-                                <Col className="text-center">
-                                    <Button color="danger" type="submit">Buscar&nbsp;&nbsp;<em className="icon-magnifier" /></Button>{' '}
-                                </Col>
-                            </Row>
-                        </Form>
-                    </Container>
-                </div>
-            </ContentWrapper>
-        );
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </ContentWrapper >
+        )
     }
 }
 
