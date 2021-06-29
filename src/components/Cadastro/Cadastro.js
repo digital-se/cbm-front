@@ -238,12 +238,13 @@ class Cadastro extends Component {
     cleanMilitares = async () => {
         await this.setState({ militares: [] })
     }
+    
 
     render() {
         return (
             <div className="d-flex align-items-center justify-content-center container container-table pt-4">
                 <Form onSubmit={this.onSubmit}>
-                    <Card style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }} class="shadow-lg p-3 mb-5 bg-white rounded ">
+                    <Card className="card-default" style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
                         <CardHeader><h3>Cadastro de documentos</h3></CardHeader>
                         <CardBody>
                             <Row>
