@@ -42,13 +42,14 @@ class SearchResult extends React.Component {
     render() {
         return (
             <ContentWrapper>
-                <div>
+                {console.log(this.state.resultados)}
+                <div style={{overflow: "scroll", "overflow-x" : "hidden", height: "720px"}}>
                     {this.state.resultados.length} resultado(s)
-                    <Container>
+                    <Container >
                         <Row>
                             {this.state.resultados.map(document => (
-                                <Col xl={3} md={6} key={this.n++}>
-                                    <ResultCard tipo={document.type} titulo={document.title} data={document.date} num={document.num} url={document.url} />
+                                <Col xl={4} md={8} key={this.n++}>
+                                    <ResultCard nome={document.nome}  tipo={document.type} data={document.date} num={document.num} url={document.url} />
                                 </Col>
                             ))}
                         </Row>
