@@ -8,7 +8,7 @@ class ResultCard extends Component {
     constructor(props) {
         super(props)
         // titulo pode ser edição ou nome completo ¯\_(ツ)_/¯
-        this.titulo = this.props.titulo
+        this.nome = this.props.nome
         this.data = this.props.data
         this.tipo = this.props.tipo
         this.num = this.props.num
@@ -18,7 +18,6 @@ class ResultCard extends Component {
     }
 
     render() {
-
         if (this.tipo === "ficha") {
             return (
                 <Link to={"/ficha/" + this.num} style={{ color: '#fff' }} >
@@ -28,7 +27,7 @@ class ResultCard extends Component {
                                 <em className="fa fa-address-card fa-3x"></em>
                             </div>
                             <div style={{ backgroundColor: '#f56e27' }} className="col-9 py-3 rounded-right" >
-                                <div className="h4 mt-0">{this.titulo}</div>
+                                <div className="h4 mt-0">{this.nome}</div>
                                 <div className="text-uppercase">{this.data}</div>
                             </div>
                         </div>
@@ -45,7 +44,7 @@ class ResultCard extends Component {
                                 <em className="fas fa-newspaper fa-3x"></em>
                             </div>
                             <div style={{ backgroundColor: '#f22d26' }} className="col-9 py-3 rounded-right">
-                                <div className="h3 mt-0">{this.titulo}</div>
+                                <div className="h3 mt-0">{this.nome}</div>
                                 <div className="text-uppercase">{this.data}</div>
                             </div>
                         </div>
