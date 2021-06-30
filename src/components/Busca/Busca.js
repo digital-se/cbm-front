@@ -197,7 +197,7 @@ class Busca extends React.Component {
                             
                             <Col>
                             
-                            {this.state.busca ? //bota um scrollzinho pa 
+                            {this.state.busca ? 
                             <SearchResult/>
                             :
                             <p>kkk sim</p>
