@@ -177,7 +177,6 @@ class Ficha extends React.Component {
                                 return <Col className="ml-auto mr-auto" md={6} lg={4} xl={3} key={this.n++}>
                                     <Swal options={{
                                         imageUrl: url,
-                                        //imageHeight: 1500,
                                         width: "80%",
                                         imageAlt: 'Carregando...',
                                         showConfirmButton: false,

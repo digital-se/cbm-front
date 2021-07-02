@@ -49,7 +49,7 @@ class SearchResult extends React.Component {
                         <Row>
                             {this.state.resultados.map(document => (
                                 <Col xl={4} md={8} key={this.n++}>
-                                    <ResultCard nome={document.nome}  tipo={document.type} data={document.date} num={document.num} url={document.url} />
+                                    <ResultCard nome={document.nome}  tipo={document.type} dataHoraCadastro={document.date} militares={document.militares} numeracao={document.num} url={document.url} />
                                 </Col>
                             ))}
                         </Row>
