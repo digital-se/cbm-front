@@ -64,7 +64,7 @@ const Routes = ({ location }) => {
                                         <Route path="/ficha/:num" component={waitFor(Ficha)} />
                                         <Route path="/inicio" component={waitFor(Inicio)} />
                                         <Route path="/cadastro" component={waitFor(Cadastro)} />
-                                        <Route path="/gerenciar" component={waitFor(GerenciarDocumento)} />
+                                        <Route path="/gerenciar/:id" component={waitFor(GerenciarDocumento)} />
 
                                         <Redirect to="/inicio" />
                                     </Switch>
