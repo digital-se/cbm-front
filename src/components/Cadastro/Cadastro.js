@@ -231,14 +231,48 @@ class Cadastro extends Component {
 
         if (!this.state.allValid) return await this.toggleStep('1');
 
-        alert("cadastrado com sucesso")
+        let doc = {
+            nome: this.state.form.nome,
+            tipo: this.state.form.tipo,
+            numeracao: this.state.form.numeracao,
+            data: this.state.form.data,
+            publico: this.state.form.visibilidade,
+            descricao: this.state.form.descrição
+        }
+
+        let documento = await axios.post("http://localhost:8082/documentos", doc)
+
+        console.log(documento)
+
+        const formData = new FormData()
+        let fileData = []
+
+        for (let i = 0; i < this.state.files.length; i++) {
+            fileData.push({ ocr: this.state.files[i].ocr })
+            formData.append('files', this.state.files[i])
+        }
+
+        const json = JSON.stringify(fileData);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+
+        formData.append("arquivosDTO", blob)
+
+        await axios.post(`http://localhost:8082/documentos/${documento.data.id}/arquivos`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+
+        this.props.history.push('/gerenciar/' + documento.data.id);
 
     }
 
     cleanMilitares = async () => {
         await this.setState({ militares: [] })
     }
-    
+
 
     render() {
         return (
@@ -548,7 +582,7 @@ class Cadastro extends Component {
                                                                 onChange={this.changeHandler}
                                                             >
                                                                 <option hidden disabled value="">Tipo da busca</option>
-                                                                <option value="nome">Nome</option>
+                                                                <option disabled value="nome">Nome</option>
                                                                 <option value="matrícula">Matrícula</option>
                                                             </Input>
                                                         </FormGroup>
