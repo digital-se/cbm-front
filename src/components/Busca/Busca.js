@@ -15,6 +15,8 @@ import { withRouter } from 'react-router-dom';
 
 import qs from "qs";
 
+import axios from "axios"
+
 class Busca extends React.Component {
 
     //vazio = todos 
@@ -48,12 +50,13 @@ class Busca extends React.Component {
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
 
+        let resultados = await axios.get("http://localhost:8082/documentos")
     }
 
-    showResult= () => { //isso é literalmente um toggle pra exibir ShowResult kkkkk 
+    showResult = () => { //isso é literalmente um toggle pra exibir ShowResult kkkkk 
         this.setState({
             busca: !this.state.busca
         });
@@ -194,15 +197,15 @@ class Busca extends React.Component {
                                 </Card>
                             </Col>
 
-                            
+
                             <Col>
-                            
-                            {this.state.busca ? 
-                            <SearchResult/>
-                            :
-                            <p>kkk sim</p>
-                            }
-                                
+
+                                {this.state.busca ?
+                                    <SearchResult />
+                                    :
+                                    <p>kkk sim</p>
+                                }
+
                             </Col>
                         </Row>
                     </Col>
