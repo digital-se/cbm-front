@@ -85,7 +85,7 @@ class GerenciarDocumento extends React.Component {
         let documento = await axios.get(`http://localhost:8082/documentos/${this.props.match.params.id}`)
 
         // console.log("maoi")
-        // documento = documento.data
+        documento = documento.data
         // console.log("maioi")
 
         let a = {
