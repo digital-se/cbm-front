@@ -24,23 +24,41 @@ class ResultCard extends Component {
     render() {
         if (this.tipo === "ficha") {
             return (
-                <Col>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <a href={"/ficha/" + this.num} style={{ width: '17rem', justifyContent: 'center', color: '#fff', cursor: 'pointer' }}>
-                            <Card style={{ width: '17rem', justifyContent: 'd-flex', alignItems: 'center'  }}>
-                                <CardTitle style={{ width: '17rem', justifyContent: 'center', alignItems: 'center'}} className = 'col-9 py-6'>
-                                    <Row style={{ width: '16rem', alignItems: 'center'  }}>
-                                        <div style={{ backgroundColor: '#9F75FF', width: '3.5rem', alignItems:'left' }}  >
-                                            <em className="fa fa-address-card fa-3x"></em>
-                                        </div>
-                                        <div style={{ backgroundColor: '#9FF', width: '11rem', alignItems:'right' }} >
-                                            <h4>
-                                                Fichas de arroz
-                                            </h4>
-                                        </div>
-                                    </Row>
-                                </CardTitle>
+                <Row style={{ justifyContent: "center", alignItems: "center" }}>
+                    <Card style={{ width: "16rem", justifyContent: "center" }}>
+                        <Row>
+                            <Col>
+                                <a
+                                    href={"/ficha/" + this.num}
+                                    style={{
+                                        width: "16rem",
+                                        justifyContent: "center",
+                                        color: "#fff",
+                                        cursor: "pointer",
+                                    }}
+                                >
+                                    <CardHeader style={{ width: "16rem", alignItems: "center", justifyContent: "center", backgroundColor: "#9F75FF" }} >
+                                        <Row>
+                                            <div style={{ backgroundColor: "#9F75FF", width: "3rem", justifyContent: "center", alignItems: "right" }}>
+                                                <em className="fa fa-address-card fa-3x"></em>
+                                            </div>
+                                            <div style={{ backgroundColor: "#95FF", width: "10rem", justifyContent: "center", alignItems: "left" }}>
+                                                <h5> Fichas de arroz</h5>
+                                            </div>
+                                        </Row>
+                                    </CardHeader>
+                                </a>
                                 <CardBody>
+                                    <Row>
+                                        <Col>
+                                            <Label>Tipo:</Label>
+                                            <div style={{ width: "15px" }} />
+                                            <Label>Data:</Label>
+                                            <div style={{ width: "15px" }} />
+                                            <Label>.... Militares adicionados</Label>
+
+                                        </Col>
+                                    </Row>
                                     <Row>
                                         <Col>
                                             <FormGroup>
@@ -50,47 +68,63 @@ class ResultCard extends Component {
                                                     type="textarea"
                                                     name="descricao"
                                                     id="descricao"
-                                                    style={{ "resize": "none", "height": "50px", "cursor": "pointer" }} />
+                                                    value={this.nome}
+                                                    style={{
+                                                        resize: "none",
+                                                        height: "50px",
+                                                        cursor: "pointer",
+                                                    }}
+                                                />
                                             </FormGroup>
                                         </Col>
                                     </Row>
                                 </CardBody>
-                            </Card>
-                        </a>
-                    </Row>
-                </Col>
+                            </Col>
+                        </Row>
+                    </Card>
+                </Row>
+            );
 
-            )
-            /*             return (
-                            <Link to={"/ficha/" + this.num} style={{ color: '#fff' }} >
-                                <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
-            
-                                        <div style={{ backgroundColor: '#f56e27' }} className="col-9 py-3 rounded-right" >
-                                            <div className="h4 mt-0">{this.nome}</div>
-                                            <div className="text-uppercase">{this.data}</div>
-                                        </div>
-                                    </div>
-                                </Row>
-                
-                            </Link>
-            ) */
         } else if (this.tipo === "diario") {
             return (
-                <a href={this.url} target="_blank" rel="noreferrer" style={{ color: '#fff' }}>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <div style={{ "width": "250px" }} className="card flex-row align-items-center align-items-stretch border-0">
-                            <div style={{ backgroundColor: '#ca130c' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
-                                <em className="fas fa-newspaper fa-3x"></em>
-                            </div>
-                            <div style={{ backgroundColor: '#f22d26' }} className="col-9 py-3 rounded-right">
-                                <div className="h3 mt-0">{this.nome}</div>
-                                <div className="text-uppercase">{this.data}</div>
-                            </div>
-                        </div>
-                    </ Row>
-                </a>
-            )
+
+                <a href={this.url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+                    <Card style={{ borderRadius: '10px', width: "16rem", justifyContent: "center" }}>
+                        <CardHeader style={{ backgroundColor: '#20c997', color: "#fff" }}>
+                            <Row >
+                                <div className="col-3 d-flex align-items-center justify-content-center">
+                                    <em className="fas fa-newspaper fa-3x"></em>
+                                </div>
+
+                                <div className="col-6 py-3 rounded-right">
+                                    <div className="h5 mt-0">{this.nome} Diario de feijão</div>
+                                    {this.data} 99/99/999
+                                </div>
+                            </Row>
+                        </CardHeader>
+                        <CardBody style={{ color: '#343a40' }}>
+                            <Row>
+                                <Col>
+                                    <div style={{ width: "15px" }} />
+                                    <Label>Tipo: {this.tipo}</Label>
+                                    <div style={{ width: "15px" }} />
+                                </Col>
+                            </Row>
+                            <Label for="descricao">Descrição</Label>
+                            <Input
+                                disabled
+                                type="textarea"
+                                value={this.tipo}
+                                style={{
+                                    resize: "none",
+                                    height: "50px",
+                                    cursor: "pointer",
+                                }}
+                            />
+                        </CardBody>
+                    </Card>
+                </a >
+            );
         }
     }
 }
