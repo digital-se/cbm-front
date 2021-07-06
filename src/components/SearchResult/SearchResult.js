@@ -32,6 +32,7 @@ class SearchResult extends React.Component {
         this.n = 0
         db.getSearch().then(resultados => {
             this.setState({ resultados: resultados.documents })
+            console.log(this.state.resultados[3])
         })
     }
 
@@ -40,6 +41,8 @@ class SearchResult extends React.Component {
     }
 
     render() {
+        
+        
         return (
             <ContentWrapper>
                 {console.log(this.state.resultados)}
@@ -49,7 +52,7 @@ class SearchResult extends React.Component {
                         <Row>
                             {this.state.resultados.map(document => (
                                 <Col xl={4} md={8} key={this.n++}>
-                                    <ResultCard nome={document.nome}  tipo={document.type} dataHoraCadastro={document.date} militares={document.militares} numeracao={document.num} url={document.url} />
+                                    <ResultCard nome={document.nome}  tipo={document.type} dataHoraCadastro={document.date} militares={document.militares} numeracao={document.num} descricao={document.descricao} url={document.url} />
                                 </Col>
                             ))}
                         </Row>
