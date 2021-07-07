@@ -196,14 +196,12 @@ class Busca extends React.Component {
                                     </CardBody>
                                 </Card>
                             </Col>
-
-
                             <Col>
 
                                 {this.state.busca ?
                                     <SearchResult />
                                     :
-                                    <p>kkk sim</p>
+                                    <p>Os resultados aparecerão aqui :)</p>
                                 }
 
                             </Col>
