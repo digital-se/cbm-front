@@ -41,20 +41,27 @@ class SearchResult extends React.Component {
     }
 
     render() {
-        
-        
+
+
         return (
             <ContentWrapper>
                 {console.log(this.state.resultados)}
-                <div style={{overflow: "scroll", "overflow-x" : "hidden", height: "720px"}}>
+                <div style={{ overflow: "scroll", "overflow-x": "hidden", height: "768px" }}>
                     {this.state.resultados.length} resultado(s)
                     <Container >
                         <Row>
                             {this.state.resultados.map(document => (
-                                <Col xl={4} md={8} key={this.n++}>
-                                    <ResultCard nome={document.nome}  tipo={document.type} dataHoraCadastro={document.date} militares={document.militares} numeracao={document.num} descricao={document.descricao} url={document.url} />
+                                <Col xl={4} md={3} key={this.n++}>
+                                    <ResultCard nome={document.nome}
+                                        tipo={document.type}
+                                        dataHoraCadastro={document.date}
+                                        militares={document.militares}
+                                        numeracao={document.num}
+                                        descricao={document.descricao}
+                                        url={document.url}
+                                    />
                                 </Col>
-                            ))}
+                            ))}                            
                         </Row>
                     </Container>
                 </div>
