@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, CardLink, CardTitle } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { Card, CardBody, CardHeader} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+import { Label } from 'reactstrap';
+import { Input } from 'reactstrap';
 
 class ResultCard extends Component {
         
@@ -16,48 +15,62 @@ class ResultCard extends Component {
         this.militares = this.props.militares
         this.descricao = this.props.descricao
 
-        
-        
         if (this.tipo === "diario") {
+            this.nome = "Diário de"
+            this.icon = <em className="fas fa-newspaper fa-3x"></em>
+            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
             this.url = this.props.url
-            this.color = "#7266ba"
-
-
-        } else if (this.tipo === "BGA"){
-            this.color = "#2f80e7"
-    
-        }else if (this.tipo === "BGO"){
-            this.color = "#7266ba"
+            this.color = "#ff902b"
 
         }else if (this.tipo === "ficha"){
+            this.nome = "Ficha de"
+            this.militaresLabel = <Label>{this.militares} Militar cringe</Label>
+            this.icon = <em className="fa fa-address-card fa-3x"></em>   
             this.color = "#D04545"
             this.url = "/ficha/" + this.numeracao
-        }
+        } else if (this.tipo === "BGA"){
+            this.icon = <em className="fa fa-file-alt fa-3x"></em> 
+            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
+            this.color = "#37bc9b"
+            this.url = this.props.url
+    
+        }else if (this.tipo === "BGO"){
+            this.icon = <em className="fa fa-file-alt fa-3x"></em> 
+            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
+            this.color = "#43d967"
+            this.url = this.props.url
+
+        }else if (this.tipo === "BIR"){
+            this.icon = <em className="fa fa-file-alt fa-3x"></em> 
+            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
+            this.color = "#17a2b8"
+            this.url = this.props.url
+
         
     }
+}
 
     render() {
-        if (this.tipo === "ficha" || this.tipo === "diario") {
             return (
                 <a 
                 href={this.url}
                 target="_blank" 
                 rel="noreferrer"
                 style={{
-                    width: "16rem",
+                    width: "14rem",
                     justifyContent: "center",
                     color: "#FFFF",
                     cursor: "pointer",
                     textDecoration: 'none' 
                 }}>
-                    <Card style={{ borderRadius: '10px', width: "16rem", justifyContent: "center" }}>
-                        <CardHeader style={{ backgroundColor: this.color, color: "#FFFF", justifyContent: "center" }}>
+                    <Card className="border" style={{ borderRadius: '8px', width: "14rem", justifyContent: "center" }}>
+                        <CardHeader className="col-12" style={{ borderTopLeftRadius: '10px',borderTopRightRadius: '10px',backgroundColor: this.color, color: "#FFFF", justifyContent: "center"}}>
                             <Row >
-                                <div className="col-3 d-flex align-items-center justify-content: mr-4 ml-1 ">
-                                    <em className="fa fa-address-card fa-3x"></em>
+                                <div className="col-3 d-flex align-items-center align-content-center justify-content-auto">
+                                    {this.icon}
                                 </div>
-                                <div className="col-6 py-3 d-flex rounded-right">
-                                    <div className="h5">{this.nome} Fichas de arroz</div>
+                                <div className="col-9 py-2 align-items-center align-content-center justify-content-auto">
+                                    <div className="h5">{this.nome} arroz </div>
                                 </div>
                             </Row>
                         </CardHeader>
@@ -70,7 +83,7 @@ class ResultCard extends Component {
                                     <Label>Data: {this.data} 21/10/2021</Label>
                                     <div style={{ width: "15px" }} />
                                     <div style={{ width: "15px" }} />
-                                    <Label>{this.militares} Militares adicionados</Label>
+                                    {this.militaresLabel}
                                 </Col>
                             </Row>
                             <Label for="descricao">Descrição</Label>
@@ -88,52 +101,6 @@ class ResultCard extends Component {
                     </Card>
                 </a >
             );
-
-        //esse card 
-        } {/* else if (this.tipo === "diario" || this.tipo === "BGA" || this.tipo === "BGO" || this.tipo === "BIR") {
-            return (
-                <a href={this.url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
-                    
-                <Card style={{ borderRadius: '10px', width: "16rem", justifyContent: "center" }}>
-                    <CardHeader className="col-12" style={{background: this.color, color: "#fff", height: "4rem"}}>
-                        <Row >
-                            <div className="col-3 d-flex align-items-center justify-content-center">
-                                <em className="fas fa-newspaper fa-3x"></em>
-                            </div>
-                            <div className="col-9 py-2" >
-                                <div className="h5 mt-0">{this.nome} Diario de feijão</div>
-                                
-                            </div>
-                        </Row>
-                    </CardHeader>
-
-                    <CardBody style={{ color: '#343a40' }}>
-                        <Row>
-                            <Col>
-                                <Label>Tipo: {this.tipo}</Label>
-                                <div style={{ width: "15px" }} />
-                                <Label>Data: {this.data} 21/10/2021</Label>
-                                <div style={{ width: "15px" }} />
-                                <Label>n Militares associados</Label>
-                            </Col>
-                        </Row>
-                        <Label for="descricao">Descrição</Label>
-                        <Input
-                            disabled
-                            type="textarea"
-                            value="disgraçaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa disgraçaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa disgraçaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                            style={{
-                                resize: "none",
-                                height: "75px",
-                                cursor: "pointer",
-                            }}
-                        />
-                    </CardBody>
-                </Card>
-            </a >
-               
-            );
-        } */}
     }
 }
 
