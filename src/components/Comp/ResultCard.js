@@ -11,8 +11,8 @@ class ResultCard extends Component {
 
         let data = new Date(this.props.data)
 
+        this.id = this.props.id
         this.nome = this.props.nome
-        this.data = this.props.data
         this.data = (((data.getDate())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear())
         this.tipo = this.props.tipo
         this.numeracao = this.props.numeracao
@@ -20,44 +20,52 @@ class ResultCard extends Component {
         this.descricao = this.props.descricao
 
         if (this.tipo === "diario") {
-            this.nome = "Diário de"
+            this.nome = "Diário"
             this.icon = <em className="fas fa-newspaper fa-3x"></em>
-            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
+            this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
             this.url = this.props.url
             this.color = "#ff902b"
 
-            this.nome = "Ficha de"
-            this.militaresLabel = <Label>{this.militares} Militar cringe</Label>
-            this.icon = <em className="fa fa-address-card fa-3x"></em>   
 
+        } else if (this.tipo === "ficha") {
+            this.nome = "Ficha "
+            this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
+            this.icon = <em className="fa fa-address-card fa-3x"></em>
             this.color = "#D04545"
             this.url = "/ficha/" + this.numeracao
-        } else if (this.tipo === "BGA"){
-            this.icon = <em className="fa fa-file-alt fa-3x"></em> 
-            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
-            this.color = "#37bc9b"
-            this.url = this.props.url
-    
-        }else if (this.tipo === "BGO"){
-            this.icon = <em className="fa fa-file-alt fa-3x"></em> 
-            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
-            this.color = "#43d967"
-            this.url = this.props.url
 
-        }else if (this.tipo === "BIR"){
-            this.militaresLabel = <Label>{this.militares} Militares cringe</Label>
+        } else if (this.tipo === "relatorio") {
+            this.nome = "Relatório de processos"
+            this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
+            this.icon = <em className="fa fa-address-card fa-3x"></em>
+            this.color = "#D0B243"
+            this.url = "/gerenciar/" + this.props.id
+
+        } else if (this.tipo === "bga") {
+            this.icon = <em className="fa fa-file-alt fa-3x"></em>
+            this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
+            this.color = "#37bc9b"
+            this.url = "/gerenciar/" + this.props.id
+
+        } else if (this.tipo === "bgo") {
+            this.icon = <em className="fa fa-file-alt fa-3x"></em>
+            this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
+            this.color = "#43d967"
+            this.url = "/gerenciar/" + this.props.id
+
         } else if (this.tipo === "bir") { //BIR
             this.icon = <em className="fa fa-file-alt fa-3x"></em>
+            this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
             this.color = "#17a2b8"
-            this.url = this.props.url
+            this.url = "/gerenciar/" + this.props.id
 
 
         }
     }
 
     render() {
-            return (
-                <a 
+        return (
+            <a
                 href={this.url}
                 target="_blank"
                 rel="noreferrer"
@@ -98,6 +106,14 @@ class ResultCard extends Component {
                             value={this.descricao}
                             style={{
                                 resize: "none",
+                                height: "75px",
+                                cursor: "pointer",
+                            }}
+                        />
+                    </CardBody>
+                </Card>
+            </a >
+        );
     }
 }
 
