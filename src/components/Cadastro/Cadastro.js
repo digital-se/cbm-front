@@ -240,7 +240,7 @@ class Cadastro extends Component {
             descricao: this.state.form.descrição
         }
 
-        let documento = await axios.post("http://localhost:8082/documentos", doc)
+        let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc)
 
         console.log(documento)
 
@@ -259,7 +259,7 @@ class Cadastro extends Component {
 
         formData.append("arquivosDTO", blob)
 
-        await axios.post(`http://localhost:8082/documentos/${documento.data.id}/arquivos`, formData, {
+        await axios.post(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${documento.data.id}/arquivos`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

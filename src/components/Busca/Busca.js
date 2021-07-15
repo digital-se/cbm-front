@@ -53,7 +53,7 @@ class Busca extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault(); 
 
-        let resultados = await axios.get("http://localhost:8082/documentos")
+        let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
     }
 
     showResult = () => { //isso é literalmente um toggle pra exibir ShowResult kkkkk 

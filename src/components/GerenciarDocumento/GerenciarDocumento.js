@@ -81,8 +81,8 @@ class GerenciarDocumento extends React.Component {
         // console.log("maoi")
         // console.log(this.props.match.params.id)
         // console.log("maioi")
+        let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
 
-        let documento = await axios.get(`http://localhost:8082/documentos/${this.props.match.params.id}`)
 
         // console.log("maoi")
         documento = documento.data
@@ -104,7 +104,7 @@ class GerenciarDocumento extends React.Component {
             },
             arquivos: documento.arquivos.map((arq) => {
                 return {
-                    src: `http://localhost:8082/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                    src: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
                     caption: arq.nome,
                     ocr: arq.texto
                 }
