@@ -8,8 +8,12 @@ class ResultCard extends Component {
 
     constructor(props) {
         super(props)
+
+        let data = new Date(this.props.data)
+
         this.nome = this.props.nome
         this.data = this.props.data
+        this.data = (((data.getDate())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear())
         this.tipo = this.props.tipo
         this.numeracao = this.props.numeracao
         this.militares = this.props.militares
