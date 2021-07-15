@@ -103,26 +103,6 @@ class SearchResult extends React.Component {
                                         </Row>
                                     </div>
                                     <div style={{ "height": "20px" }}></div>
-                                    <div className="text-center">
-                                        <Row style={{
-                                            justifyContent: 'center',
-                                            alignItems: 'center'
-                                        }}>
-                                            <Link to={"/gerenciar/14"} style={{ color: '#fff', textDecoration: 'none' }}>
-                                                {/*atualizar para nav e aumentar uns 25% de tudo ai*/}
-                                                <div style={{ "width": "450px", "height": "100px", borderRadius: '20px' }} className="card flex-row align-items-center align-items-stretch border-0 rounded">
-                                                    <div style={{ backgroundColor: '#fff' }} className="btn-outline-light"></div>
-                                                    <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
-                                                        <em className="fa fa-file fa-3x" />
-                                                    </div>
-                                                    <div style={{ backgroundColor: '#f13430' }} className="col-9 py-3 d-flex align-items-center justify-content-center rounded-right btn-outline-light" >
-                                                        <div className="h2  mt-0">Gerenciar documentos(temporário)</div>
-                                                        <div className="text-uppercase">{this.data}</div>
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </Row>
-                                    </div>
                                 </Col>
                             </CardBody>
                         </Card>

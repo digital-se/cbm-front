@@ -51,12 +51,12 @@ class Busca extends React.Component {
     }
 
     handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
         let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
     }
 
-    showResult = () => { //isso é literalmente um toggle pra exibir ShowResult kkkkk 
+    showResult = () => {
         this.setState({
             busca: true
         });

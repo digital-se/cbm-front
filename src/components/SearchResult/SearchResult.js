@@ -41,12 +41,10 @@ class SearchResult extends React.Component {
     }
 
     render() {
-
-
         return (
             <ContentWrapper>
                 {console.log(this.state.resultados)}
-                <div style={{overflow: "scroll", "overflow-x": "hidden", height: "768px"}}>
+                <div style={{ overflow: "scroll", "overflow-x": "hidden", height: "742px" }}>
                     {this.state.resultados.length} resultado(s)
                     <Container>
                         <Row>
@@ -61,25 +59,7 @@ class SearchResult extends React.Component {
                                         url={document.url}
                                     />
                                 </Col>
-
                             ))}
-                            {/* <Pagination aria-label="Page navigation example" className="d-flex justify-content-center">
-                                <PaginationItem>
-                                    <PaginationLink previous onClick={this.previous} />
-                                </PaginationItem>
-                                {this.state.resultados.map((item, index) => {
-                                    return (
-                                        <PaginationItem key={index}>
-                                            <PaginationLink onClick={() => this.goToIndex(index)}>
-                                                {index + 1}
-                                            </PaginationLink>
-                                        </PaginationItem>
-                                    )
-                                })}
-                                <PaginationItem>
-                                    <PaginationLink next onClick={this.next} />
-                                </PaginationItem>
-                            </Pagination> */}
                         </Row>
                     </Container>
                 </div>
