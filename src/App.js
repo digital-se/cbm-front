@@ -1,14 +1,3 @@
-/*!
- *
- * Angle - Bootstrap Admin Template
- *
- * Version: 4.7.8
- * Author: @themicon_co
- * Website: http://themicon.co
- * License: https://wrapbootstrap.com/help/licenses
- *
- */
-
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
