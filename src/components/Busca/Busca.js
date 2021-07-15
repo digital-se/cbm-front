@@ -51,14 +51,14 @@ class Busca extends React.Component {
     }
 
     handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
 
         let resultados = await axios.get("http://localhost:8082/documentos")
     }
 
     showResult = () => { //isso é literalmente um toggle pra exibir ShowResult kkkkk 
         this.setState({
-            busca: !this.state.busca
+            busca: true
         });
     }
 
