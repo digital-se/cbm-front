@@ -78,12 +78,13 @@ class GerenciarDocumento extends React.Component {
 
         documento = documento.data
 
+        let data = new Date(documento.data)
 
         let doc = {
             campos: {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
-                data: documento.data,
+                data: (((data.getDate())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()),
                 tipo: documento.tipo,
                 descricao: documento.descricao,
                 militares: documento.militares.map((mil) => {
