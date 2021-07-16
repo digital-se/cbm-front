@@ -43,7 +43,7 @@
     "@testing-library/user-event": "^13.1.9",
     "animate.css": "4.1.1",
     "axios": "^0.21.1",
-    "bootstrap": "4.5.3",
+    "bootstrap": "5.0.2",
     "chart.js": "3.4.1",
     "chartist": "0.11.0",
     "core-js": "3.13.0",
