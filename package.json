@@ -5,7 +5,7 @@
   "author": "digitalse",
   "license": "https://wrapbootstrap.com/help/licenses",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://digitalse.cbm.se.gov.br/",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
