@@ -15,7 +15,6 @@ const waitFor = Tag => props => <Tag {...props} />; //arrumar esse bixao
 const Busca = lazy(() => import('./components/Busca/Busca'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const SearchResult = lazy(() => import('./components/SearchResult/SearchResult'));
-const Ficha = lazy(() => import('./components/Ficha/Ficha'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const GerenciarDocumento = lazy(() => import("./components/GerenciarDocumento/GerenciarDocumento"));
@@ -61,7 +60,6 @@ const Routes = ({ location }) => {
                                         <Route path="/busca" component={waitFor(Busca)} />
                                         <Route path="/submenu" component={waitFor(SubMenu)} />
                                         <Route path="/searchresult" component={waitFor(SearchResult)} />
-                                        <Route path="/ficha/:num" component={waitFor(Ficha)} />
                                         <Route path="/inicio" component={waitFor(Inicio)} />
                                         <Route path="/cadastro" component={waitFor(Cadastro)} />
                                         <Route path="/gerenciar/:id" component={waitFor(GerenciarDocumento)} />

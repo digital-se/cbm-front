@@ -2,12 +2,12 @@ const axios = require('axios');
 
 class Db {
     constructor() {
-        this.url = 'https://mock-bomb.raiomarco.repl.co'
+        this.url = 'https://sandbox-api.cbm.se.gov.br/api-digitalse'
     }
 
     async getSearch() {
         try {
-            const response = await axios.get(`${this.url}/busca`);
+            const response = await axios.get(`${this.url}/documentos`);
             let data = response.data
             return data
         } catch (error) {
