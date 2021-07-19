@@ -9,7 +9,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --passWithNoTests",
     "eject": "react-scripts eject",
     "build-modernizr": "modernizr -c modernizr-config.json -d src/modernizr.js -u",
     "build-themes": "sass src/styles/themes -o public/themes -w",
