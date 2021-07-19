@@ -1,9 +1,10 @@
 import React from 'react';
-import { withTranslation} from 'react-i18next';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Row, Col} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
-import { Button, FormGroup, Label} from 'reactstrap';
+import { Button, FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
     Carousel,
@@ -267,6 +268,9 @@ class GerenciarDocumento extends React.Component {
             </ContentWrapper >
         );
     }
+}
+GerenciarDocumento.propTypes = {
+    match: PropTypes.node
 }
 
 export default withTranslation()(GerenciarDocumento);

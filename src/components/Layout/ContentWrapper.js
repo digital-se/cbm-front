@@ -13,6 +13,9 @@ const ContentWrapper = props => (
         }
     </div>
 )
+ContentWrapper.propTypes = {
+    children: PropTypes.node
+}
 
 ContentWrapper.propTypes = {
     /** add element with 'unwrap' class to expand content area */

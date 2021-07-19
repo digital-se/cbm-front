@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 //import { withTranslation, Trans } from 'react-i18next';
 //import ContentWrapper from '../Layout/ContentWrapper';
 import { Input } from 'reactstrap';
@@ -669,6 +670,9 @@ class Cadastro extends Component {
             </div >
         );
     }
+}
+Cadastro.propTypes = {
+    history: PropTypes.node
 }
 
 export default Cadastro;

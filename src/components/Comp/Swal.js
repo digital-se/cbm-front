@@ -27,11 +27,12 @@ const Swal = props => {
     )
 }
 
-Swal.propType = {
+Swal.propTypes = {
     /** swal options object */
     options: PropTypes.object.isRequired,
     /** callback function for swal response */
-    callback: PropTypes.func
+    callback: PropTypes.func,
+    children: PropTypes.node
 }
 
 Swal.defaultProps = {
