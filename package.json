@@ -84,6 +84,7 @@
     "modernizr": "3.11.7",
     "moment": "2.29.1",
     "pdfmake": "0.1.71",
+    "prop-types": "^15.7.2",
     "raf": "3.4.1",
     "raphael": "2.2.7",
     "rc-slider": "8.6.3",
