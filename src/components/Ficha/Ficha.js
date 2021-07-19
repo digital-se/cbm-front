@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+import React from 'react';
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
-    Carousel,
     CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
     CarouselCaption
 } from 'reactstrap';
 
@@ -34,56 +28,6 @@ const items = [
     }
 ];
 
-const Example = (props) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [animating, setAnimating] = useState(false);
-
-    const next = () => {
-        if (animating) return;
-        const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
-        setActiveIndex(nextIndex);
-    }
-
-    const previous = () => {
-        if (animating) return;
-        const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-        setActiveIndex(nextIndex);
-    }
-
-    const goToIndex = (newIndex) => {
-        if (animating) return;
-        setActiveIndex(newIndex);
-    }
-
-    const slides = items.map((item) => {
-        return (
-            <CarouselItem
-                onExiting={() => setAnimating(true)}
-                onExited={() => setAnimating(false)}
-                key={item.src}
-            >
-                <img src={item.src} alt={item.altText} />
-                <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
-            </CarouselItem>
-        );
-    });
-
-    return (
-        <Carousel
-            activeIndex={activeIndex}
-            next={next}
-            previous={previous}
-            className="text-center"
-        >
-            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
-            {slides}
-            <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-        </Carousel>
-    );
-}
-
-
 class Ficha extends React.Component {
 
     state = {
@@ -97,10 +41,6 @@ class Ficha extends React.Component {
             activeIndex: 0,
             animating: false
         }
-    }
-
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
     }
 
     toggle = () => {
@@ -159,7 +99,7 @@ class Ficha extends React.Component {
                 </div>
                 <div>
                     <ul>
-                        {Object.keys(this.state.ficha.campos).map((key, index) => {
+                        {Object.keys(this.state.ficha.campos).map((key) => {
                             return <li key={this.n++}><p> {key}</p><p>{this.state.ficha.campos[key]}</p></li>
                         })}
                     </ul>
@@ -194,4 +134,4 @@ class Ficha extends React.Component {
     }
 }
 
-export default withTranslation()(Ficha);
+export default (Ficha);

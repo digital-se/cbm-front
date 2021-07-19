@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { withTranslation, Trans } from 'react-i18next';
-import ContentWrapper from '../Layout/ContentWrapper';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText, FormFeedback } from 'reactstrap';
+//import { withTranslation, Trans } from 'react-i18next';
+//import ContentWrapper from '../Layout/ContentWrapper';
+import { Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
@@ -10,30 +10,17 @@ import {
     Card,
     CardHeader,
     CardBody,
-    CardGroup,
-    CardTitle,
-    CardLink,
-    CardFooter,
     TabContent,
     TabPane,
     Nav,
     NavItem,
-    NavLink,
-    ButtonGroup,
     Row,
     Col,
     Table
 } from 'reactstrap';
-import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
-import { thresholdFreedmanDiaconis } from 'd3';
-
 import Swal from '../Comp/Swal';
-
-const stepNavitemStyle = {
-    backgroundColor: '#fcfcfc' //padronization
-};
 
 class Cadastro extends Component {
     state = {

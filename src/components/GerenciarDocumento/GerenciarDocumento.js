@@ -1,32 +1,19 @@
-import React, { useState } from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+import React from 'react';
+import { withTranslation} from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
+import { Row, Col} from 'reactstrap';
+import { Input } from 'reactstrap';
+import { Button, FormGroup, Label} from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
     Carousel,
     CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
-    CarouselCaption
 } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 import Swal from '../Comp/Swal';
-
-// import { withSwalInstance } from 'sweetalert2-react';
-// import sweetalert2 from 'sweetalert2';
-
-import db from "../../db/db"
-
 import axios from "axios"
-
-// const Swal = withSwalInstance(sweetalert2);
-
 class GerenciarDocumento extends React.Component {
 
     state = {
@@ -46,10 +33,6 @@ class GerenciarDocumento extends React.Component {
             activeIndex: 0,
             animating: false
         }
-    }
-
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
     }
 
     toggle = () => {
@@ -76,18 +59,9 @@ class GerenciarDocumento extends React.Component {
     }
 
     async componentDidMount() {
-        // this.getFicha()
-
-        // console.log("maoi")
-        // console.log(this.props.match.params.id)
-        // console.log("maioi")
 
         let documento = await axios.get(`http://localhost:8082/documentos/${this.props.match.params.id}`)
-
-        // console.log("maoi")
         documento = documento.data
-        // console.log("maioi")
-
         let a = {
             campos: {
                 nome: documento.nome,
@@ -109,63 +83,6 @@ class GerenciarDocumento extends React.Component {
                     ocr: arq.texto
                 }
             })
-            //     militares: [
-            //         {
-            //             nome: "Cras justo odio",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Dapibus ac facilisis in",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Morbi leo risus",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Porta ac consectetur ac",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Vestibulum at eros",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Pindamonhangava at linaldo",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Juleibes ni aterois",
-            //             matricula: "123"
-            //         },
-            //         {
-            //             nome: "Sacodei la vizinhansa",
-            //             matricula: "123"
-            //         },
-            //     ],
-            // },
-            // arquivos: [
-            //     {
-            //         src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-            //         caption: 'pagina3.png',
-            //         ocr: "Teste ocr variavel"
-            //     },
-            //     {
-            //         src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-            //         caption: 'Arquivo27.jpg',
-            //         ocr: "Teste 2, ocr\n\n com linhas adaptaveis"
-            //     },
-            //     {
-            //         src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-            //         caption: 'Salada.gif',
-            //         ocr: "ioppoi"
-            //     },
-            //     {
-            //         src: 'https://i1.wp.com/www.rpgnext.com.br/wp-content/uploads/2015/09/DD-5th-Character-Sheet-Primeira-p%C3%A1gina.jpg?fit=1233%2C1600&ssl=1',
-            //         caption: 'Ficha D&D',
-            //         ocr: "ghjjhg"
-            //     }
-            // ]
         }
         await this.setState({ documento: a })
     }

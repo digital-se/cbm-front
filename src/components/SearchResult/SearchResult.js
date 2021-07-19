@@ -1,14 +1,9 @@
 import React from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import qs from "qs";
+import { Container, Row, Col} from 'reactstrap';
 
 import ResultCard from "../Comp/ResultCard"
-
 import db from "../../db/db"
 
 class SearchResult extends React.Component {
@@ -16,10 +11,6 @@ class SearchResult extends React.Component {
     state = {
         dropdownOpen: false,
         resultados: []
-    }
-
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
     }
 
     toggle = () => {
@@ -41,8 +32,6 @@ class SearchResult extends React.Component {
     }
 
     render() {
-
-
         return (
             <ContentWrapper>
                 {console.log(this.state.resultados)}
@@ -63,23 +52,6 @@ class SearchResult extends React.Component {
                                 </Col>
 
                             ))}
-                            {/* <Pagination aria-label="Page navigation example" className="d-flex justify-content-center">
-                                <PaginationItem>
-                                    <PaginationLink previous onClick={this.previous} />
-                                </PaginationItem>
-                                {this.state.resultados.map((item, index) => {
-                                    return (
-                                        <PaginationItem key={index}>
-                                            <PaginationLink onClick={() => this.goToIndex(index)}>
-                                                {index + 1}
-                                            </PaginationLink>
-                                        </PaginationItem>
-                                    )
-                                })}
-                                <PaginationItem>
-                                    <PaginationLink next onClick={this.next} />
-                                </PaginationItem>
-                            </Pagination> */}
                         </Row>
                     </Container>
                 </div>
@@ -88,4 +60,4 @@ class SearchResult extends React.Component {
     }
 }
 
-export default withTranslation()(SearchResult);
+export default (SearchResult);

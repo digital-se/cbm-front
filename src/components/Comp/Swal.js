@@ -19,7 +19,7 @@ const Swal = props => {
         swal.fire(props.options).then(p => props.callback(p, swal));
     }
 
-    const { callback, ...rest } = props;
+    const { ...rest } = props;
     return (
         <div {...rest} onClick={handleClick}>
             {props.children}

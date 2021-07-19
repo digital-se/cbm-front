@@ -14,6 +14,7 @@ class ResultCard extends Component {
         this.numeracao = this.props.numeracao
         this.militares = this.props.militares
         this.descricao = this.props.descricao
+        
 
         if (this.tipo === "diario") {
             this.nome = "Diário de"
