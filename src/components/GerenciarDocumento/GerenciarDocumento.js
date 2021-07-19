@@ -14,7 +14,7 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 import Swal from '../Comp/Swal';
 
-import db from "../../db/db"
+//import db from "../../db/db"
 
 import axios from "axios"
 

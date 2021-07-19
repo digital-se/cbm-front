@@ -7,12 +7,9 @@ import { Button,  FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SearchResult from '../SearchResult/SearchResult';
 
-
 import 'react-datetime/css/react-datetime.css';
 
 import { withRouter } from 'react-router-dom';
-
-import axios from "axios"
 
 class Busca extends React.Component {
 
@@ -46,7 +43,8 @@ class Busca extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
+        // let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
+        
     }
 
     showResult = () => {
