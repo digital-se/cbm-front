@@ -13,7 +13,11 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 import Swal from '../Comp/Swal';
+
+import db from "../../db/db"
+
 import axios from "axios"
+
 class GerenciarDocumento extends React.Component {
 
     state = {
@@ -60,13 +64,17 @@ class GerenciarDocumento extends React.Component {
 
     async componentDidMount() {
 
-        let documento = await axios.get(`http://localhost:8082/documentos/${this.props.match.params.id}`)
+        let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
+
         documento = documento.data
-        let a = {
+
+        let data = new Date(documento.data)
+
+        let doc = {
             campos: {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
-                data: documento.data,
+                data: (((data.getDate())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()),
                 tipo: documento.tipo,
                 descricao: documento.descricao,
                 militares: documento.militares.map((mil) => {
@@ -78,13 +86,13 @@ class GerenciarDocumento extends React.Component {
             },
             arquivos: documento.arquivos.map((arq) => {
                 return {
-                    src: `http://localhost:8082/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                    src: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
                     caption: arq.nome,
                     ocr: arq.texto
                 }
             })
         }
-        await this.setState({ documento: a })
+        await this.setState({ documento: doc })
     }
 
     render() {
