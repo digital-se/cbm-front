@@ -10,7 +10,7 @@ import BasePage from './components/Layout/BasePage';
 
 
 /* Used to render a lazy component with react-router */
-const waitFor = Tag => props => <Tag {...props} />; //arrumar esse bixao
+// const waitFor = Tag => props => <Tag {...props} />; //arrumar esse bixao
 
 const Busca = lazy(() => import('./components/Busca/Busca'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
@@ -57,12 +57,18 @@ const Routes = ({ location }) => {
                             <div>
                                 <Suspense fallback={<PageLoader />}>
                                     <Switch location={location}>
-                                        <Route path="/busca" component={waitFor(Busca)} />
+                                        {/* <Route path="/busca" component={waitFor(Busca)} />
                                         <Route path="/submenu" component={waitFor(SubMenu)} />
                                         <Route path="/searchresult" component={waitFor(SearchResult)} />
                                         <Route path="/inicio" component={waitFor(Inicio)} />
                                         <Route path="/cadastro" component={waitFor(Cadastro)} />
-                                        <Route path="/gerenciar/:id" component={waitFor(GerenciarDocumento)} />
+                                        <Route path="/gerenciar/:id" component={waitFor(GerenciarDocumento)} /> */}
+                                        <Route path="/busca" component={Busca} />
+                                        <Route path="/submenu" component={SubMenu} />
+                                        <Route path="/searchresult" component={SearchResult} />
+                                        <Route path="/inicio" component={Inicio} />
+                                        <Route path="/cadastro" component={Cadastro} />
+                                        <Route path="/gerenciar/:id" component={GerenciarDocumento} />
 
                                         <Redirect to="/inicio" />
                                     </Switch>
