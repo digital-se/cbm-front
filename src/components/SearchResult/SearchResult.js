@@ -1,25 +1,18 @@
 import React from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import qs from "qs";
+import { Container, Row, Col } from 'reactstrap';
 
 import ResultCard from "../Comp/ResultCard"
-
 import db from "../../db/db"
 
 class SearchResult extends React.Component {
 
     state = {
         dropdownOpen: false,
-        resultados: []
-    }
-
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
+        resultados: [],
+        waitResult: false,
+        searching:"Buscando...",
     }
 
     toggle = () => {
@@ -31,20 +24,31 @@ class SearchResult extends React.Component {
     getSearch() {
         this.n = 0
         db.getSearch().then(resultados => {
-            this.setState({ resultados: resultados })
+            this.setState({ resultados: resultados })  
+            this.awaitResult(true)
         })
     }
 
     componentDidMount() {
         this.getSearch()
+        
+    }
+    
+    awaitResult = async (q) => {
+        let n = this.state.resultados.length
+        if (q == true){
+            await this.setState({ ...this.state, searching: n + " resultado(s)"});
+        }
     }
 
     render() {
         return (
             <ContentWrapper>
-                {console.log(this.state.resultados)}
+                {console.log(this.state.resultados)} 
                 <div style={{ overflow: "scroll", "overflow-x": "hidden", height: "742px" }}>
-                    {this.state.resultados.length} resultado(s)
+                    
+                    <p>{this.state.searching}</p>
+
                     <Container>
                         <Row>
                             {this.state.resultados.map(document => (
@@ -69,4 +73,4 @@ class SearchResult extends React.Component {
     }
 }
 
-export default withTranslation()(SearchResult);
+export default (SearchResult);

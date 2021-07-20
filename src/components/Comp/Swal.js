@@ -19,7 +19,7 @@ const Swal = props => {
         swal.fire(props.options).then(p => props.callback(p, swal));
     }
 
-    const { callback, ...rest } = props;
+    const { ...rest } = props;
     return (
         <div {...rest} onClick={handleClick}>
             {props.children}
@@ -27,11 +27,12 @@ const Swal = props => {
     )
 }
 
-Swal.propType = {
+Swal.propTypes = {
     /** swal options object */
     options: PropTypes.object.isRequired,
     /** callback function for swal response */
-    callback: PropTypes.func
+    callback: PropTypes.func,
+    children: PropTypes.node
 }
 
 Swal.defaultProps = {

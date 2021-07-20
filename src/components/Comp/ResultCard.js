@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Row, Col } from 'reactstrap';
 import { Label } from 'reactstrap';
@@ -18,6 +19,7 @@ class ResultCard extends Component {
         this.numeracao = this.props.numeracao
         this.militares = this.props.militares
         this.descricao = this.props.descricao
+
 
         if (this.tipo === "diario") {
             this.nome = "Diário"
@@ -115,6 +117,16 @@ class ResultCard extends Component {
             </a >
         );
     }
+}
+ResultCard.propTypes = {
+    id: PropTypes.number.isRequired,
+    nome: PropTypes.string,
+    data: PropTypes.string,
+    tipo: PropTypes.string,
+    numeracao: PropTypes.string,
+    militares: PropTypes.array,
+    descricao: PropTypes.string,
+    url: PropTypes.string
 }
 
 export default ResultCard

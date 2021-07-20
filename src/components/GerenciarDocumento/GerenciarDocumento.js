@@ -1,28 +1,23 @@
-import React, { useState } from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+import { Input } from 'reactstrap';
+import { Button, FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import {
     Carousel,
     CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
-    CarouselCaption
 } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 import Swal from '../Comp/Swal';
 
-
-import db from "../../db/db"
+//import db from "../../db/db"
 
 import axios from "axios"
-
 
 class GerenciarDocumento extends React.Component {
 
@@ -43,10 +38,6 @@ class GerenciarDocumento extends React.Component {
             activeIndex: 0,
             animating: false
         }
-    }
-
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
     }
 
     toggle = () => {
@@ -277,6 +268,9 @@ class GerenciarDocumento extends React.Component {
             </ContentWrapper >
         );
     }
+}
+GerenciarDocumento.propTypes = {
+    match: PropTypes.node
 }
 
 export default withTranslation()(GerenciarDocumento);

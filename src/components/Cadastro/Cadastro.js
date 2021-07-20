@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { withTranslation, Trans } from 'react-i18next';
-import ContentWrapper from '../Layout/ContentWrapper';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText, FormFeedback } from 'reactstrap';
+import PropTypes from 'prop-types';
+//import { withTranslation, Trans } from 'react-i18next';
+//import ContentWrapper from '../Layout/ContentWrapper';
+import { Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
@@ -10,30 +11,17 @@ import {
     Card,
     CardHeader,
     CardBody,
-    CardGroup,
-    CardTitle,
-    CardLink,
-    CardFooter,
     TabContent,
     TabPane,
     Nav,
     NavItem,
-    NavLink,
-    ButtonGroup,
     Row,
     Col,
     Table
 } from 'reactstrap';
-import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
-import { thresholdFreedmanDiaconis } from 'd3';
-
 import Swal from '../Comp/Swal';
-
-const stepNavitemStyle = {
-    backgroundColor: '#fcfcfc' //padronization
-};
 
 class Cadastro extends Component {
     state = {
@@ -524,11 +512,13 @@ class Cadastro extends Component {
                                                         <hr />
                                                         <h3>Insira um Arquivo</h3>
                                                         <Dropzone className="card p-3" onDrop={this.onDrop}>
-                                                            <div className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px' }}>
-                                                                Arraste os arquivos aqui, ou clique para seleciona-los
-                                                                <p />
-                                                                <em className="fa fa-file fa-3x" />
-                                                            </div>
+                                                            {({ getRootProps, getInputProps }) => (
+                                                                <div {...getRootProps()} className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px', cursor: "pointer" }}>
+                                                                    <input {...getInputProps()} />
+                                                                    <p>Arraste os arquivos aqui, ou clique para seleciona-los</p>
+                                                                    <em className="fa fa-file fa-3x" />
+                                                                </div>
+                                                            )}
                                                         </Dropzone>
                                                         <div className="mt-3">
                                                             {this.state.files.length > 0 ?
@@ -682,6 +672,9 @@ class Cadastro extends Component {
             </div >
         );
     }
+}
+Cadastro.propTypes = {
+    history: PropTypes.node
 }
 
 export default Cadastro;

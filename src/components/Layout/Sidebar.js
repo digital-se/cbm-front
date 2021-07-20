@@ -19,6 +19,9 @@ const SidebarItemHeader = ({ item }) => (
         <span><Trans i18nKey={item.translate}>{item.heading}</Trans></span>
     </li>
 )
+SidebarItemHeader.propTypes = {
+    item: PropTypes.node
+}
 
 /** Normal items for the sidebar */
 const SidebarItem = ({ item, isActive }) => (
@@ -30,6 +33,10 @@ const SidebarItem = ({ item, isActive }) => (
         </Link>
     </li>
 )
+SidebarItem.propTypes = {
+    item: PropTypes.node,
+    isActive: PropTypes.bool
+}
 
 /** Build a sub menu with items inside and attach collapse behavior */
 const SidebarSubItem = ({ item, isActive, handler, children, isOpen }) => (
@@ -46,11 +53,21 @@ const SidebarSubItem = ({ item, isActive, handler, children, isOpen }) => (
         </Collapse>
     </li>
 )
+SidebarSubItem.propTypes = {
+    item: PropTypes.node,
+    isActive: PropTypes.bool,
+    handler: PropTypes.func,
+    children: PropTypes.node,
+    isOpen: PropTypes.bool
+}
 
 /** Component used to display a header on menu when using collapsed/hover mode */
 const SidebarSubHeader = ({ item }) => (
     <li className="sidebar-subnav-header">{item.name}</li>
 )
+SidebarSubHeader.propTypes = {
+    item: PropTypes.node
+}
 
 class Sidebar extends Component {
 
@@ -164,7 +181,9 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
     actions: PropTypes.object,
-    settings: PropTypes.object
+    settings: PropTypes.object,
+    history: PropTypes.node,
+    location: PropTypes.node
 };
 
 const mapStateToProps = state => ({ settings: state.settings })

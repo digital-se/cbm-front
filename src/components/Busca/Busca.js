@@ -1,21 +1,15 @@
 import React from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+import { withTranslation} from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { Button, Form, FormGroup, Label, FormText, FormFeedback } from 'reactstrap';
+import {  Row, Col } from 'reactstrap';
+import { Input } from 'reactstrap';
+import { Button,  FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SearchResult from '../SearchResult/SearchResult';
 
-// DateTimePicker
 import 'react-datetime/css/react-datetime.css';
-// Masked Input
 
 import { withRouter } from 'react-router-dom';
-
-import qs from "qs";
-
-import axios from "axios"
 
 class Busca extends React.Component {
 
@@ -36,10 +30,6 @@ class Busca extends React.Component {
 
     }
 
-    changeLanguage = lng => {
-        this.props.i18n.changeLanguage(lng);
-    }
-
     changeHandler = async (e) => {
         try {
             e.target.value = e.target.value.format('DD/MM/YYYY')
@@ -53,7 +43,8 @@ class Busca extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
+        // let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
+        
     }
 
     showResult = () => {
