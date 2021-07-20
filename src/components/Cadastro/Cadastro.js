@@ -512,11 +512,13 @@ class Cadastro extends Component {
                                                         <hr />
                                                         <h3>Insira um Arquivo</h3>
                                                         <Dropzone className="card p-3" onDrop={this.onDrop}>
-                                                            <div className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px' }}>
-                                                                Arraste os arquivos aqui, ou clique para seleciona-los
-                                                                <p />
-                                                                <em className="fa fa-file fa-3x" />
-                                                            </div>
+                                                            {({ getRootProps, getInputProps }) => (
+                                                                <div {...getRootProps()} className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px', cursor: "pointer" }}>
+                                                                    <input {...getInputProps()} />
+                                                                    <p>Arraste os arquivos aqui, ou clique para seleciona-los</p>
+                                                                    <em className="fa fa-file fa-3x" />
+                                                                </div>
+                                                            )}
                                                         </Dropzone>
                                                         <div className="mt-3">
                                                             {this.state.files.length > 0 ?
