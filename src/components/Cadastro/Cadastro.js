@@ -462,7 +462,7 @@ class Cadastro extends Component {
                                                                 type="date"
                                                                 name="data"
                                                                 id="data"
-                                                                max="9999-12-30"
+                                                                max={new Date().toISOString().split("T")[0]}
                                                                 value={this.state.form.data}
                                                                 onChange={this.changeHandler}
                                                                 valid={(this.state.form.data != "" && this.state.validation.data)}

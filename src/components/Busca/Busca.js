@@ -6,13 +6,12 @@ import { Input } from 'reactstrap';
 import { Button,  FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SearchResult from '../SearchResult/SearchResult';
-
 import 'react-datetime/css/react-datetime.css';
 
 import { withRouter } from 'react-router-dom';
 
 class Busca extends React.Component {
-
+    
     //vazio = todos 
     state = {
         dropdownOpen: false,
@@ -121,7 +120,7 @@ class Busca extends React.Component {
                                                                 type="date"
                                                                 name="dataInicial"
                                                                 id="dataInicial"
-                                                                max="2021-07-01" //maximo deve ser a data atual - ALTERAR
+                                                                max={new Date().toISOString().split("T")[0]} 
                                                                 value={this.state.form.dataInicial}
                                                                 onChange={this.changeHandler} />
                                                         </FormGroup>
@@ -133,7 +132,7 @@ class Busca extends React.Component {
                                                                 type="date"
                                                                 name="dataFinal"
                                                                 id="dataFinal"
-                                                                max="2021-07-01" //maximo deve ser a data atual - ALTERAR
+                                                                max={new Date().toISOString().split("T")[0]}
                                                                 value={this.state.form.dataFinal}
                                                                 onChange={this.changeHandler}
                                                             />
