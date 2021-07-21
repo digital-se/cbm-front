@@ -69,8 +69,6 @@ class ResultCard extends Component {
         return (
             <a
                 href={this.url}
-                target="_blank"
-                rel="noreferrer"
                 style={{
                     width: "14rem",
                     justifyContent: "center",
