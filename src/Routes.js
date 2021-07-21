@@ -14,7 +14,7 @@ import BasePage from './components/Layout/BasePage';
 
 const Busca = lazy(() => import('./components/Busca/Busca'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
-const SearchResult = lazy(() => import('./components/SearchResult/SearchResult'));
+// const SearchResult = lazy(() => import('./components/SearchResult/SearchResult'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const Documento = lazy(() => import("./components/Documento/Documento"));
