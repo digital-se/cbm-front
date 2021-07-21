@@ -5,6 +5,8 @@ import { Container, Row, Col } from 'reactstrap';
 
 import ResultCard from "../Comp/ResultCard"
 import db from "../../db/db"
+import 'loaders.css/loaders.css';
+import 'spinkit/css/spinkit.css';
 
 class SearchResult extends React.Component {
 
@@ -37,7 +39,7 @@ class SearchResult extends React.Component {
     awaitResult = async (q) => {
         let n = this.state.resultados.length
         if (q == true){
-            await this.setState({ ...this.state, searching: n + " resultado(s)"});
+            await this.setState({ ...this.state, searching: n + " resultado(s)."});
         }
     }
 
@@ -47,7 +49,7 @@ class SearchResult extends React.Component {
                 {console.log(this.state.resultados)} 
                 <div style={{ overflow: "scroll", "overflow-x": "hidden", height: "742px" }}>
                     
-                    <p>{this.state.searching}</p>
+                    <p>{this.state.searching} </p> 
 
                     <Container>
                         <Row>
