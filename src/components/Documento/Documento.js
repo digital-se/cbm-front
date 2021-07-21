@@ -19,7 +19,7 @@ import Swal from '../Comp/Swal';
 
 import axios from "axios"
 
-class GerenciarDocumento extends React.Component {
+class Documento extends React.Component {
 
     state = {
         dropdownOpen: false,
@@ -269,8 +269,8 @@ class GerenciarDocumento extends React.Component {
         );
     }
 }
-GerenciarDocumento.propTypes = {
+Documento.propTypes = {
     match: PropTypes.node
 }
 
-export default withTranslation()(GerenciarDocumento);
+export default withTranslation()(Documento);
