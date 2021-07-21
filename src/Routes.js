@@ -65,7 +65,7 @@ const Routes = ({ location }) => {
                                         <Route path="/documentos/:id" component={waitFor(Documento)} /> */}
                                         <Route path="/busca" component={Busca} />
                                         <Route path="/submenu" component={SubMenu} />
-                                        <Route path="/searchresult" component={SearchResult} />
+                                        {/* <Route path="/searchresult" component={SearchResult} /> */}
                                         <Route path="/inicio" component={Inicio} />
                                         <Route path="/cadastro" component={Cadastro} />
                                         <Route path="/documentos/:id" component={Documento} />
