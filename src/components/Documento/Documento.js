@@ -37,7 +37,9 @@ class Documento extends React.Component {
         carousel: {
             activeIndex: 0,
             animating: false
-        }
+        },
+        editArquivo: true,
+        editDocumento: true,
     }
 
     toggle = () => {
@@ -61,6 +63,31 @@ class Documento extends React.Component {
     goToIndex = (newIndex) => {
         if (this.state.carousel.animating) return;
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
+    }
+
+    toggleEditDocumento = async () => { //isso aki ta morto '-' da nem o console log e nem com async vai 
+        console.log("asiodjasoidjas")
+        await this.setState({ ...this.state, editDocumento: false }); 
+    }
+
+    toggleEditArquivo = () => {
+
+    }
+
+    discardChangesDocumento = () => {
+
+    }
+
+    discardChangesArquivo = () => {
+
+    }
+
+    salvarArquivo = () => { //esses 2 deve fazer a mesma coisa porem sao botoes diferentes, senão põe um botão so mas nao achei um lugar bom pra issokkk
+
+    }
+
+    salvarDocumento = () => {
+
     }
 
     async componentDidMount() {
@@ -95,6 +122,7 @@ class Documento extends React.Component {
         }
         await this.setState({ documento: doc })
     }
+
 
     render() {
         return (
@@ -150,6 +178,7 @@ class Documento extends React.Component {
                                                     </PaginationItem>
                                                 )
                                             })}
+
                                             <PaginationItem>
                                                 <PaginationLink next onClick={this.next} />
                                             </PaginationItem>
@@ -157,18 +186,25 @@ class Documento extends React.Component {
                                     </CardBody>
                                 </Col>
                                 <Col sm={12} lg={4}>
-                                    <CardHeader>
-                                        <h3>Texto Extraido</h3>
-                                    </CardHeader>
                                     <CardBody>
-                                        <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                            <Button disabled block color="danger">Editar Documento</Button>
-                                            <Button disabled block color="danger">Editar Arquivo</Button>
-                                        </div>
                                         <Card>
+                                            <CardHeader>
+                                                <h3>Texto Extraido</h3>
+                                            </CardHeader>
+
+                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                                <Button color="danger"> Editar Arquivo </Button>
+                                            </div>
+
                                             <CardBody>
-                                                <Input disabled type="textarea" name="ocr" id="ocr" value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr} style={{ "resize": "none", "height": "390px" }} />
+                                                <Input disabled
+                                                    type="textarea"
+                                                    name="ocr"
+                                                    id="ocr"
+                                                    value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
+                                                    style={{ "resize": "none", "height": "390px" }} />
                                             </CardBody>
+
                                         </Card>
                                     </CardBody>
                                 </Col>
@@ -176,10 +212,13 @@ class Documento extends React.Component {
                         </Card>
                     </Col>
                     <Col lg={12} xl={3}>
-                        <Card className="card-default" style={{ justifyContent: 'center' }}>
+                        <Card className="card-default" style={{ justifyContent: "center" }}>
                             <CardHeader>
                                 <h3>Informações do documento</h3>
                             </CardHeader>
+                            <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                <Button color="danger" onCLick={this.toggleEditDocumento}> Editar Documento</Button>
+                            </div>
                             <CardBody>
                                 <div>
                                     <Row>
@@ -187,7 +226,7 @@ class Documento extends React.Component {
                                             <FormGroup>
                                                 <Label for="nome"><h4>Nome do Documento</h4></Label>
                                                 <Input
-                                                    disabled
+                                                    disabled={this.state.editDocumento}
                                                     style={{ minWidth: 182 }}
                                                     name="nome"
                                                     id="nome"
@@ -234,6 +273,7 @@ class Documento extends React.Component {
                                                 />
                                             </FormGroup>
                                         </Col>
+
                                     </Row>
                                     <Row>
                                         <Col>
@@ -260,6 +300,11 @@ class Documento extends React.Component {
                                             </ListGroup>
                                         </Col>
                                     </Row>
+                                    <Row>
+                                        <Button hidden = {this.state.editDocumento} color="danger" onCLick={this.discardChangesDocumento}> Cancelar</Button>
+                                        <Button hidden = {this.state.editDocumento} color="success" onCLick={this.salvarDocumento}> Salvar</Button>
+                                    </Row>
+
                                 </div>
                             </CardBody>
                         </Card>
