@@ -41,25 +41,25 @@ class ResultCard extends Component {
             this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
             this.icon = <em className="fa fa-address-card fa-3x"></em>
             this.color = "#D0B243"
-            this.url = "/gerenciar/" + this.props.id
+            this.url = "/documentos/" + this.props.id
 
         } else if (this.tipo === "bga") {
             this.icon = <em className="fa fa-file-alt fa-3x"></em>
             this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
             this.color = "#37bc9b"
-            this.url = "/gerenciar/" + this.props.id
+            this.url = "/documentos/" + this.props.id
 
         } else if (this.tipo === "bgo") {
             this.icon = <em className="fa fa-file-alt fa-3x"></em>
             this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
             this.color = "#43d967"
-            this.url = "/gerenciar/" + this.props.id
+            this.url = "/documentos/" + this.props.id
 
         } else if (this.tipo === "bir") { //BIR
             this.icon = <em className="fa fa-file-alt fa-3x"></em>
             this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
             this.color = "#17a2b8"
-            this.url = "/gerenciar/" + this.props.id
+            this.url = "/documentos/" + this.props.id
 
 
         }

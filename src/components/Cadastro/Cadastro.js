@@ -253,7 +253,7 @@ class Cadastro extends Component {
             }
         })
 
-        this.props.history.push('/gerenciar/' + documento.data.id);
+        this.props.history.push('/documentos/' + documento.data.id);
 
     }
 

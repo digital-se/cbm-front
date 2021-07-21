@@ -17,7 +17,7 @@ const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const SearchResult = lazy(() => import('./components/SearchResult/SearchResult'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
-const GerenciarDocumento = lazy(() => import("./components/GerenciarDocumento/GerenciarDocumento"));
+const Documento = lazy(() => import("./components/Documento/Documento"));
 
 // List of routes that uses the page layout
 // listed here to Switch between layouts
@@ -62,13 +62,13 @@ const Routes = ({ location }) => {
                                         <Route path="/searchresult" component={waitFor(SearchResult)} />
                                         <Route path="/inicio" component={waitFor(Inicio)} />
                                         <Route path="/cadastro" component={waitFor(Cadastro)} />
-                                        <Route path="/gerenciar/:id" component={waitFor(GerenciarDocumento)} /> */}
+                                        <Route path="/documentos/:id" component={waitFor(Documento)} /> */}
                                         <Route path="/busca" component={Busca} />
                                         <Route path="/submenu" component={SubMenu} />
                                         <Route path="/searchresult" component={SearchResult} />
                                         <Route path="/inicio" component={Inicio} />
                                         <Route path="/cadastro" component={Cadastro} />
-                                        <Route path="/gerenciar/:id" component={GerenciarDocumento} />
+                                        <Route path="/documentos/:id" component={Documento} />
 
                                         <Redirect to="/inicio" />
                                     </Switch>
