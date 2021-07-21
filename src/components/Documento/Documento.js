@@ -65,9 +65,8 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-    toggleEditDocumento = async () => { //isso aki ta morto '-' da nem o console log e nem com async vai 
-        console.log("asiodjasoidjas")
-        await this.setState({ ...this.state, editDocumento: false }); 
+    toggleEditDocumento = () => { 
+        this.setState({ ...this.state, editDocumento: false }); 
     }
 
     toggleEditArquivo = () => {
@@ -75,19 +74,20 @@ class Documento extends React.Component {
     }
 
     discardChangesDocumento = () => {
-
+        this.setState({ ...this.state, editDocumento: true }); 
     }
 
     discardChangesArquivo = () => {
 
     }
 
-    salvarArquivo = () => { //esses 2 deve fazer a mesma coisa porem sao botoes diferentes, senão põe um botão so mas nao achei um lugar bom pra issokkk
+    salvarArquivo = () => { 
+        this.setState({ ...this.state, editDocumento: true }); 
 
     }
 
     salvarDocumento = () => {
-
+        this.setState({ ...this.state, editDocumento: true }); 
     }
 
     async componentDidMount() {
@@ -217,7 +217,7 @@ class Documento extends React.Component {
                                 <h3>Informações do documento</h3>
                             </CardHeader>
                             <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button color="danger" onCLick={this.toggleEditDocumento}> Editar Documento</Button>
+                                <Button color="danger" onClick={this.toggleEditDocumento}> Editar Documento</Button>
                             </div>
                             <CardBody>
                                 <div>
@@ -240,7 +240,7 @@ class Documento extends React.Component {
                                             <FormGroup>
                                                 <Label for="numeracao"><h4>Numeração do documento</h4></Label>
                                                 <Input
-                                                    disabled
+                                                    disabled={this.state.editDocumento}
                                                     style={{ minWidth: 182 }}
                                                     name="numeracao"
                                                     id="numeracao"
@@ -254,7 +254,7 @@ class Documento extends React.Component {
                                             <FormGroup>
                                                 <Label for="data"><h4>Data</h4></Label>
                                                 <Input
-                                                    disabled
+                                                    disabled={this.state.editDocumento}
                                                     block
                                                     name="data"
                                                     id="data"
@@ -266,7 +266,7 @@ class Documento extends React.Component {
                                             <FormGroup>
                                                 <Label for="tipo"><h4>Tipo</h4></Label>
                                                 <Input
-                                                    disabled
+                                                    disabled={this.state.editDocumento}
                                                     name="tipo"
                                                     id="tipo"
                                                     value={this.state.documento.campos.tipo}
@@ -280,7 +280,7 @@ class Documento extends React.Component {
                                             <FormGroup>
                                                 <Label for="descricao"><h4>Descrição</h4></Label>
                                                 <Input
-                                                    disabled
+                                                    disabled={this.state.editDocumento}
                                                     type="textarea"
                                                     name="descricao"
                                                     id="descricao"
@@ -301,8 +301,8 @@ class Documento extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Button hidden = {this.state.editDocumento} color="danger" onCLick={this.discardChangesDocumento}> Cancelar</Button>
-                                        <Button hidden = {this.state.editDocumento} color="success" onCLick={this.salvarDocumento}> Salvar</Button>
+                                        <Button hidden = {this.state.editDocumento} color="danger" onClick={this.discardChangesDocumento}> Cancelar</Button>
+                                        <Button hidden = {this.state.editDocumento} color="success" onClick={this.salvarDocumento}> Salvar</Button>
                                     </Row>
 
                                 </div>
