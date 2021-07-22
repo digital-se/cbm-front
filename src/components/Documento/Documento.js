@@ -26,10 +26,10 @@ class Documento extends React.Component {
         documento: {
             campos: {
                 nome: "Carregando...",
-                numeracao: "",
-                data: "",
-                tipo: "",
-                descricao: "",
+                numeracao: "Carregando...",
+                data: "Carregando...",
+                tipo: "Carregando...",
+                descricao: "Carregando...",
                 militares: [],
             },
             arquivos: []
@@ -41,7 +41,7 @@ class Documento extends React.Component {
         loading:true,
         editArquivo: true,
         editDocumento: true,
-        editBackup: {
+        editDoc: {
             nome: "",
             numeracao: "",
             data: "",
@@ -74,15 +74,15 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-    toggleEditDocumento = () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
-
-        this.setState({ ...this.state, editDocumento: false });
-        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.nome}});
-        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.numeracao}});
-        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.data}});
-        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.descricao}});
-        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.tipo}});
-        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.militares}})
+    toggleEditDocumento = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
+        
+        await this.setState({ ...this.state, editDocumento: false });
+        await this.setState({  editDoc: { ...this.state.editDoc, nome: this.state.documento.campos.nome}});
+        await this.setState({  editDoc: { ...this.state.editDoc, numeracao: this.state.documento.campos.numeracao}});
+        await this.setState({  editDoc: { ...this.state.editDoc, data: this.state.documento.campos.data}});
+        await this.setState({  editDoc: { ...this.state.editDoc, descricao: this.state.documento.campos.descricao}});
+        await this.setState({  editDoc: { ...this.state.editDoc, tipo: this.state.documento.campos.tipo}});
+        await this.setState({  editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares}})
     }
 
     toggleEditArquivo = () => {
@@ -98,6 +98,7 @@ class Documento extends React.Component {
     }
 
     salvarArquivo = () => {
+        
         this.setState({ ...this.state, editDocumento: true });
 
     }
@@ -107,7 +108,7 @@ class Documento extends React.Component {
     }
 
     changeHandler = async (e) => { //alterar valores editados
-        await this.setState({  [e.target.name]: e.target.value  });
+        await this.setState({ editDoc: { ...this.state.editDoc, [e.target.name]: e.target.value } });
     }
 
     awaitResult = async (q) => {
@@ -147,6 +148,7 @@ class Documento extends React.Component {
                 }
             })
         }
+        
         await this.setState({ documento: doc })
         this.awaitResult(true)
 
@@ -242,7 +244,7 @@ class Documento extends React.Component {
                     <Col lg={12} xl={3}>
                         <Card className="card-default" style={{ justifyContent: "center" }}>
                             <CardHeader>
-                                <h3>Informações do documento</h3>
+                                <h3>Informações do documento {this.state.editDoc.nome /* testar o edit doc*/}</h3>
                             </CardHeader>
                             <div style={{ "padding": "15px", "max-width": "200px" }}>
                                 <Button color="danger" disabled={this.state.loading} onClick={this.toggleEditDocumento}> Editar Documento</Button>
@@ -259,7 +261,7 @@ class Documento extends React.Component {
                                                     onChange={this.changeHandler}
                                                     name="nome"
                                                     id="nome"
-                                                    value={this.state.documento.campos.nome}
+                                                    value={this.state.editDocumento ? this.state.documento.campos.nome : this.state.editDoc.nome}
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -271,9 +273,10 @@ class Documento extends React.Component {
                                                 <Input
                                                     disabled={this.state.editDocumento}
                                                     style={{ minWidth: 182 }}
+                                                    onChange={this.changeHandler}
                                                     name="numeracao"
                                                     id="numeracao"
-                                                    value={this.state.documento.campos.numeracao}
+                                                    value={this.state.editDocumento ? this.state.documento.campos.numeracao : this.state.editDoc.numeracao}
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -284,10 +287,13 @@ class Documento extends React.Component {
                                                 <Label for="data"><h4>Data</h4></Label>
                                                 <Input
                                                     disabled={this.state.editDocumento}
-                                                    block
+                                                    onChange={this.changeHandler}
+                                                    type="tem q corrigir isso"
+                                                    max={new Date().toISOString().split("T")[0]}
+                                                    mask="99/99/999"
                                                     name="data"
                                                     id="data"
-                                                    value={this.state.documento.campos.data}
+                                                    value={this.state.editDocumento ? this.state.documento.campos.data  : this.state.editDoc.data}
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -296,9 +302,10 @@ class Documento extends React.Component {
                                                 <Label for="tipo"><h4>Tipo</h4></Label>
                                                 <Input
                                                     disabled={this.state.editDocumento}
+                                                    onChange={this.changeHandler}
                                                     name="tipo"
                                                     id="tipo"
-                                                    value={this.state.documento.campos.tipo}
+                                                    value={this.state.editDocumento ? this.state.documento.campos.tipo : this.state.editDoc.tipo}
                                                 />
                                             </FormGroup>
                                         </Col>
