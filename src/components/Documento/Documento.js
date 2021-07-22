@@ -38,7 +38,7 @@ class Documento extends React.Component {
             activeIndex: 0,
             animating: false
         },
-        loading:true,
+        loading: true,
         editArquivo: true,
         editDocumento: true,
         editDoc: {
@@ -75,14 +75,14 @@ class Documento extends React.Component {
     }
 
     toggleEditDocumento = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
-        
+
         await this.setState({ ...this.state, editDocumento: false });
-        await this.setState({  editDoc: { ...this.state.editDoc, nome: this.state.documento.campos.nome}});
-        await this.setState({  editDoc: { ...this.state.editDoc, numeracao: this.state.documento.campos.numeracao}});
-        await this.setState({  editDoc: { ...this.state.editDoc, data: this.state.documento.campos.data}});
-        await this.setState({  editDoc: { ...this.state.editDoc, descricao: this.state.documento.campos.descricao}});
-        await this.setState({  editDoc: { ...this.state.editDoc, tipo: this.state.documento.campos.tipo}});
-        await this.setState({  editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares}})
+        await this.setState({ editDoc: { ...this.state.editDoc, nome: this.state.documento.campos.nome } });
+        await this.setState({ editDoc: { ...this.state.editDoc, numeracao: this.state.documento.campos.numeracao } });
+        await this.setState({ editDoc: { ...this.state.editDoc, data: this.state.documento.campos.data } });
+        await this.setState({ editDoc: { ...this.state.editDoc, descricao: this.state.documento.campos.descricao } });
+        await this.setState({ editDoc: { ...this.state.editDoc, tipo: this.state.documento.campos.tipo } });
+        await this.setState({ editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares } })
     }
 
     toggleEditArquivo = () => {
@@ -98,7 +98,7 @@ class Documento extends React.Component {
     }
 
     salvarArquivo = () => {
-        
+
         this.setState({ ...this.state, editDocumento: true });
 
     }
@@ -112,9 +112,9 @@ class Documento extends React.Component {
     }
 
     awaitResult = async (q) => {
-        if (q == true){ //talvez se for false bota q n deu resultado
-            await this.setState({ ...this.state, loading: false});
-        } 
+        if (q == true) { //talvez se for false bota q n deu resultado
+            await this.setState({ ...this.state, loading: false });
+        }
     }
 
 
@@ -148,7 +148,7 @@ class Documento extends React.Component {
                 }
             })
         }
-        
+
         await this.setState({ documento: doc })
         this.awaitResult(true)
 
@@ -288,12 +288,11 @@ class Documento extends React.Component {
                                                 <Input
                                                     disabled={this.state.editDocumento}
                                                     onChange={this.changeHandler}
-                                                    type="tem q corrigir isso"
+                                                    type={this.state.editDocumento ? "sim" : "date"}
                                                     max={new Date().toISOString().split("T")[0]}
-                                                    mask="99/99/999"
                                                     name="data"
                                                     id="data"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.data  : this.state.editDoc.data}
+                                                    value={this.state.editDocumento ? this.state.documento.campos.data : this.state.editDoc.data}
                                                 />
                                             </FormGroup>
                                         </Col>
@@ -302,11 +301,19 @@ class Documento extends React.Component {
                                                 <Label for="tipo"><h4>Tipo</h4></Label>
                                                 <Input
                                                     disabled={this.state.editDocumento}
+                                                    type={this.state.editDocumento ? "sim" : "select"}
                                                     onChange={this.changeHandler}
                                                     name="tipo"
                                                     id="tipo"
                                                     value={this.state.editDocumento ? this.state.documento.campos.tipo : this.state.editDoc.tipo}
-                                                />
+                                                >
+                                                    <option value="bga">BGA</option>
+                                                    <option value="bgo">BGO</option>
+                                                    <option value="bir">BIR</option>
+                                                    <option value="diario" disabled>Diário Oficial</option>
+                                                    <option value="ficha" disabled>Ficha</option>
+                                                    <option value="relatorio" disabled>Relatório de Processos</option>
+                                                </Input>
                                             </FormGroup>
                                         </Col>
 
