@@ -25,7 +25,7 @@ class Documento extends React.Component {
         dropdownOpen: false,
         documento: {
             campos: {
-                nome: "",
+                nome: "Carregando...",
                 numeracao: "",
                 data: "",
                 tipo: "",
@@ -38,8 +38,17 @@ class Documento extends React.Component {
             activeIndex: 0,
             animating: false
         },
+        loading:true,
         editArquivo: true,
         editDocumento: true,
+        editBackup: {
+            nome: "",
+            numeracao: "",
+            data: "",
+            tipo: "",
+            descricao: "",
+            militares: [],
+        }
     }
 
     toggle = () => {
@@ -65,8 +74,15 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-    toggleEditDocumento = () => { 
-        this.setState({ ...this.state, editDocumento: false }); 
+    toggleEditDocumento = () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
+
+        this.setState({ ...this.state, editDocumento: false });
+        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.nome}});
+        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.numeracao}});
+        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.data}});
+        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.descricao}});
+        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.tipo}});
+        this.setState({  editBackup: { ...this.state.editBackup, nome: this.state.documento.campos.militares}})
     }
 
     toggleEditArquivo = () => {
@@ -74,21 +90,32 @@ class Documento extends React.Component {
     }
 
     discardChangesDocumento = () => {
-        this.setState({ ...this.state, editDocumento: true }); 
+        this.setState({ ...this.state, editDocumento: true });
     }
 
     discardChangesArquivo = () => {
 
     }
 
-    salvarArquivo = () => { 
-        this.setState({ ...this.state, editDocumento: true }); 
+    salvarArquivo = () => {
+        this.setState({ ...this.state, editDocumento: true });
 
     }
 
     salvarDocumento = () => {
-        this.setState({ ...this.state, editDocumento: true }); 
+        this.setState({ ...this.state, editDocumento: true });
     }
+
+    changeHandler = async (e) => { //alterar valores editados
+        await this.setState({  [e.target.name]: e.target.value  });
+    }
+
+    awaitResult = async (q) => {
+        if (q == true){ //talvez se for false bota q n deu resultado
+            await this.setState({ ...this.state, loading: false});
+        } 
+    }
+
 
     async componentDidMount() {
 
@@ -121,8 +148,9 @@ class Documento extends React.Component {
             })
         }
         await this.setState({ documento: doc })
-    }
+        this.awaitResult(true)
 
+    }
 
     render() {
         return (
@@ -193,7 +221,7 @@ class Documento extends React.Component {
                                             </CardHeader>
 
                                             <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                                <Button color="danger"> Editar Arquivo </Button>
+                                                <Button disabled={this.state.loading} color="danger"> Editar Arquivo </Button>
                                             </div>
 
                                             <CardBody>
@@ -217,7 +245,7 @@ class Documento extends React.Component {
                                 <h3>Informações do documento</h3>
                             </CardHeader>
                             <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button color="danger" onClick={this.toggleEditDocumento}> Editar Documento</Button>
+                                <Button color="danger" disabled={this.state.loading} onClick={this.toggleEditDocumento}> Editar Documento</Button>
                             </div>
                             <CardBody>
                                 <div>
@@ -228,6 +256,7 @@ class Documento extends React.Component {
                                                 <Input
                                                     disabled={this.state.editDocumento}
                                                     style={{ minWidth: 182 }}
+                                                    onChange={this.changeHandler}
                                                     name="nome"
                                                     id="nome"
                                                     value={this.state.documento.campos.nome}
@@ -301,8 +330,8 @@ class Documento extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Button hidden = {this.state.editDocumento} color="danger" onClick={this.discardChangesDocumento}> Cancelar</Button>
-                                        <Button hidden = {this.state.editDocumento} color="success" onClick={this.salvarDocumento}> Salvar</Button>
+                                        <Button hidden={this.state.editDocumento} color="danger" onClick={this.discardChangesDocumento}> Cancelar</Button>
+                                        <Button hidden={this.state.editDocumento} color="success" onClick={this.salvarDocumento}> Salvar</Button>
                                     </Row>
 
                                 </div>
