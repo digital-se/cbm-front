@@ -344,8 +344,24 @@ class Documento extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Button hidden={this.state.editDocumento} color="danger" onClick={this.discardChangesDocumento}> Cancelar</Button>
-                                        <Button hidden={this.state.editDocumento} color="success" onClick={this.salvarDocumento}> Salvar</Button>
+                                        <div className="ml-auto mr-auto">
+                                            <Button 
+                                                hidden={this.state.editDocumento} 
+                                                color="danger" 
+                                                onClick={this.discardChangesDocumento}
+                                                > 
+                                                Cancelar
+                                            </Button>
+                                            <Button 
+                                                hidden={this.state.editDocumento} 
+                                                color="success" 
+                                                onClick={this.salvarDocumento}
+                                                type="button"
+                                                className="ml-4"
+                                                > 
+                                                Salvar
+                                            </Button>
+                                        </div>
                                     </Row>
 
                                 </div>
