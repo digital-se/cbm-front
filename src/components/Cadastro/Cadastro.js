@@ -541,7 +541,9 @@ class Cadastro extends Component {
                                                     </fieldset>
                                                 </div>
                                                 <div className="d-flex">
-                                                    <Button type="button" color="danger" onClick={() => this.toggleStep('2')}>
+                                                    <Button type="button" 
+                                                        color="danger" 
+                                                        onClick={() => this.toggleStep('2')}>
                                                         <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
