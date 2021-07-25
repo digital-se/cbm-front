@@ -412,15 +412,21 @@ class Cadastro extends Component {
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
-                                                    <Button type="button" color="danger" href="#/" onClick={window.location.href}>
+                                                    <Button 
+                                                        type="button" 
+                                                        color="danger" 
+                                                        href="#/" 
+                                                        onClick={window.location.href}
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
                                                         type="button"
                                                         className="ml-auto"
                                                         color="success"
-                                                        onClick={() => this.toggleStep('2')}>
-                                                        Avançar<em className="fa ml-2 fas fa-arrow-right" />
+                                                        onClick={() => this.toggleStep('2')}
+                                                        style={{ "height": "35px", "width":"110px" }}>
+                                                        Avançar <em className="fa ml-2 fas fa-arrow-right" />
                                                     </Button>
                                                 </div>
                                             </TabPane>
@@ -489,7 +495,11 @@ class Cadastro extends Component {
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
-                                                    <Button type="button" color="danger" onClick={() => this.toggleStep('1')}>
+                                                    <Button 
+                                                        type="button" 
+                                                        color="danger" 
+                                                        onClick={() => this.toggleStep('1')}
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
@@ -497,7 +507,7 @@ class Cadastro extends Component {
                                                         className="ml-auto"
                                                         color="success"
                                                         onClick={() => this.toggleStep('3')}
-                                                    >
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         Avançar<em className="fa ml-2 fas fa-arrow-right" />
                                                     </Button>
                                                 </div>
@@ -540,10 +550,12 @@ class Cadastro extends Component {
                                                         </div>
                                                     </fieldset>
                                                 </div>
+                                                <hr />
                                                 <div className="d-flex">
                                                     <Button type="button" 
                                                         color="danger" 
-                                                        onClick={() => this.toggleStep('2')}>
+                                                        onClick={() => this.toggleStep('2')}
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
@@ -551,7 +563,7 @@ class Cadastro extends Component {
                                                         className="ml-auto"
                                                         color="success"
                                                         onClick={() => this.toggleStep('4')}
-                                                    >
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         Avançar<em className="fa ml-2 fas fa-arrow-right" />
                                                     </Button>
                                                 </div>
@@ -652,14 +664,18 @@ class Cadastro extends Component {
                                                 </div>
                                                 <hr />
                                                 <div className="d-flex">
-                                                    <Button type="button" color="danger" onClick={() => this.toggleStep('3')}>
+                                                    <Button 
+                                                        type="button" 
+                                                        color="danger" 
+                                                        onClick={() => this.toggleStep('3')} 
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                     </Button>
                                                     <Button
                                                         className="ml-auto"
                                                         type="submit"
                                                         color="success"
-                                                    >
+                                                        style={{ "height": "35px", "width":"110px" }}>
                                                         Cadastrar<em className="fa ml-2 fas fa-check" />
                                                     </Button>
                                                 </div>
