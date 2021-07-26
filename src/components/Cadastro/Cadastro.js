@@ -276,7 +276,6 @@ class Cadastro extends Component {
             this.validate();
     }
 
-
     render() {
         return (
             <div className="d-flex align-items-center justify-content-center container container-table pt-4">
@@ -404,7 +403,6 @@ class Cadastro extends Component {
                                                                 id="numeracao"
                                                                 value={this.state.form.numeracao}
                                                                 onChange={this.changeHandler}
-                                                                //valid={(this.state.form.numeracao.length > 0)}
                                                             />
                                                         </FormGroup>
                                                         <div style={{ "height": "25px" }} />
