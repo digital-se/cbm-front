@@ -234,7 +234,7 @@ class Documento extends React.Component {
                     <Col lg={12} xl={3}>
                         <Card className="card-default" style={{ justifyContent: "center" }}>
                             <CardHeader>
-                                <h3>Informações do documento {this.state.editDoc.nome /* testar o edit doc*/}</h3>
+                                <h3>Informações do documento</h3>
                             </CardHeader>
                             <div style={{ "padding": "15px", "max-width": "200px" }}>
                                 <Button color="danger" disabled={this.state.loading} onClick={this.toggleEditDocumento}> Editar Documento</Button>
