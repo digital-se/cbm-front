@@ -12,10 +12,9 @@ import { withRouter } from 'react-router-dom';
 
 class Busca extends React.Component {
     
-    //vazio = todos 
     state = {
         dropdownOpen: false,
-        busca: false, //qnd true exibe o search result 
+        busca: false,
         form: {
             nome: "",
             tipo: "",
@@ -41,9 +40,6 @@ class Busca extends React.Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-
-        // let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
-        
     }
 
     showResult = () => {
