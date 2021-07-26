@@ -6,17 +6,10 @@ import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
 import { Button, FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import {
-    Carousel,
-    CarouselItem,
-} from 'reactstrap';
+import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-
 import Swal from '../Comp/Swal';
-
-//import db from "../../db/db"
-
 import axios from "axios"
 
 class Documento extends React.Component {
@@ -86,7 +79,6 @@ class Documento extends React.Component {
     }
 
     toggleEditArquivo = () => {
-
     }
 
     discardChangesDocumento = () => {
@@ -94,13 +86,11 @@ class Documento extends React.Component {
     }
 
     discardChangesArquivo = () => {
-
     }
 
     salvarArquivo = () => {
 
         this.setState({ ...this.state, editDocumento: true });
-
     }
 
     salvarDocumento = () => {
