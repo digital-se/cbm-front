@@ -4,19 +4,7 @@ import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
-
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    Row,
-    Col,
-    Table
-} from 'reactstrap';
+import { Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table } from 'reactstrap';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
 import Swal from '../Comp/Swal';
@@ -250,7 +238,6 @@ class Cadastro extends Component {
     cleanMilitares = async () => {
         await this.setState({ militares: [] })
     }
-
 
     render() {
         return (
