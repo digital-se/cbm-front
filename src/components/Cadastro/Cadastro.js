@@ -255,30 +255,25 @@ class Cadastro extends Component {
                 data: documento.data,
                 descrição: documento.descricao  
         }
-        let militares = {
-            militares: documento.militares.map((mil) => {
-                return {
-                    nome: "",
-                    matricula: mil.matricula
-                }
-            }),
-        }
 
         await this.setState({ form: sim })
 
         await this.setState({ files : documento.arquivos.map((arq) => {
             return {
-                src: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
-                caption: arq.nome,
+                preview: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                name: arq.nome,
                 ocr: arq.texto
             }
         }) })
+
         await this.setState({ militares : documento.militares.map((mil) => {
             return {
                 nome: "",
                 matricula: mil.matricula
             }
         }), })
+
+            this.validate();
     }
 
 
