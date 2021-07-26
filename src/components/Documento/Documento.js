@@ -210,9 +210,13 @@ class Documento extends React.Component {
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
-                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                                <Button disabled={this.state.loading} color="danger"> Editar Arquivo </Button>
-                                            </div>
+                                                <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                                    <Button 
+                                                        disabled={this.state.loading} 
+                                                        color="danger"> 
+                                                        Editar Arquivo 
+                                                    </Button>
+                                                </div>
                                             <CardBody>
                                                 <Input disabled
                                                     type="textarea"
@@ -232,9 +236,14 @@ class Documento extends React.Component {
                             <CardHeader>
                                 <h3>Informações do documento</h3>
                             </CardHeader>
-                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button color="danger" disabled={this.state.loading} onClick={this.toggleEditDocumento}> Editar Documento</Button>
-                            </div>
+                                <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                    <Button 
+                                        color="danger" 
+                                        disabled={this.state.loading} 
+                                        onClick={this.toggleEditDocumento}> 
+                                        Editar Documento
+                                    </Button>
+                                </div>
                             <CardBody>
                                 <div>
                                     <Row>
