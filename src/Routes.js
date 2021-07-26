@@ -68,8 +68,9 @@ const Routes = ({ location }) => {
                                         {/* <Route path="/searchresult" component={SearchResult} /> */}
                                         <Route path="/inicio" component={Inicio} />
                                         <Route path="/cadastro" component={Cadastro} />
+                                        <Route path="/cadastro/" component={Cadastro} />
+                                        <Route path="/editar/:id" component={Cadastro} />
                                         <Route path="/documentos/:id" component={Documento} />
-
                                         <Redirect to="/inicio" />
                                     </Switch>
                                 </Suspense>
