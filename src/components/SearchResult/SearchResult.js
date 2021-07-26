@@ -1,8 +1,6 @@
 import React from 'react';
-
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col } from 'reactstrap';
-
 import ResultCard from "../Comp/ResultCard"
 import api from "../../Api/api"
 import 'loaders.css/loaders.css';
