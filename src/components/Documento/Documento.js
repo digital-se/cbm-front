@@ -9,6 +9,7 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 import axios from "axios"
 
@@ -79,6 +80,7 @@ class Documento extends React.Component {
     }
 
     toggleEditArquivo = () => {
+        <Link to={"/editar/{documento.id}"} style={{ color: '#fff', textDecoration: 'none' }}></Link>
     }
 
     discardChangesDocumento = () => {
@@ -211,11 +213,11 @@ class Documento extends React.Component {
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
                                             <div style={{ "padding": "15px", "max-width": "200px" }}> 
-                                                <Button 
+                                                <Button href="/editar/{documento.id}"
                                                     disabled={this.state.loading} 
                                                     color="danger"> 
                                                     <em className="fa mr-2 fas fa-pencil-alt "/>Editar Arquivo 
-                                                </Button>
+                                                </Button >
                                             </div>
                                             <CardBody>
                                                 <Input disabled
