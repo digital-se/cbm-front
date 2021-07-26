@@ -244,7 +244,7 @@ class Cadastro extends Component {
             <div className="d-flex align-items-center justify-content-center container container-table pt-4">
                 <Form onSubmit={this.onSubmit}>
                     <Card className="card-default" style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
-                        <CardHeader style={{ borderTopLeftRadius: '19px', borderTopRightRadius: '19px' }}>
+                        <CardHeader style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
                             <h3>Cadastro de documentos</h3>
                         </CardHeader>
                         <CardBody>
