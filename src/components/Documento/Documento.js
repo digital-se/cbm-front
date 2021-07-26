@@ -198,7 +198,6 @@ class Documento extends React.Component {
                                                     </PaginationItem>
                                                 )
                                             })}
-
                                             <PaginationItem>
                                                 <PaginationLink next onClick={this.next} />
                                             </PaginationItem>
@@ -211,11 +210,9 @@ class Documento extends React.Component {
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
-
                                             <div style={{ "padding": "15px", "max-width": "200px" }}>
                                                 <Button disabled={this.state.loading} color="danger"> Editar Arquivo </Button>
                                             </div>
-
                                             <CardBody>
                                                 <Input disabled
                                                     type="textarea"
@@ -224,7 +221,6 @@ class Documento extends React.Component {
                                                     value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
                                                     style={{ "resize": "none", "height": "390px" }} />
                                             </CardBody>
-
                                         </Card>
                                     </CardBody>
                                 </Col>
@@ -306,7 +302,6 @@ class Documento extends React.Component {
                                                 </Input>
                                             </FormGroup>
                                         </Col>
-
                                     </Row>
                                     <Row>
                                         <Col>
@@ -353,7 +348,6 @@ class Documento extends React.Component {
                                             </Button>
                                         </div>
                                     </Row>
-
                                 </div>
                             </CardBody>
                         </Card>
