@@ -477,9 +477,9 @@ class Cadastro extends Component {
                                                                 <option value="bga">BGA</option>
                                                                 <option value="bgo">BGO</option>
                                                                 <option value="bir">BIR</option>
-                                                                <option value="diario" disabled>Diário Oficial</option>
-                                                                <option value="ficha" disabled>Ficha</option>
-                                                                <option value="relatorio" disabled>Relatório de Processos</option>
+                                                                <option disabled value="diario" >Diário Oficial</option>
+                                                                <option disabled value="ficha" >Ficha</option>
+                                                                <option disabled value="relatorio" >Relatório de Processos</option>
                                                             </Input>
                                                             <span className="invalid-feedback">Selecione o tipo do documento</span>
                                                         </FormGroup>
