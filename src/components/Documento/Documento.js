@@ -210,8 +210,12 @@ class Documento extends React.Component {
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
-                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                                <Button disabled={this.state.loading} color="danger"> Editar Arquivo </Button>
+                                            <div style={{ "padding": "15px", "max-width": "200px" }}> 
+                                                <Button 
+                                                    disabled={this.state.loading} 
+                                                    color="danger"> 
+                                                    <em className="fa mr-2 fas fa-pencil-alt "/>Editar Arquivo 
+                                                </Button>
                                             </div>
                                             <CardBody>
                                                 <Input disabled
@@ -233,7 +237,12 @@ class Documento extends React.Component {
                                 <h3>Informações do documento</h3>
                             </CardHeader>
                             <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button color="danger" disabled={this.state.loading} onClick={this.toggleEditDocumento}> Editar Documento</Button>
+                                <Button 
+                                    color="danger" 
+                                    disabled={this.state.loading} 
+                                    onClick={this.toggleEditDocumento}> 
+                                    <em className="fa mr-2 fas fa-pencil-alt "/>Editar Documento
+                                </Button>
                             </div>
                             <CardBody>
                                 <div>
@@ -334,8 +343,8 @@ class Documento extends React.Component {
                                                 hidden={this.state.editDocumento} 
                                                 color="danger" 
                                                 onClick={this.discardChangesDocumento}
-                                                > 
-                                                Cancelar
+                                                style={{ "height": "35px", "width":"99px" }}> 
+                                                <em className="fa mr-2 fas fa-times" />Cancelar
                                             </Button>
                                             <Button 
                                                 hidden={this.state.editDocumento} 
@@ -343,8 +352,9 @@ class Documento extends React.Component {
                                                 onClick={this.salvarDocumento}
                                                 type="button"
                                                 className="ml-4"
-                                                > 
-                                                Salvar
+                                                style={{ "height": "35px", "width":"99px" }}> 
+                                                Salvar<em className="fa ml-2 fas fa-check" />
+                                                
                                             </Button>
                                         </div>
                                     </Row>
