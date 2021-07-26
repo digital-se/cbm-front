@@ -55,9 +55,9 @@ class Busca extends React.Component {
                     <Col>
                         <Row>
                             <Col lg={12} xl={4}>
-                                <Card className="card-default" style={{ justifyContent: 'center' }}>
-                                    <CardHeader>
-                                        <h3>Busca documental</h3>
+                                <Card className="card-default" style={{ justifyContent: 'center', borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
+                                    <CardHeader style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px', justifyContent: 'center' }}>
+                                        <h3 className = "ml-3">Busca documental</h3>
                                     </CardHeader>
                                     <CardBody>
                                         <div>
