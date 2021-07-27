@@ -33,16 +33,6 @@ class Documento extends React.Component {
             animating: false
         },
         loading: true,
-        editArquivo: true,
-        editDocumento: true,
-        editDoc: {
-            nome: "",
-            numeracao: "",
-            data: "",
-            tipo: "",
-            descricao: "",
-            militares: [],
-        }
     }
 
     toggle = () => {
@@ -68,35 +58,6 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-    toggleEditDocumento = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
-
-        await this.setState({ ...this.state, editDocumento: false });
-        await this.setState({ editDoc: { ...this.state.editDoc, nome: this.state.documento.campos.nome } });
-        await this.setState({ editDoc: { ...this.state.editDoc, numeracao: this.state.documento.campos.numeracao } });
-        await this.setState({ editDoc: { ...this.state.editDoc, data: this.state.documento.campos.data } });
-        await this.setState({ editDoc: { ...this.state.editDoc, descricao: this.state.documento.campos.descricao } });
-        await this.setState({ editDoc: { ...this.state.editDoc, tipo: this.state.documento.campos.tipo } });
-        await this.setState({ editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares } })
-    }
-
-    toggleEditArquivo = () => {
-    }
-
-    discardChangesDocumento = () => {
-        this.setState({ ...this.state, editDocumento: true });
-    }
-
-    discardChangesArquivo = () => {
-    }
-
-    salvarArquivo = () => {
-
-        this.setState({ ...this.state, editDocumento: true });
-    }
-
-    salvarDocumento = () => {
-        this.setState({ ...this.state, editDocumento: true });
-    }
 
     changeHandler = async (e) => { //alterar valores editados
         await this.setState({ editDoc: { ...this.state.editDoc, [e.target.name]: e.target.value } });
@@ -108,20 +69,19 @@ class Documento extends React.Component {
         }
     }
 
-
     async componentDidMount() {
 
         let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
 
         documento = documento.data
 
-        let data = new Date(documento.data)
+        let data = new Date(documento.data).toISOString().split("T")[0]
 
         let doc = {
-            campos: {
+            campos: {   
                 nome: documento.nome,
                 numeracao: documento.numeracao,
-                data: (((data.getDate())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()),
+                data: data,
                 tipo: documento.tipo,
                 descricao: documento.descricao,
                 militares: documento.militares.map((mil) => {
@@ -152,7 +112,7 @@ class Documento extends React.Component {
                     <Col>
                         <Card className="card-default" style={{ justifyContent: 'center' }}>
                             <Row>
-                                <Col sm={12}>
+                                <Col>
                                     <CardHeader style={{ textAlign: 'center' }}>
                                         <h3>{this.state.documento.campos.nome}</h3>
                                     </CardHeader>
@@ -167,7 +127,7 @@ class Documento extends React.Component {
                                         >
                                             {this.state.documento.arquivos.map((item) => {
                                                 return (
-                                                    <CarouselItem
+                                                    <CarouselItem 
                                                         onExiting={() => this.setState({ carousel: { ...this.state.carousel, animating: true } })}
                                                         onExited={() => this.setState({ carousel: { ...this.state.carousel, animating: false } })}
                                                         key={item.src}
@@ -208,7 +168,7 @@ class Documento extends React.Component {
                             </Row>    
                         </Card>        
                     </Col> 
-                            <Col sm={12} lg={3}>
+                            <Col sm={12} lg={5}>
                                 <Card className="card-default" style={{ justifyContent: 'center' }}>
                                     <CardHeader>
                                             <h3>Texto Extraido</h3>
@@ -249,12 +209,12 @@ class Documento extends React.Component {
                                                     <FormGroup>
                                                         <Label for="nome"><h4>Nome do Documento</h4></Label>
                                                         <Input
-                                                            disabled={this.state.editDocumento}
+                                                            disabled
                                                             style={{ minWidth: 182 }}
                                                             onChange={this.changeHandler}
                                                             name="nome"
                                                             id="nome"
-                                                            value={this.state.editDocumento ? this.state.documento.campos.nome : this.state.editDoc.nome}
+                                                            value={this.state.documento.campos.nome}
                                                         />
                                                     </FormGroup>
                                                 </Col>
@@ -264,12 +224,12 @@ class Documento extends React.Component {
                                                     <FormGroup>
                                                         <Label for="numeracao"><h4>Numeração do documento</h4></Label>
                                                         <Input
-                                                            disabled={this.state.editDocumento}
+                                                            disabled
                                                             style={{ minWidth: 182 }}
                                                             onChange={this.changeHandler}
                                                             name="numeracao"
                                                             id="numeracao"
-                                                            value={this.state.editDocumento ? this.state.documento.campos.numeracao : this.state.editDoc.numeracao}
+                                                            value={this.state.documento.campos.numeracao}
                                                         />
                                                     </FormGroup>
                                                 </Col>
@@ -279,13 +239,13 @@ class Documento extends React.Component {
                                                     <FormGroup>
                                                         <Label for="data"><h4>Data</h4></Label>
                                                         <Input
-                                                            disabled={this.state.editDocumento}
+                                                            disabled
                                                             onChange={this.changeHandler}
-                                                            type={this.state.editDocumento ? "sim" : "date"}
+                                                            type="text"
                                                             max={new Date().toISOString().split("T")[0]}
                                                             name="data"
                                                             id="data"
-                                                            value={this.state.editDocumento ? this.state.documento.campos.data : this.state.editDoc.data}
+                                                            value={this.state.documento.campos.data}
                                                         />
                                                     </FormGroup>
                                                 </Col>
@@ -293,12 +253,12 @@ class Documento extends React.Component {
                                                     <FormGroup>
                                                         <Label for="tipo"><h4>Tipo</h4></Label>
                                                         <Input
-                                                            disabled={this.state.editDocumento}
+                                                            disabled
                                                             type={this.state.editDocumento ? "sim" : "select"}
                                                             onChange={this.changeHandler}
                                                             name="tipo"
                                                             id="tipo"
-                                                            value={this.state.editDocumento ? this.state.documento.campos.tipo : this.state.editDoc.tipo}
+                                                            value={this.state.documento.campos.tipo}
                                                         >
                                                             <option value="bga">BGA</option>
                                                             <option value="bgo">BGO</option>
@@ -315,7 +275,7 @@ class Documento extends React.Component {
                                                     <FormGroup>
                                                         <Label for="descricao"><h4>Descrição</h4></Label>
                                                         <Input
-                                                            disabled={this.state.editDocumento}
+                                                            disabled
                                                             type="textarea"
                                                             name="descricao"
                                                             id="descricao"
