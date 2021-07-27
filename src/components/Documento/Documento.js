@@ -337,27 +337,6 @@ class Documento extends React.Component {
                                             </ListGroup>
                                         </Col>
                                     </Row>
-                                    <Row>
-                                        <div className="ml-auto mr-auto">
-                                            <Button 
-                                                hidden={this.state.editDocumento} 
-                                                color="danger" 
-                                                onClick={this.discardChangesDocumento}
-                                                style={{ "height": "35px", "width":"99px" }}> 
-                                                <em className="fa mr-2 fas fa-times" />Cancelar
-                                            </Button>
-                                            <Button 
-                                                hidden={this.state.editDocumento} 
-                                                color="success" 
-                                                onClick={this.salvarDocumento}
-                                                type="button"
-                                                className="ml-4"
-                                                style={{ "height": "35px", "width":"99px" }}> 
-                                                Salvar<em className="fa ml-2 fas fa-check" />
-                                                
-                                            </Button>
-                                        </div>
-                                    </Row>
                                 </div>
                             </CardBody>
                         </Card>
