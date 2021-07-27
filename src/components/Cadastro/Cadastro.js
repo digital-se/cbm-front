@@ -707,7 +707,8 @@ class Cadastro extends Component {
     }
 }
 Cadastro.propTypes = {
-    history: PropTypes.node
+    history: PropTypes.node,
+    match: PropTypes.node
 }
 
 export default Cadastro;
