@@ -9,7 +9,6 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 import axios from "axios"
 
