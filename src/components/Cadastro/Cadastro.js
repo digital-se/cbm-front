@@ -14,7 +14,7 @@ class Cadastro extends Component {
         activeStep: '1',
         form: {
             nome: "",
-            numeracao: "a",
+            numeracao: "",
             visibilidade: "",
             tipo: "",
             data: "",
