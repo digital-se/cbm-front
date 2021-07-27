@@ -152,7 +152,7 @@ class Documento extends React.Component {
                     <Col>
                         <Card className="card-default" style={{ justifyContent: 'center' }}>
                             <Row>
-                                <Col>
+                                <Col sm={12} >
                                     <CardHeader style={{ textAlign: 'center' }}>
                                         <h3>{this.state.documento.campos.nome}</h3>
                                     </CardHeader>
@@ -208,147 +208,144 @@ class Documento extends React.Component {
                             </Row>    
                         </Card>        
                     </Col> 
-                                <Col sm={12} lg={4}>
-                                        <Card className="card-default" style={{ justifyContent: 'center' }}>
-                                            <CardHeader>
-                                                <h3>Texto Extraido</h3>
-                                            </CardHeader>
-                                            <div style={{ "padding": "15px", "max-width": "200px" }}> 
-                                                <Button
-                                                    disabled={this.state.loading} 
-                                                    color="danger"> 
-                                                    <em className="fa mr-2 fas fa-pencil-alt "/>Editar Arquivo 
-                                                </Button >
-                                            </div>
-                                            <CardBody>
-                                                <Input disabled
-                                                    type="textarea"
-                                                    name="ocr"
-                                                    id="ocr"
-                                                    value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
-                                                    style={{ "resize": "none", "height": "390px" }} />
-                                            </CardBody>
-                                        </Card>
-                                </Col>
-
-
-
-                    <Col lg={12} xl={3}>
-                        <Card className="card-default" style={{ justifyContent: "center" }}>
-                            <CardHeader>
-                                <h3>Informações do documento</h3>
-                            </CardHeader>
-                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button href="/editar/{documento.id}"
-                                    color="danger" 
-                                    disabled={this.state.loading}> 
-                                    <em className="fa mr-2 fas fa-pencil-alt "/>Editar Documento
-                                </Button>
-                            </div>
-                            <CardBody>
-                                <div>
-                                    <Row>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="nome"><h4>Nome do Documento</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    style={{ minWidth: 182 }}
-                                                    onChange={this.changeHandler}
-                                                    name="nome"
-                                                    id="nome"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.nome : this.state.editDoc.nome}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="numeracao"><h4>Numeração do documento</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    style={{ minWidth: 182 }}
-                                                    onChange={this.changeHandler}
-                                                    name="numeracao"
-                                                    id="numeracao"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.numeracao : this.state.editDoc.numeracao}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col sm={6}>
-                                            <FormGroup>
-                                                <Label for="data"><h4>Data</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    onChange={this.changeHandler}
-                                                    type={this.state.editDocumento ? "sim" : "date"}
-                                                    max={new Date().toISOString().split("T")[0]}
-                                                    name="data"
-                                                    id="data"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.data : this.state.editDoc.data}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                        <Col sm={6}>
-                                            <FormGroup>
-                                                <Label for="tipo"><h4>Tipo</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    type={this.state.editDocumento ? "sim" : "select"}
-                                                    onChange={this.changeHandler}
-                                                    name="tipo"
-                                                    id="tipo"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.tipo : this.state.editDoc.tipo}
-                                                >
-                                                    <option value="bga">BGA</option>
-                                                    <option value="bgo">BGO</option>
-                                                    <option value="bir">BIR</option>
-                                                    <option value="diario" disabled>Diário Oficial</option>
-                                                    <option value="ficha" disabled>Ficha</option>
-                                                    <option value="relatorio" disabled>Relatório de Processos</option>
-                                                </Input>
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="descricao"><h4>Descrição</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    type="textarea"
-                                                    name="descricao"
-                                                    id="descricao"
-                                                    value={this.state.documento.campos.descricao}
-                                                    style={{ "resize": "none", "height": "120px" }}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <Label for="militares"><h4>Militares</h4></Label>
-                                            <ListGroup id="militares" style={{ "maxHeight": "195px", "overflow": "auto" }}>
-                                                {this.state.documento.campos.militares.map((item, index) => {
-                                                    return (<ListGroupItem key={index}>{item.nome}</ListGroupItem>)
-                                                })}
-                                            </ListGroup>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            </ContentWrapper >
-        );
+                            <Col sm={12} lg={3}>
+                                <Card className="card-default" style={{ justifyContent: 'center' }}>
+                                    <CardHeader>
+                                            <h3>Texto Extraido</h3>
+                                    </CardHeader>
+                                        <div style={{ "padding": "15px", "max-width": "200px" }}> 
+                                            <Button
+                                                disabled={this.state.loading} 
+                                                color="danger"> 
+                                                <em className="fa mr-2 fas fa-pencil-alt "/>Editar Arquivo 
+                                            </Button >
+                                        </div>
+                                    <CardBody>
+                                        <Input disabled
+                                            type="textarea"
+                                            name="ocr"
+                                            id="ocr"
+                                            value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
+                                            style={{ "resize": "none", "height": "390px" }} />
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                            <Col lg={12} xl={3}>
+                                <Card className="card-default" style={{ justifyContent: "center" }}>
+                                    <CardHeader>
+                                        <h3>Informações do documento</h3>
+                                    </CardHeader>
+                                    <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                        <Button href="/editar/{documento.id}"
+                                            color="danger" 
+                                            disabled={this.state.loading}> 
+                                            <em className="fa mr-2 fas fa-pencil-alt "/>Editar Documento
+                                        </Button>
+                                    </div>
+                                    <CardBody>
+                                        <div>
+                                            <Row>
+                                                <Col>
+                                                    <FormGroup>
+                                                        <Label for="nome"><h4>Nome do Documento</h4></Label>
+                                                        <Input
+                                                            disabled={this.state.editDocumento}
+                                                            style={{ minWidth: 182 }}
+                                                            onChange={this.changeHandler}
+                                                            name="nome"
+                                                            id="nome"
+                                                            value={this.state.editDocumento ? this.state.documento.campos.nome : this.state.editDoc.nome}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <FormGroup>
+                                                        <Label for="numeracao"><h4>Numeração do documento</h4></Label>
+                                                        <Input
+                                                            disabled={this.state.editDocumento}
+                                                            style={{ minWidth: 182 }}
+                                                            onChange={this.changeHandler}
+                                                            name="numeracao"
+                                                            id="numeracao"
+                                                            value={this.state.editDocumento ? this.state.documento.campos.numeracao : this.state.editDoc.numeracao}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col sm={6}>
+                                                    <FormGroup>
+                                                        <Label for="data"><h4>Data</h4></Label>
+                                                        <Input
+                                                            disabled={this.state.editDocumento}
+                                                            onChange={this.changeHandler}
+                                                            type={this.state.editDocumento ? "sim" : "date"}
+                                                            max={new Date().toISOString().split("T")[0]}
+                                                            name="data"
+                                                            id="data"
+                                                            value={this.state.editDocumento ? this.state.documento.campos.data : this.state.editDoc.data}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={6}>
+                                                    <FormGroup>
+                                                        <Label for="tipo"><h4>Tipo</h4></Label>
+                                                        <Input
+                                                            disabled={this.state.editDocumento}
+                                                            type={this.state.editDocumento ? "sim" : "select"}
+                                                            onChange={this.changeHandler}
+                                                            name="tipo"
+                                                            id="tipo"
+                                                            value={this.state.editDocumento ? this.state.documento.campos.tipo : this.state.editDoc.tipo}
+                                                        >
+                                                            <option value="bga">BGA</option>
+                                                            <option value="bgo">BGO</option>
+                                                            <option value="bir">BIR</option>
+                                                            <option value="diario" disabled>Diário Oficial</option>
+                                                            <option value="ficha" disabled>Ficha</option>
+                                                            <option value="relatorio" disabled>Relatório de Processos</option>
+                                                        </Input>
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <FormGroup>
+                                                        <Label for="descricao"><h4>Descrição</h4></Label>
+                                                        <Input
+                                                            disabled={this.state.editDocumento}
+                                                            type="textarea"
+                                                            name="descricao"
+                                                            id="descricao"
+                                                            value={this.state.documento.campos.descricao}
+                                                            style={{ "resize": "none", "height": "120px" }}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Label for="militares"><h4>Militares</h4></Label>
+                                                    <ListGroup id="militares" style={{ "maxHeight": "195px", "overflow": "auto" }}>
+                                                        {this.state.documento.campos.militares.map((item, index) => {
+                                                            return (<ListGroupItem key={index}>{item.nome}</ListGroupItem>)
+                                                        })}
+                                                    </ListGroup>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </ContentWrapper >
+                );
+            }
+        }
+    Documento.propTypes = {
+        match: PropTypes.node
     }
-}
-Documento.propTypes = {
-    match: PropTypes.node
-}
 
 export default withTranslation()(Documento);
