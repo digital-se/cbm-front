@@ -152,7 +152,7 @@ class Documento extends React.Component {
                     <Col>
                         <Card className="card-default" style={{ justifyContent: 'center' }}>
                             <Row>
-                                <Col sm={12} >
+                                <Col sm={12}>
                                     <CardHeader style={{ textAlign: 'center' }}>
                                         <h3>{this.state.documento.campos.nome}</h3>
                                     </CardHeader>
@@ -163,7 +163,7 @@ class Documento extends React.Component {
                                             next={this.next}
                                             previous={this.previous}
                                             interval={false}
-                                            style={{ minHeight: "650px" }}
+                                            style={{ minHeight: "650px"}}
                                         >
                                             {this.state.documento.arquivos.map((item) => {
                                                 return (
