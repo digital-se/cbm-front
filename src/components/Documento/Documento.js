@@ -152,7 +152,7 @@ class Documento extends React.Component {
                     <Col>
                         <Card className="card-default" style={{ justifyContent: 'center' }}>
                             <Row>
-                                <Col sm={12} lg={8}>
+                                <Col>
                                     <CardHeader style={{ textAlign: 'center' }}>
                                         <h3>{this.state.documento.campos.nome}</h3>
                                     </CardHeader>
@@ -205,9 +205,11 @@ class Documento extends React.Component {
                                         </Pagination>
                                     </CardBody>
                                 </Col>
+                            </Row>    
+                        </Card>        
+                    </Col> 
                                 <Col sm={12} lg={4}>
-                                    <CardBody>
-                                        <Card>
+                                        <Card className="card-default" style={{ justifyContent: 'center' }}>
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
@@ -227,11 +229,10 @@ class Documento extends React.Component {
                                                     style={{ "resize": "none", "height": "390px" }} />
                                             </CardBody>
                                         </Card>
-                                    </CardBody>
                                 </Col>
-                            </Row>
-                        </Card>
-                    </Col>
+
+
+
                     <Col lg={12} xl={3}>
                         <Card className="card-default" style={{ justifyContent: "center" }}>
                             <CardHeader>
