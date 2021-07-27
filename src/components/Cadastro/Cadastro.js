@@ -245,14 +245,14 @@ class Cadastro extends Component {
 
         documento = documento.data
 
-        let data = new Date(documento.data)
+        let data = new Date(documento.data).toISOString().split("T")[0]
 
         let sim = {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
                 visibilidade: documento.publico,
                 tipo: documento.tipo,
-                data: documento.data,
+                data: data,
                 descrição: documento.descricao  
         }
 
