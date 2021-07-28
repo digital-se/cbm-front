@@ -18,6 +18,11 @@ const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const Documento = lazy(() => import("./components/Documento/Documento"));
+const  ProtectedPage = lazy(() => import('./components/Protected/ProtectedPage'));
+
+import { useKeycloak } from '@react-keycloak/web';
+import { PrivateRoute } from './util/PrivateRoute';
+
 
 // List of routes that uses the page layout
 // listed here to Switch between layouts
@@ -27,10 +32,16 @@ const listofPages = [
 ];
 
 const Routes = ({ location }) => {
+
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
 
     const animationName = 'rag-fadeIn'
+
+    const { keycloak, initialized } = useKeycloak();
+    if (!initialized) {
+        return <h3>sim</h3>;
+    }
 
     if (listofPages.indexOf(location.pathname) > -1) {
         return (
@@ -67,7 +78,7 @@ const Routes = ({ location }) => {
                                         <Route path="/submenu" component={SubMenu} />
                                         {/* <Route path="/searchresult" component={SearchResult} /> */}
                                         <Route path="/inicio" component={Inicio} />
-                                        <Route path="/cadastro" component={Cadastro} />
+                                        <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
                                         <Route path="/documentos/:id" component={Documento} />
 
                                         <Redirect to="/inicio" />
