@@ -110,7 +110,7 @@ class Documento extends React.Component {
             <ContentWrapper>
                 <Row>
                     <Col>
-                        <Card className="card-default" style={{ justifyContent: 'center' }}>
+                        <Card className="card-default" style={{ justifyContent: 'center', height: "600px"}}>
                             <Row>
                                 <Col>
                                     <CardHeader style={{ textAlign: 'center' }}>
@@ -140,7 +140,7 @@ class Documento extends React.Component {
                                                             showConfirmButton: false,
                                                             showCloseButton: true
                                                         }} className="btn d-md-block">
-                                                            <img src={item.src} alt={item.caption} style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "100%", maxHeight: "550px" }} />
+                                                            <img src={item.src} alt={item.caption} style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "100%", maxHeight: "700px" }} />
                                                         </Swal>
                                                     </CarouselItem>
                                                 );
@@ -169,7 +169,7 @@ class Documento extends React.Component {
                         </Card>        
                     </Col> 
                             <Col sm={12} lg={5}>
-                                <Card className="card-default" style={{ justifyContent: 'center' }}>
+                                <Card className="card-default" style={{ justifyContent: 'center', height: "600px" }}>
                                     <CardHeader>
                                             <h3>Texto Extraido</h3>
                                     </CardHeader>
@@ -190,10 +190,10 @@ class Documento extends React.Component {
                                     </CardBody>
                                 </Card>
                             </Col>
-                            <Col lg={12} xl={3}>
+                            <Col sm={12} lg={3}>
                                 <Card className="card-default" style={{ justifyContent: "center" }}>
                                     <CardHeader>
-                                        <h3>Informações do documento</h3>
+                                        <h3>Informações adicionais</h3>
                                     </CardHeader>
                                     <div style={{ "padding": "15px", "max-width": "200px" }}>
                                         <Button href="/editar/{documento.id}"
