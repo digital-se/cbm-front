@@ -22,7 +22,6 @@ import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
 import Swal from '../Comp/Swal';
 
-import { useKeycloak } from '@react-keycloak/web';
 import AuthorizedElement from '../Protected/AuthorizedElement';
 
 

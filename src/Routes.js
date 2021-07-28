@@ -18,7 +18,6 @@ const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const Documento = lazy(() => import("./components/Documento/Documento"));
-const  ProtectedPage = lazy(() => import('./components/Protected/ProtectedPage'));
 
 import { useKeycloak } from '@react-keycloak/web';
 import { PrivateRoute } from './util/PrivateRoute';
@@ -38,9 +37,9 @@ const Routes = ({ location }) => {
 
     const animationName = 'rag-fadeIn'
 
-    const { keycloak, initialized } = useKeycloak();
+    const { initialized } = useKeycloak();
     if (!initialized) {
-        return <h3>sim</h3>;
+        return <h3>Carregando.</h3>;
     }
 
     if (listofPages.indexOf(location.pathname) > -1) {
