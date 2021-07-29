@@ -175,6 +175,7 @@ class ResultCard extends Component {
     }
 }
 ResultCard.propTypes = {
+    publico: PropTypes.bool,
     id: PropTypes.number.isRequired,
     nome: PropTypes.string,
     data: PropTypes.string,

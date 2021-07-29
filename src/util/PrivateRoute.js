@@ -1,5 +1,6 @@
 import { useKeycloak } from '@react-keycloak/web';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 
 export function PrivateRoute({ component: Component, roles, ...rest }) {
@@ -18,6 +19,10 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
         }
         return false;
     }
+    PrivateRoute.propTypes = {
+        component:PropTypes.object,
+        roles: PropTypes.any
+    }
 
     return (
         <Route
@@ -34,4 +39,5 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
             }
         />
     )
+    
 }
