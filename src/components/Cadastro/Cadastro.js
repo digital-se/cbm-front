@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-//import { withTranslation, Trans } from 'react-i18next';
-//import ContentWrapper from '../Layout/ContentWrapper';
 import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
@@ -90,11 +88,6 @@ class Cadastro extends Component {
     }
 
     changeHandler = async (e) => {
-        // try {
-        //     e.target.value = e.target.value.format('YYYY-MM-DD')
-        // } catch (error) {
-        //     console.log(error)
-        // }
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
         console.log(this.state)
         await this.validate();
@@ -126,13 +119,11 @@ class Cadastro extends Component {
     removeArquivo = async (index) => {
         this.state.files.splice(index, 1)
         await this.setState({ files: this.state.files })
-        // console.log(this.state.files)
     }
 
     changeOcr = async (index) => {
         this.state.files[index].ocr = !this.state.files[index].ocr
         await this.setState({ files: this.state.files })
-        // console.log(this.state.files)
     }
 
     createImageItem = (file, index) => (
@@ -142,7 +133,6 @@ class Cadastro extends Component {
             <td>
                 <Swal options={{
                     imageUrl: file.preview,
-                    //imageHeight: 1500,
                     width: "80%",
                     imageAlt: 'Carregando...',
                     showConfirmButton: false,
@@ -270,8 +260,8 @@ class Cadastro extends Component {
 
         return (
 
-            <AuthorizedElement roles={['app-user']}> 
-            
+            <AuthorizedElement roles={['app-user']}>
+
                 <div className="d-flex align-items-center justify-content-center container container-table pt-4">
                     <Form onSubmit={this.onSubmit}>
                         <Card className="card-default" style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>

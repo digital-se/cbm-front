@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-class Db {
+class Api {
     constructor() {
         this.url = 'https://sandbox-api.cbm.se.gov.br/api-digitalse'
     }
@@ -60,6 +60,6 @@ class Db {
     }
 }
 
-let db = new Db()
+let api = new Api()
 
-export default db
+export default api

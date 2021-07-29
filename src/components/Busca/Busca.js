@@ -12,10 +12,9 @@ import { withRouter } from 'react-router-dom';
 
 class Busca extends React.Component {
     
-    //vazio = todos 
     state = {
         dropdownOpen: false,
-        busca: false, //qnd true exibe o search result 
+        busca: false,
         form: {
             nome: "",
             tipo: "",
@@ -41,9 +40,6 @@ class Busca extends React.Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-
-        // let resultados = await axios.get("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos")
-        
     }
 
     showResult = () => {
@@ -59,9 +55,9 @@ class Busca extends React.Component {
                     <Col>
                         <Row>
                             <Col lg={12} xl={4}>
-                                <Card className="card-default" style={{ justifyContent: 'center' }}>
-                                    <CardHeader>
-                                        <h3>Busca documental</h3>
+                                <Card className="card-default" style={{ justifyContent: 'center', borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
+                                    <CardHeader style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px', justifyContent: 'center' }}>
+                                        <h3 className = "ml-2"> Busca documental</h3>
                                     </CardHeader>
                                     <CardBody>
                                         <div>

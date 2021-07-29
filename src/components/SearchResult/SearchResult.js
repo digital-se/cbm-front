@@ -1,10 +1,8 @@
 import React from 'react';
-
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col } from 'reactstrap';
-
 import ResultCard from "../Comp/ResultCard"
-import db from "../../db/db"
+import api from "../../Api/api"
 import 'loaders.css/loaders.css';
 import 'spinkit/css/spinkit.css';
 
@@ -25,7 +23,7 @@ class SearchResult extends React.Component {
 
     getSearch() {
         this.n = 0
-        db.getSearch().then(resultados => {
+        api.getSearch().then(resultados => {
             this.setState({ resultados: resultados })  
             this.awaitResult(true)
         })
@@ -49,9 +47,7 @@ class SearchResult extends React.Component {
             <ContentWrapper>
                 {console.log(this.state.resultados)} 
                 <div style={{ overflow: "scroll", "overflow-x": "hidden", height: "742px" }}>
-                    
                     <p>{this.state.searching} </p> 
-
                     <Container>
                         <Row>
                             {this.state.resultados.map(document => (
