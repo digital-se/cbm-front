@@ -18,8 +18,7 @@ const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const Documento = lazy(() => import("./components/Documento/Documento"));
-
-import { useKeycloak } from '@react-keycloak/web';
+const ProtectedPage = lazy(() => import("./components/Protected/ProtectedPage"));
 import { PrivateRoute } from './util/PrivateRoute';
 
 
@@ -73,6 +72,9 @@ const Routes = ({ location }) => {
                                         <Route path="/inicio" component={Inicio} />
                                         <Route path="/documentos/:id" component={Documento} />
 
+                                        <Route path="/protected" component={ProtectedPage} />
+
+                                        <Route path="/cadastro2" component={Cadastro} />
                                         {/* keycloak */}
                                         <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
                                         <PrivateRoute roles={['app-user']} path="/editar/:id" component={Cadastro} />
