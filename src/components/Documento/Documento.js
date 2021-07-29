@@ -108,9 +108,9 @@ class Documento extends React.Component {
     render() {
         return (
             <ContentWrapper>
-                <Row>
-                    <Col>
-                        <Card className="card-default" style={{ justifyContent: 'center', height: "600px"}}>
+                <Row >
+                    <Col >
+                        <Card className="card-default" style={{ justifyContent: 'center', height: "625px"}}>
                             <Row>
                                 <Col>
                                     <CardHeader style={{ textAlign: 'center' }}>
@@ -123,7 +123,7 @@ class Documento extends React.Component {
                                             next={this.next}
                                             previous={this.previous}
                                             interval={false}
-                                            style={{ minHeight: "650px"}}
+                                            style={{ minHeight: "650px" }}
                                         >
                                             {this.state.documento.arquivos.map((item) => {
                                                 return (
@@ -131,7 +131,7 @@ class Documento extends React.Component {
                                                         onExiting={() => this.setState({ carousel: { ...this.state.carousel, animating: true } })}
                                                         onExited={() => this.setState({ carousel: { ...this.state.carousel, animating: false } })}
                                                         key={item.src}
-                                                        style={{ "padding": "0" }}
+                                                        style={{ "padding": "0"}}
                                                     >
                                                         <Swal options={{
                                                             imageUrl: item.src,
@@ -140,7 +140,7 @@ class Documento extends React.Component {
                                                             showConfirmButton: false,
                                                             showCloseButton: true
                                                         }} className="btn d-md-block">
-                                                            <img src={item.src} alt={item.caption} style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "100%", maxHeight: "700px" }} />
+                                                            <img src={item.src} alt={item.caption} style={{ alignmentAdjust:"auto", marginLeft: "auto", marginRight: "auto", maxWidth: "100%", maxHeight: "350px"}} />
                                                         </Swal>
                                                     </CarouselItem>
                                                 );
@@ -169,7 +169,7 @@ class Documento extends React.Component {
                         </Card>        
                     </Col> 
                             <Col sm={12} lg={5}>
-                                <Card className="card-default" style={{ justifyContent: 'center', height: "600px" }}>
+                                <Card className="card-default" style={{ justifyContent: 'center', height: "625px" }}>
                                     <CardHeader>
                                             <h3>Texto Extraido</h3>
                                     </CardHeader>
