@@ -4,25 +4,11 @@ import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    Row,
-    Col,
-    Table
-} from 'reactstrap';
+import {Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table} from 'reactstrap';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
 import Swal from '../Comp/Swal';
-
 import AuthorizedElement from '../Protected/AuthorizedElement';
-
-
 
 class Cadastro extends Component {
     state = {
@@ -54,7 +40,6 @@ class Cadastro extends Component {
         files: []
 
     };
-
 
     validate = async () => {
         await this.setState({ allValid: true });
@@ -308,8 +293,6 @@ class Cadastro extends Component {
     }
 
     render() {
-
-
         return (
             <AuthorizedElement roles={['app-user']}>
                 <div className="d-flex align-items-center justify-content-center container container-table pt-4">

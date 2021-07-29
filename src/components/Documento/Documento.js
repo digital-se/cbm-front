@@ -197,7 +197,7 @@ class Documento extends React.Component {
                                         <h3>Informações adicionais</h3>
                                     </CardHeader>
                                     <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                        <Button href="/editar/{documento.id}"
+                                        <Button href= {"/editar/" + this.state.documento.id}
                                             color="danger" 
                                             disabled={this.state.loading}> 
                                             <em className="fa mr-2 fas fa-pencil-alt "/>Editar Documento
