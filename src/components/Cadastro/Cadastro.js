@@ -32,9 +32,12 @@ class Cadastro extends Component {
             data: false,
             descrição: false,
         },
+        id:"",
+        edit:false,
         busca: [],
         militares: [],
         files: []
+        
     };
 
     validate = async () => {
@@ -206,11 +209,11 @@ class Cadastro extends Component {
             descricao: this.state.form.descrição
         }
 
-        let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc)
-
-        console.log(documento)
-
-        const formData = new FormData()
+        //CADASTRO
+        if (this.state.edit === false){
+            let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc)
+            console.log(documento)
+            const formData = new FormData()
         let fileData = []
 
         for (let i = 0; i < this.state.files.length; i++) {
@@ -224,7 +227,6 @@ class Cadastro extends Component {
         });
 
         formData.append("arquivosDTO", blob)
-
         await axios.post(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${documento.data.id}/arquivos`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -233,20 +235,30 @@ class Cadastro extends Component {
 
         this.props.history.push('/documentos/' + documento.data.id);
 
+        //EDIÇÃO
+        } else{
+
+            let documento = await axios.put(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.state.id}`, doc)
+            this.props.history.push('/documentos/' + documento.data.id);
+        }
+        
     }
 
     cleanMilitares = async () => {
         await this.setState({ militares: [] })
     }
 
+
     async componentDidMount() {
-
         let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
-
         documento = documento.data
 
+        await this.setState({edit: true})
+        
+        console.log(this.state.edit)
         let data = new Date(documento.data).toISOString().split("T")[0]
-
+        await this.setState({id: documento.id})
+        console.log(this.state.id)
         let sim = {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
@@ -272,7 +284,6 @@ class Cadastro extends Component {
                 matricula: mil.matricula
             }
         }), })
-
             this.validate();
     }
 
