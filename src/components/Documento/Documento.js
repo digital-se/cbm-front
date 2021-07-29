@@ -17,7 +17,7 @@ class Documento extends React.Component {
     state = {
         dropdownOpen: false,
         documento: {
-            id:"",
+            id: "",
             campos: {
                 nome: "Carregando...",
                 numeracao: "Carregando...",
@@ -118,7 +118,7 @@ class Documento extends React.Component {
         let data = new Date(documento.data)
 
         let doc = {
-            id:documento.id,
+            id: documento.id,
             campos: {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
@@ -212,11 +212,11 @@ class Documento extends React.Component {
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
-                                            <div style={{ "padding": "15px", "max-width": "200px" }}> 
+                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
                                                 <Button
-                                                    disabled={this.state.loading} 
-                                                    color="danger"> 
-                                                    <em className="fa mr-2 fas fa-pencil-alt "/>Editar Arquivo 
+                                                    disabled={this.state.loading}
+                                                    color="danger">
+                                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
                                                 </Button >
                                             </div>
                                             <CardBody>
@@ -239,10 +239,10 @@ class Documento extends React.Component {
                                 <h3>Informações do documento</h3>
                             </CardHeader>
                             <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button href= {"/editar/" + this.state.documento.id}
-                                    color="danger" 
-                                    disabled={this.state.loading}> 
-                                    <em className="fa mr-2 fas fa-pencil-alt "/>Editar Documento
+                                <Button href={"/editar/" + this.state.documento.id}
+                                    color="danger"
+                                    disabled={this.state.loading}>
+                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
                                 </Button>
                             </div>
                             <CardBody>
