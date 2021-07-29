@@ -21,7 +21,7 @@ class SearchResult extends React.Component {
 
                 <div className="d-flex align-items-center justify-content-center container container-table" style={{ "height": "630px" }}>
                     <Row style={{ justifyContent: 'center', alignItems: 'center', display: 'd-flex' }} class="col-xs-4 col-xs-offset-4">
-                        <Card className="card-default"style={{ "width": "420px", "height": "470px", borderRadius: '3px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
+                        <Card className="border" style={{ "width": "420px", "height": "470px", borderRadius: '3px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
                             <CardHeader style={{borderTopLeftRadius: '3px', borderTopRightRadius: '3px'  }}>
                                 <center>
                                     <h2 style={{ "font-size": "4.5rem"}}>
