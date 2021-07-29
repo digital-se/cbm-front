@@ -6,7 +6,7 @@ import { Redirect, Route } from 'react-router-dom';
 export function PrivateRoute({ component: Component, roles, ...rest }) {
     const { keycloak } = useKeycloak();
 
-    const isAutherized = (roles) => {
+    const isAuthorized = (roles) => {
         if (keycloak && roles) {
             return roles.some(r => {
                 // No KeyCloak tem 2 formas de colocar cargos em usuários 
@@ -20,7 +20,7 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
         return false;
     }
     PrivateRoute.propTypes = {
-        component:PropTypes.object,
+        component:PropTypes.any,
         roles: PropTypes.any
     }
 
@@ -28,7 +28,7 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
         <Route
             {...rest}
             render={props => {
-                return isAutherized(roles)
+                return isAuthorized(roles)
                     ? <Component {...props} />
                     : <Redirect
                         to={{

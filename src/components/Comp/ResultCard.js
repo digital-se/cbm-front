@@ -29,8 +29,6 @@ class ResultCard extends Component {
             this.url = this.props.url
             this.color = "#ff902b"
 
-
-
         } else if (this.tipo === "ficha") {
             this.nome = "Ficha "
             this.militaresLabel = <Label>{this.militares.length + " "} militares referidos</Label>
@@ -120,9 +118,7 @@ class ResultCard extends Component {
                     </a >
                 </AuthorizedElement>
             );
-        }
-
-        else {
+        }else {
             return (
                 <a
                     href={this.url}

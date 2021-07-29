@@ -7,7 +7,6 @@ import { Button, FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import SearchResult from '../SearchResult/SearchResult';
 import 'react-datetime/css/react-datetime.css';
-
 import { withRouter } from 'react-router-dom';
 
 class Busca extends React.Component {
@@ -183,13 +182,11 @@ class Busca extends React.Component {
                                 </Card>
                             </Col>
                             <Col>
-
                                 {this.state.busca ?
                                     <SearchResult />
                                     :
                                     <p>Os resultados aparecerão aqui :)</p>
                                 }
-
                             </Col>
                         </Row>
                     </Col>
