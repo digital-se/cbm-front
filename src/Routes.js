@@ -18,6 +18,9 @@ const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const Documento = lazy(() => import("./components/Documento/Documento"));
+const ProtectedPage = lazy(() => import("./components/Protected/ProtectedPage"));
+import { PrivateRoute } from './util/PrivateRoute';
+
 
 // List of routes that uses the page layout
 // listed here to Switch between layouts
@@ -27,9 +30,9 @@ const listofPages = [
 ];
 
 const Routes = ({ location }) => {
+
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
-
     const animationName = 'rag-fadeIn'
 
     if (listofPages.indexOf(location.pathname) > -1) {
@@ -67,9 +70,16 @@ const Routes = ({ location }) => {
                                         <Route path="/submenu" component={SubMenu} />
                                         {/* <Route path="/searchresult" component={SearchResult} /> */}
                                         <Route path="/inicio" component={Inicio} />
-                                        <Route path="/cadastro" component={Cadastro} />
                                         <Route path="/documentos/:id" component={Documento} />
 
+                                        <Route path="/protected" component={ProtectedPage} />
+
+                                        <Route path="/cadastro2" component={Cadastro} />
+                                        {/* keycloak */}
+                                        <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
+                                        <PrivateRoute roles={['app-user']} path="/editar/:id" component={Cadastro} />
+                                        <PrivateRoute roles={['app-user']} path="/editar/:id/arquivo/:id" component={Documento} />
+                                        
                                         <Redirect to="/inicio" />
                                     </Switch>
                                 </Suspense>

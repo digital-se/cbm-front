@@ -11,7 +11,7 @@ class SearchResult extends React.Component {
     state = {
         dropdownOpen: false,
         resultados: [],
-        waitResult: false,
+        waitResult: false, 
         searching:"Buscando...",
     }
 
@@ -38,6 +38,7 @@ class SearchResult extends React.Component {
         let n = this.state.resultados.length
         if (q == true){
             await this.setState({ ...this.state, searching: n + " resultado(s)."});
+            //tem q retornar x resultados para publico e y para bloqueados
         }
     }
 
@@ -50,8 +51,10 @@ class SearchResult extends React.Component {
                     <Container>
                         <Row>
                             {this.state.resultados.map(document => (
+                                
                                 <Col xl={2} md={4} key={this.n++} style={{ minWidth: 245 }}>
                                     <ResultCard
+                                        publico={document.publico}
                                         id={document.id}
                                         nome={document.nome}
                                         tipo={document.tipo}
