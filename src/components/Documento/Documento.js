@@ -6,17 +6,10 @@ import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
 import { Button, FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-import {
-    Carousel,
-    CarouselItem,
-} from 'reactstrap';
+import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-
 import Swal from '../Comp/Swal';
-
-//import db from "../../db/db"
-
 import axios from "axios"
 
 class Documento extends React.Component {
@@ -85,8 +78,8 @@ class Documento extends React.Component {
         await this.setState({ editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares } })
     }
 
-    toggleEditArquivo = () => {
-
+    toggleEditArquivo = async () => {
+        await this.setState({ ...this.state, editArquivo: false });
     }
 
     discardChangesDocumento = () => {
@@ -94,13 +87,12 @@ class Documento extends React.Component {
     }
 
     discardChangesArquivo = () => {
-
+        this.setState({ ...this.state, editArquivo: true });
     }
 
     salvarArquivo = () => {
 
-        this.setState({ ...this.state, editDocumento: true });
-
+        this.setState({ ...this.state, editArquivo: true });
     }
 
     salvarDocumento = () => {
@@ -208,7 +200,6 @@ class Documento extends React.Component {
                                                     </PaginationItem>
                                                 )
                                             })}
-
                                             <PaginationItem>
                                                 <PaginationLink next onClick={this.next} />
                                             </PaginationItem>
@@ -221,11 +212,14 @@ class Documento extends React.Component {
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
-
-                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                                <Button disabled={this.state.loading} color="danger"> Editar Arquivo </Button>
-                                            </div>
-
+                                                <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                                    <Button 
+                                                        disabled={this.state.loading} 
+                                                        onClick={this.toggleEditArquivo}
+                                                        color="danger"> 
+                                                        Editar Arquivo 
+                                                    </Button>
+                                                </div>
                                             <CardBody>
                                                 <Input disabled
                                                     type="textarea"
@@ -234,7 +228,26 @@ class Documento extends React.Component {
                                                     value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
                                                     style={{ "resize": "none", "height": "390px" }} />
                                             </CardBody>
-
+                                            <Row>
+                                                <div className="ml-auto mr-auto">
+                                                    <Button 
+                                                        hidden={this.state.editArquivo} 
+                                                        color="danger" 
+                                                        onClick={this.discardChangesArquivo}
+                                                        style={{ "height": "35px", "width":"99px" }}> 
+                                                        <em className="fa mr-2 fas fa-times" />Cancelar
+                                                    </Button>
+                                                    <Button 
+                                                        hidden={this.state.editArquivo} 
+                                                        color="success" 
+                                                        onClick={this.salvarArquivo}
+                                                        type="button"
+                                                        className="ml-4"
+                                                        style={{ "height": "35px", "width":"99px" }}> 
+                                                        Salvar<em className="fa ml-2 fas fa-check" />
+                                                    </Button>
+                                                </div>
+                                            </Row>
                                         </Card>
                                     </CardBody>
                                 </Col>
@@ -244,11 +257,16 @@ class Documento extends React.Component {
                     <Col lg={12} xl={3}>
                         <Card className="card-default" style={{ justifyContent: "center" }}>
                             <CardHeader>
-                                <h3>Informações do documento {this.state.editDoc.nome /* testar o edit doc*/}</h3>
+                                <h3>Informações do documento</h3>
                             </CardHeader>
-                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button color="danger" disabled={this.state.loading} onClick={this.toggleEditDocumento}> Editar Documento</Button>
-                            </div>
+                                <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                    <Button 
+                                        color="danger" 
+                                        disabled={this.state.loading} 
+                                        onClick={this.toggleEditDocumento}> 
+                                        Editar Documento
+                                    </Button>
+                                </div>
                             <CardBody>
                                 <div>
                                     <Row>
@@ -316,7 +334,6 @@ class Documento extends React.Component {
                                                 </Input>
                                             </FormGroup>
                                         </Col>
-
                                     </Row>
                                     <Row>
                                         <Col>
@@ -349,8 +366,8 @@ class Documento extends React.Component {
                                                 hidden={this.state.editDocumento} 
                                                 color="danger" 
                                                 onClick={this.discardChangesDocumento}
-                                                > 
-                                                Cancelar
+                                                style={{ "height": "35px", "width":"99px" }}> 
+                                                <em className="fa mr-2 fas fa-times" />Cancelar
                                             </Button>
                                             <Button 
                                                 hidden={this.state.editDocumento} 
@@ -358,12 +375,11 @@ class Documento extends React.Component {
                                                 onClick={this.salvarDocumento}
                                                 type="button"
                                                 className="ml-4"
-                                                > 
-                                                Salvar
+                                                style={{ "height": "35px", "width":"99px" }}> 
+                                                Salvar<em className="fa ml-2 fas fa-check" />
                                             </Button>
                                         </div>
                                     </Row>
-
                                 </div>
                             </CardBody>
                         </Card>
