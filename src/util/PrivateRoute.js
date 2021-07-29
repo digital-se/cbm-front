@@ -27,7 +27,7 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
                     ? <Component {...props} />
                     : <Redirect
                         to={{
-                            pathname: '/',
+                            pathname: keycloak.login(),
                         }}
                     />
             }
