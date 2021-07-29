@@ -34,13 +34,7 @@ const Routes = ({ location }) => {
 
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
-
     const animationName = 'rag-fadeIn'
-
-    const { initialized } = useKeycloak();
-    if (!initialized) {
-        return <h3>Carregando.</h3>;
-    }
 
     if (listofPages.indexOf(location.pathname) > -1) {
         return (
@@ -77,10 +71,13 @@ const Routes = ({ location }) => {
                                         <Route path="/submenu" component={SubMenu} />
                                         {/* <Route path="/searchresult" component={SearchResult} /> */}
                                         <Route path="/inicio" component={Inicio} />
-                                        <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
-                                        <PrivateRoute roles={['app-user']} path="/editar/:id" component={Cadastro} />
                                         <Route path="/documentos/:id" component={Documento} />
 
+                                        {/* keycloak */}
+                                        <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
+                                        <PrivateRoute roles={['app-user']} path="/editar/:id" component={Cadastro} />
+                                        <PrivateRoute roles={['app-user']} path="/editar/:id/arquivo/:id" component={Documento} />
+                                        
                                         <Redirect to="/inicio" />
                                     </Switch>
                                 </Suspense>
