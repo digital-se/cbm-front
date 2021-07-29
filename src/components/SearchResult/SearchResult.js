@@ -1,17 +1,17 @@
 import React from 'react';
-
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Container, Row, Col } from 'reactstrap';
-
 import ResultCard from "../Comp/ResultCard"
-import db from "../../db/db"
+import api from "../../Api/api"
+import 'loaders.css/loaders.css';
+import 'spinkit/css/spinkit.css';
 
 class SearchResult extends React.Component {
 
     state = {
         dropdownOpen: false,
         resultados: [],
-        waitResult: false,
+        waitResult: false, 
         searching:"Buscando...",
     }
 
@@ -23,7 +23,7 @@ class SearchResult extends React.Component {
 
     getSearch() {
         this.n = 0
-        db.getSearch().then(resultados => {
+        api.getSearch().then(resultados => {
             this.setState({ resultados: resultados })  
             this.awaitResult(true)
         })
@@ -37,7 +37,8 @@ class SearchResult extends React.Component {
     awaitResult = async (q) => {
         let n = this.state.resultados.length
         if (q == true){
-            await this.setState({ ...this.state, searching: n + " resultado(s)"});
+            await this.setState({ ...this.state, searching: n + " resultado(s)."});
+            //tem q retornar x resultados para publico e y para bloqueados
         }
     }
 
@@ -46,14 +47,14 @@ class SearchResult extends React.Component {
             <ContentWrapper>
                 {console.log(this.state.resultados)} 
                 <div style={{ overflow: "scroll", "overflow-x": "hidden", height: "742px" }}>
-                    
-                    <p>{this.state.searching}</p>
-
+                    <p>{this.state.searching} </p> 
                     <Container>
                         <Row>
                             {this.state.resultados.map(document => (
+                                
                                 <Col xl={2} md={4} key={this.n++} style={{ minWidth: 245 }}>
                                     <ResultCard
+                                        publico={document.publico}
                                         id={document.id}
                                         nome={document.nome}
                                         tipo={document.tipo}
