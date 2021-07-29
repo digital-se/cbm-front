@@ -33,16 +33,6 @@ class Documento extends React.Component {
             animating: false
         },
         loading: true,
-        editArquivo: true,
-        editDocumento: true,
-        editDoc: {
-            nome: "",
-            numeracao: "",
-            data: "",
-            tipo: "",
-            descricao: "",
-            militares: [],
-        }
     }
 
     toggle = () => {
@@ -68,35 +58,6 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-    toggleEditDocumento = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
-
-        await this.setState({ ...this.state, editDocumento: false });
-        await this.setState({ editDoc: { ...this.state.editDoc, nome: this.state.documento.campos.nome } });
-        await this.setState({ editDoc: { ...this.state.editDoc, numeracao: this.state.documento.campos.numeracao } });
-        await this.setState({ editDoc: { ...this.state.editDoc, data: this.state.documento.campos.data } });
-        await this.setState({ editDoc: { ...this.state.editDoc, descricao: this.state.documento.campos.descricao } });
-        await this.setState({ editDoc: { ...this.state.editDoc, tipo: this.state.documento.campos.tipo } });
-        await this.setState({ editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares } })
-    }
-
-    toggleEditArquivo = () => {
-    }
-
-    discardChangesDocumento = () => {
-        this.setState({ ...this.state, editDocumento: true });
-    }
-
-    discardChangesArquivo = () => {
-    }
-
-    salvarArquivo = () => {
-
-        this.setState({ ...this.state, editDocumento: true });
-    }
-
-    salvarDocumento = () => {
-        this.setState({ ...this.state, editDocumento: true });
-    }
 
     changeHandler = async (e) => { //alterar valores editados
         await this.setState({ editDoc: { ...this.state.editDoc, [e.target.name]: e.target.value } });
@@ -108,21 +69,20 @@ class Documento extends React.Component {
         }
     }
 
-
     async componentDidMount() {
 
         let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
 
         documento = documento.data
 
-        let data = new Date(documento.data)
+        let data = new Date(documento.data).toISOString().split("T")[0]
 
         let doc = {
             id: documento.id,
             campos: {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
-                data: (((data.getDate())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()),
+                data: data,
                 tipo: documento.tipo,
                 descricao: documento.descricao,
                 militares: documento.militares.map((mil) => {
@@ -149,11 +109,11 @@ class Documento extends React.Component {
     render() {
         return (
             <ContentWrapper>
-                <Row>
-                    <Col>
-                        <Card className="card-default" style={{ justifyContent: 'center' }}>
+                <Row >
+                    <Col >
+                        <Card className="card-default" style={{ justifyContent: 'center', height: "625px"}}>
                             <Row>
-                                <Col sm={12} lg={8}>
+                                <Col>
                                     <CardHeader style={{ textAlign: 'center' }}>
                                         <h3>{this.state.documento.campos.nome}</h3>
                                     </CardHeader>
@@ -168,11 +128,11 @@ class Documento extends React.Component {
                                         >
                                             {this.state.documento.arquivos.map((item) => {
                                                 return (
-                                                    <CarouselItem
+                                                    <CarouselItem 
                                                         onExiting={() => this.setState({ carousel: { ...this.state.carousel, animating: true } })}
                                                         onExited={() => this.setState({ carousel: { ...this.state.carousel, animating: false } })}
                                                         key={item.src}
-                                                        style={{ "padding": "0" }}
+                                                        style={{ "padding": "0"}}
                                                     >
                                                         <Swal options={{
                                                             imageUrl: item.src,
@@ -181,7 +141,7 @@ class Documento extends React.Component {
                                                             showConfirmButton: false,
                                                             showCloseButton: true
                                                         }} className="btn d-md-block">
-                                                            <img src={item.src} alt={item.caption} style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "100%", maxHeight: "550px" }} />
+                                                            <img src={item.src} alt={item.caption} style={{ alignmentAdjust:"auto", marginLeft: "auto", marginRight: "auto", maxWidth: "100%", maxHeight: "350px"}} />
                                                         </Swal>
                                                     </CarouselItem>
                                                 );
@@ -206,149 +166,147 @@ class Documento extends React.Component {
                                         </Pagination>
                                     </CardBody>
                                 </Col>
-                                <Col sm={12} lg={4}>
+                            </Row>    
+                        </Card>        
+                    </Col> 
+                            <Col sm={12} lg={5}>
+                                <Card className="card-default" style={{ justifyContent: 'center', height: "625px" }}>
+                                    <CardHeader>
+                                            <h3>Texto Extraido</h3>
+                                    </CardHeader>
+                                        <div style={{ "padding": "15px", "max-width": "200px" }}> 
+                                            <Button
+                                                disabled={this.state.loading} 
+                                                color="danger"> 
+                                                <em className="fa mr-2 fas fa-pencil-alt "/>Editar Arquivo 
+                                            </Button >
+                                        </div>
                                     <CardBody>
-                                        <Card>
-                                            <CardHeader>
-                                                <h3>Texto Extraido</h3>
-                                            </CardHeader>
-                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                                <Button
-                                                    disabled={this.state.loading}
-                                                    color="danger">
-                                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
-                                                </Button >
-                                            </div>
-                                            <CardBody>
-                                                <Input disabled
-                                                    type="textarea"
-                                                    name="ocr"
-                                                    id="ocr"
-                                                    value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
-                                                    style={{ "resize": "none", "height": "390px" }} />
-                                            </CardBody>
-                                        </Card>
+                                        <Input disabled
+                                            type="textarea"
+                                            name="ocr"
+                                            id="ocr"
+                                            value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
+                                            style={{ "resize": "none", "height": "390px" }} />
                                     </CardBody>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-                    <Col lg={12} xl={3}>
-                        <Card className="card-default" style={{ justifyContent: "center" }}>
-                            <CardHeader>
-                                <h3>Informações do documento</h3>
-                            </CardHeader>
-                            <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Button href={"/editar/" + this.state.documento.id}
-                                    color="danger"
-                                    disabled={this.state.loading}>
-                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
-                                </Button>
-                            </div>
-                            <CardBody>
-                                <div>
-                                    <Row>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="nome"><h4>Nome do Documento</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    style={{ minWidth: 182 }}
-                                                    onChange={this.changeHandler}
-                                                    name="nome"
-                                                    id="nome"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.nome : this.state.editDoc.nome}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="numeracao"><h4>Numeração do documento</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    style={{ minWidth: 182 }}
-                                                    onChange={this.changeHandler}
-                                                    name="numeracao"
-                                                    id="numeracao"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.numeracao : this.state.editDoc.numeracao}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col sm={6}>
-                                            <FormGroup>
-                                                <Label for="data"><h4>Data</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    onChange={this.changeHandler}
-                                                    type={this.state.editDocumento ? "sim" : "date"}
-                                                    max={new Date().toISOString().split("T")[0]}
-                                                    name="data"
-                                                    id="data"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.data : this.state.editDoc.data}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                        <Col sm={6}>
-                                            <FormGroup>
-                                                <Label for="tipo"><h4>Tipo</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    type={this.state.editDocumento ? "sim" : "select"}
-                                                    onChange={this.changeHandler}
-                                                    name="tipo"
-                                                    id="tipo"
-                                                    value={this.state.editDocumento ? this.state.documento.campos.tipo : this.state.editDoc.tipo}
-                                                >
-                                                    <option value="bga">BGA</option>
-                                                    <option value="bgo">BGO</option>
-                                                    <option value="bir">BIR</option>
-                                                    <option value="diario" disabled>Diário Oficial</option>
-                                                    <option value="ficha" disabled>Ficha</option>
-                                                    <option value="relatorio" disabled>Relatório de Processos</option>
-                                                </Input>
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="descricao"><h4>Descrição</h4></Label>
-                                                <Input
-                                                    disabled={this.state.editDocumento}
-                                                    type="textarea"
-                                                    name="descricao"
-                                                    id="descricao"
-                                                    value={this.state.documento.campos.descricao}
-                                                    style={{ "resize": "none", "height": "120px" }}
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <Label for="militares"><h4>Militares</h4></Label>
-                                            <ListGroup id="militares" style={{ "maxHeight": "195px", "overflow": "auto" }}>
-                                                {this.state.documento.campos.militares.map((item, index) => {
-                                                    return (<ListGroupItem key={index}>{item.nome}</ListGroupItem>)
-                                                })}
-                                            </ListGroup>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            </ContentWrapper >
-        );
+                                </Card>
+                            </Col>
+                            <Col sm={12} lg={3}>
+                                <Card className="card-default" style={{ justifyContent: "center" }}>
+                                    <CardHeader>
+                                        <h3>Informações adicionais</h3>
+                                    </CardHeader>
+                                    <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                        <Button href="/editar/{documento.id}"
+                                            color="danger" 
+                                            disabled={this.state.loading}> 
+                                            <em className="fa mr-2 fas fa-pencil-alt "/>Editar Documento
+                                        </Button>
+                                    </div>
+                                    <CardBody>
+                                        <div>
+                                            <Row>
+                                                <Col>
+                                                    <FormGroup>
+                                                        <Label for="nome"><h4>Nome do Documento</h4></Label>
+                                                        <Input
+                                                            disabled
+                                                            style={{ minWidth: 182 }}
+                                                            onChange={this.changeHandler}
+                                                            name="nome"
+                                                            id="nome"
+                                                            value={this.state.documento.campos.nome}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <FormGroup>
+                                                        <Label for="numeracao"><h4>Numeração do documento</h4></Label>
+                                                        <Input
+                                                            disabled
+                                                            style={{ minWidth: 182 }}
+                                                            onChange={this.changeHandler}
+                                                            name="numeracao"
+                                                            id="numeracao"
+                                                            value={this.state.documento.campos.numeracao}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col sm={6}>
+                                                    <FormGroup>
+                                                        <Label for="data"><h4>Data</h4></Label>
+                                                        <Input
+                                                            disabled
+                                                            onChange={this.changeHandler}
+                                                            type="text"
+                                                            max={new Date().toISOString().split("T")[0]}
+                                                            name="data"
+                                                            id="data"
+                                                            value={this.state.documento.campos.data}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={6}>
+                                                    <FormGroup>
+                                                        <Label for="tipo"><h4>Tipo</h4></Label>
+                                                        <Input
+                                                            disabled
+                                                            type={this.state.editDocumento ? "sim" : "select"}
+                                                            onChange={this.changeHandler}
+                                                            name="tipo"
+                                                            id="tipo"
+                                                            value={this.state.documento.campos.tipo}
+                                                        >
+                                                            <option value="bga">BGA</option>
+                                                            <option value="bgo">BGO</option>
+                                                            <option value="bir">BIR</option>
+                                                            <option value="diario" disabled>Diário Oficial</option>
+                                                            <option value="ficha" disabled>Ficha</option>
+                                                            <option value="relatorio" disabled>Relatório de Processos</option>
+                                                        </Input>
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <FormGroup>
+                                                        <Label for="descricao"><h4>Descrição</h4></Label>
+                                                        <Input
+                                                            disabled
+                                                            type="textarea"
+                                                            name="descricao"
+                                                            id="descricao"
+                                                            value={this.state.documento.campos.descricao}
+                                                            style={{ "resize": "none", "height": "120px" }}
+                                                        />
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Label for="militares"><h4>Militares</h4></Label>
+                                                    <ListGroup id="militares" style={{ "maxHeight": "195px", "overflow": "auto" }}>
+                                                        {this.state.documento.campos.militares.map((item, index) => {
+                                                            return (<ListGroupItem key={index}>{item.nome}</ListGroupItem>)
+                                                        })}
+                                                    </ListGroup>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </ContentWrapper >
+                );
+            }
+        }
+    Documento.propTypes = {
+        match: PropTypes.node
     }
-}
-Documento.propTypes = {
-    match: PropTypes.node
-}
 
 export default withTranslation()(Documento);
