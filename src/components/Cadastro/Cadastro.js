@@ -259,9 +259,7 @@ class Cadastro extends Component {
 
 
         return (
-
             <AuthorizedElement roles={['app-user']}>
-
                 <div className="d-flex align-items-center justify-content-center container container-table pt-4">
                     <Form onSubmit={this.onSubmit}>
                         <Card className="card-default" style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
@@ -686,8 +684,6 @@ class Cadastro extends Component {
                         </Card>
                     </Form>
                 </div >
-
-
             </AuthorizedElement>
         );
 
