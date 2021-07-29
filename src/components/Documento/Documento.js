@@ -9,7 +9,6 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 import axios from "axios"
 
@@ -18,6 +17,7 @@ class Documento extends React.Component {
     state = {
         dropdownOpen: false,
         documento: {
+            id: "",
             campos: {
                 nome: "Carregando...",
                 numeracao: "Carregando...",
@@ -78,7 +78,8 @@ class Documento extends React.Component {
         let data = new Date(documento.data).toISOString().split("T")[0]
 
         let doc = {
-            campos: {   
+            id: documento.id,
+            campos: {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
                 data: data,
