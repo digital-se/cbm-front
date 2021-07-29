@@ -17,6 +17,7 @@ class Documento extends React.Component {
     state = {
         dropdownOpen: false,
         documento: {
+            id: "",
             campos: {
                 nome: "Carregando...",
                 numeracao: "Carregando...",
@@ -78,8 +79,7 @@ class Documento extends React.Component {
         await this.setState({ editDoc: { ...this.state.editDoc, militares: this.state.documento.campos.militares } })
     }
 
-    toggleEditArquivo = async () => {
-        await this.setState({ ...this.state, editArquivo: false });
+    toggleEditArquivo = () => {
     }
 
     discardChangesDocumento = () => {
@@ -87,12 +87,11 @@ class Documento extends React.Component {
     }
 
     discardChangesArquivo = () => {
-        this.setState({ ...this.state, editArquivo: true });
     }
 
     salvarArquivo = () => {
 
-        this.setState({ ...this.state, editArquivo: true });
+        this.setState({ ...this.state, editDocumento: true });
     }
 
     salvarDocumento = () => {
@@ -119,6 +118,7 @@ class Documento extends React.Component {
         let data = new Date(documento.data)
 
         let doc = {
+            id: documento.id,
             campos: {
                 nome: documento.nome,
                 numeracao: documento.numeracao,
@@ -212,14 +212,13 @@ class Documento extends React.Component {
                                             <CardHeader>
                                                 <h3>Texto Extraido</h3>
                                             </CardHeader>
-                                                <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                                    <Button 
-                                                        disabled={this.state.loading} 
-                                                        onClick={this.toggleEditArquivo}
-                                                        color="danger"> 
-                                                        Editar Arquivo 
-                                                    </Button>
-                                                </div>
+                                            <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                                <Button
+                                                    disabled={this.state.loading}
+                                                    color="danger">
+                                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
+                                                </Button >
+                                            </div>
                                             <CardBody>
                                                 <Input disabled
                                                     type="textarea"
@@ -228,26 +227,6 @@ class Documento extends React.Component {
                                                     value={this.state.documento.arquivos[this.state.carousel.activeIndex]?.ocr}
                                                     style={{ "resize": "none", "height": "390px" }} />
                                             </CardBody>
-                                            <Row>
-                                                <div className="ml-auto mr-auto">
-                                                    <Button 
-                                                        hidden={this.state.editArquivo} 
-                                                        color="danger" 
-                                                        onClick={this.discardChangesArquivo}
-                                                        style={{ "height": "35px", "width":"99px" }}> 
-                                                        <em className="fa mr-2 fas fa-times" />Cancelar
-                                                    </Button>
-                                                    <Button 
-                                                        hidden={this.state.editArquivo} 
-                                                        color="success" 
-                                                        onClick={this.salvarArquivo}
-                                                        type="button"
-                                                        className="ml-4"
-                                                        style={{ "height": "35px", "width":"99px" }}> 
-                                                        Salvar<em className="fa ml-2 fas fa-check" />
-                                                    </Button>
-                                                </div>
-                                            </Row>
                                         </Card>
                                     </CardBody>
                                 </Col>
@@ -259,14 +238,13 @@ class Documento extends React.Component {
                             <CardHeader>
                                 <h3>Informações do documento</h3>
                             </CardHeader>
-                                <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                    <Button 
-                                        color="danger" 
-                                        disabled={this.state.loading} 
-                                        onClick={this.toggleEditDocumento}> 
-                                        Editar Documento
-                                    </Button>
-                                </div>
+                            <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                <Button href={"/editar/" + this.state.documento.id}
+                                    color="danger"
+                                    disabled={this.state.loading}>
+                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
+                                </Button>
+                            </div>
                             <CardBody>
                                 <div>
                                     <Row>
@@ -359,26 +337,6 @@ class Documento extends React.Component {
                                                 })}
                                             </ListGroup>
                                         </Col>
-                                    </Row>
-                                    <Row>
-                                        <div className="ml-auto mr-auto">
-                                            <Button 
-                                                hidden={this.state.editDocumento} 
-                                                color="danger" 
-                                                onClick={this.discardChangesDocumento}
-                                                style={{ "height": "35px", "width":"99px" }}> 
-                                                <em className="fa mr-2 fas fa-times" />Cancelar
-                                            </Button>
-                                            <Button 
-                                                hidden={this.state.editDocumento} 
-                                                color="success" 
-                                                onClick={this.salvarDocumento}
-                                                type="button"
-                                                className="ml-4"
-                                                style={{ "height": "35px", "width":"99px" }}> 
-                                                Salvar<em className="fa ml-2 fas fa-check" />
-                                            </Button>
-                                        </div>
                                     </Row>
                                 </div>
                             </CardBody>

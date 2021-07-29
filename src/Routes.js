@@ -79,7 +79,7 @@ const Routes = ({ location }) => {
                                         <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
                                         <PrivateRoute roles={['app-user']} path="/editar/:id" component={Cadastro} />
                                         <PrivateRoute roles={['app-user']} path="/editar/:id/arquivo/:id" component={Documento} />
-                                        
+
                                         <Redirect to="/inicio" />
                                     </Switch>
                                 </Suspense>

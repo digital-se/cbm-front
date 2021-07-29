@@ -47,9 +47,12 @@ class Cadastro extends Component {
             data: false,
             descrição: false,
         },
+        id: "",
+        edit: false,
         busca: [],
         militares: [],
         files: []
+
     };
 
 
@@ -222,37 +225,86 @@ class Cadastro extends Component {
             descricao: this.state.form.descrição
         }
 
-        let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc)
+        //CADASTRO
+        if (this.state.edit === false) {
+            let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc)
+            console.log(documento)
+            const formData = new FormData()
+            let fileData = []
 
-        console.log(documento)
-
-        const formData = new FormData()
-        let fileData = []
-
-        for (let i = 0; i < this.state.files.length; i++) {
-            fileData.push({ ocr: this.state.files[i].ocr })
-            formData.append('files', this.state.files[i])
-        }
-
-        const json = JSON.stringify(fileData);
-        const blob = new Blob([json], {
-            type: 'application/json'
-        });
-
-        formData.append("arquivosDTO", blob)
-
-        await axios.post(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${documento.data.id}/arquivos`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
+            for (let i = 0; i < this.state.files.length; i++) {
+                fileData.push({ ocr: this.state.files[i].ocr })
+                formData.append('files', this.state.files[i])
             }
-        })
 
-        this.props.history.push('/documentos/' + documento.data.id);
+            const json = JSON.stringify(fileData);
+            const blob = new Blob([json], {
+                type: 'application/json'
+            });
+
+            formData.append("arquivosDTO", blob)
+            await axios.post(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${documento.data.id}/arquivos`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+
+            this.props.history.push('/documentos/' + documento.data.id);
+
+            //EDIÇÃO
+        } else {
+
+            let documento = await axios.put(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.state.id}`, doc)
+            this.props.history.push('/documentos/' + documento.data.id);
+        }
 
     }
 
     cleanMilitares = async () => {
         await this.setState({ militares: [] })
+    }
+
+
+    async componentDidMount() {
+        let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
+        documento = documento.data
+
+        await this.setState({ edit: true })
+
+        console.log(this.state.edit)
+        let data = new Date(documento.data).toISOString().split("T")[0]
+        await this.setState({ id: documento.id })
+        console.log(this.state.id)
+        let sim = {
+            nome: documento.nome,
+            numeracao: documento.numeracao,
+            visibilidade: documento.publico,
+            tipo: documento.tipo,
+            data: data,
+            descrição: documento.descricao
+        }
+
+        await this.setState({ form: sim })
+
+        await this.setState({
+            files: documento.arquivos.map((arq) => {
+                return {
+                    preview: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                    name: arq.nome,
+                    ocr: arq.texto
+                }
+            })
+        })
+
+        await this.setState({
+            militares: documento.militares.map((mil) => {
+                return {
+                    nome: "",
+                    matricula: mil.matricula
+                }
+            }),
+        })
+        this.validate();
     }
 
     render() {
@@ -690,7 +742,8 @@ class Cadastro extends Component {
     }
 }
 Cadastro.propTypes = {
-    history: PropTypes.node
+    history: PropTypes.node,
+    match: PropTypes.node
 }
 
 export default Cadastro;

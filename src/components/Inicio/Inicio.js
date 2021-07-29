@@ -21,8 +21,14 @@ class SearchResult extends React.Component {
 
                 <div className="d-flex align-items-center justify-content-center container container-table" style={{ "height": "630px" }}>
                     <Row style={{ justifyContent: 'center', alignItems: 'center', display: 'd-flex' }} class="col-xs-4 col-xs-offset-4">
-                        <Card style={{ "width": "420px", "height": "470px", borderRadius: '20px', "box-shadow": "#ccc" }} class="shadow-lg p-3 mb-5 bg-white rounded">
-                            <CardHeader><center><h2 style={{ "font-size": "4.5rem" }}>Home</h2></center></CardHeader>
+                        <Card className="border" style={{ "width": "420px", "height": "470px", borderRadius: '3px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
+                            <CardHeader style={{borderTopLeftRadius: '3px', borderTopRightRadius: '3px'  }}>
+                                <center>
+                                    <h2 style={{ "font-size": "4.5rem"}}>
+                                        Home
+                                    </h2>
+                                </center>
+                            </CardHeader>
                             <CardBody>
                                 <div style={{ "height": "40px" }}></div>
                                 <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -32,7 +38,6 @@ class SearchResult extends React.Component {
                                             alignItems: 'center'
                                         }}>
                                             <Link to={"/busca"} style={{ color: '#fff', textDecoration: 'none' }}>
-                                                {/*atualizar para nav e aumentar uns 25% de tudo ai*/}
                                                 <div style={{ "width": "300px", "height": "100px", borderRadius: '20px' }} className="card flex-row align-items-center align-items-stretch border-0 rounded">
                                                     <div style={{ backgroundColor: '#fff' }} className="btn-outline-light"></div>
                                                     <div style={{ backgroundColor: '#d7130f' }} className="col-3 d-flex align-items-center justify-content-center rounded-left">
