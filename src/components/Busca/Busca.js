@@ -64,10 +64,11 @@ class Busca extends React.Component {
                                                 <Row>
                                                     <Col sm={12}>
                                                         <FormGroup>
-                                                            <Label for="nome"><h5>Insira o nome do documento</h5></Label>
+                                                            <Label for="nome"><h5>Nome do documento</h5></Label>
                                                             <Input
                                                                 name="nome"
                                                                 id="nome"
+                                                                placeHolder="Insira nome do documento"
                                                                 value={this.state.form.nome}
                                                                 onChange={this.changeHandler}
                                                             />
@@ -77,7 +78,7 @@ class Busca extends React.Component {
                                                 <Row>
                                                     <Col sm={6}>
                                                         <FormGroup>
-                                                            <Label for="tipo"><h5>Selecione o tipo do documento*</h5></Label>
+                                                            <Label for="tipo"><h5>Tipo do documento*</h5></Label>
                                                             <Input
                                                                 type="select"
                                                                 name="tipo"
@@ -85,6 +86,7 @@ class Busca extends React.Component {
                                                                 value={this.state.form.tipo}
                                                                 onChange={this.changeHandler}
                                                             >
+                                                                <option disabled value="">Selecione o tipo</option>
                                                                 <option value="">Todos</option>
                                                                 <option value="bga">BGA</option>
                                                                 <option value="bgo">BGO</option>
@@ -97,10 +99,11 @@ class Busca extends React.Component {
                                                     </Col>
                                                     <Col sm={6}>
                                                         <FormGroup>
-                                                            <Label for="numeracao"><h5>Insira o número do documento</h5></Label>
+                                                            <Label for="numeracao"><h5>Número do documento</h5></Label>
                                                             <Input
                                                                 name="numeracao"
                                                                 id="numeracao"
+                                                                placeHolder="Insira a numeração"
                                                                 value={this.state.form.numeracao}
                                                                 onChange={this.changeHandler}
                                                             />
@@ -110,7 +113,7 @@ class Busca extends React.Component {
                                                 <Row>
                                                     <Col sm={6}>
                                                         <FormGroup>
-                                                            <Label for="dataInicial"><h5> Insira a data inicial</h5></Label>
+                                                            <Label for="dataInicial"><h5> Data inicial</h5></Label>
                                                             <Input
                                                                 type="date"
                                                                 name="dataInicial"
@@ -122,7 +125,7 @@ class Busca extends React.Component {
                                                     </Col>
                                                     <Col sm={6}>
                                                         <FormGroup>
-                                                            <Label for="dataFinal"><h5> Insira a data final</h5></Label>
+                                                            <Label for="dataFinal"><h5> Data final</h5></Label>
                                                             <Input
                                                                 type="date"
                                                                 name="dataFinal"
@@ -137,10 +140,11 @@ class Busca extends React.Component {
                                                 <Row>
                                                     <Col sm={6}>
                                                         <FormGroup>
-                                                            <Label for="matricula"><h5> Insira a matricula do militar</h5></Label>
+                                                            <Label for="matricula"><h5> Matricula do militar</h5></Label>
                                                             <Input
                                                                 name="matricula"
                                                                 id="matricula"
+                                                                placeHolder="Insira a matricula"
                                                                 value={this.state.form.matricula}
                                                                 onChange={this.changeHandler}
                                                             />
@@ -148,10 +152,11 @@ class Busca extends React.Component {
                                                     </Col>
                                                     <Col sm={6}>
                                                         <FormGroup>
-                                                            <Label for="nomeMilitar"><h5>Insira o nome do militar</h5></Label>
+                                                            <Label for="nomeMilitar"><h5>Nome do militar</h5></Label>
                                                             <Input
                                                                 name="nomeMilitar"
                                                                 id="nomeMilitar"
+                                                                placeHolder="Insira o nome"
                                                             />
                                                         </FormGroup>
                                                     </Col>
@@ -159,10 +164,11 @@ class Busca extends React.Component {
                                                 <Row>
                                                     <Col sm={12}>
                                                         <FormGroup>
-                                                            <Label for="palavrasChave"><h5>Insira as palavras-chave</h5></Label>
+                                                            <Label for="palavrasChave"><h5>Palavras-chave</h5></Label>
                                                             <Input
                                                                 name="palavrasChave"
                                                                 id="palavrasChave"
+                                                                placeHolder="Insira as palavras-chave"
                                                             />
                                                         </FormGroup>
                                                     </Col>
