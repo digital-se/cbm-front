@@ -758,7 +758,9 @@ class Cadastro extends Component {
 }
 Cadastro.propTypes = {
     history: PropTypes.node,
-    match: PropTypes.node
+    match: PropTypes.node,
+    location: PropTypes.string,
+    
 }
 
 export default Cadastro;
