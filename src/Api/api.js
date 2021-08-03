@@ -6,12 +6,15 @@ class Api {
     }
 
     async getSearch() {
+        
         try {
             const response = await axios.get(`${this.url}/documentos`);
             let data = response.data
             return data
         } catch (error) {
+            let sim = [];
             console.error(error);
+            return sim;
         }
     }
 
