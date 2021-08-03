@@ -4,11 +4,13 @@ import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
-import {Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table} from 'reactstrap';
+import { Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table } from 'reactstrap';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
 import Swal from '../Comp/Swal';
 import AuthorizedElement from '../Protected/AuthorizedElement';
+import { Redirect } from 'react-router-dom';
+
 
 class Cadastro extends Component {
     state = {
@@ -34,6 +36,7 @@ class Cadastro extends Component {
             descrição: false,
         },
         id: "",
+        redirect: false,
         edit: false,
         busca: [],
         militares: [],
@@ -192,6 +195,7 @@ class Cadastro extends Component {
         console.log(this.state.militares);
     }
 
+
     onSubmit = async (e) => {
         e.preventDefault();
 
@@ -249,480 +253,506 @@ class Cadastro extends Component {
         await this.setState({ militares: [] })
     }
 
+    redirect = () => {
+        alert('Cu')
+    }
+
 
     async componentDidMount() {
-        let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
-        documento = documento.data
 
-        await this.setState({ edit: true })
 
-        console.log(this.state.edit)
-        let data = new Date(documento.data).toISOString().split("T")[0]
-        await this.setState({ id: documento.id })
-        console.log(this.state.id)
-        let sim = {
-            nome: documento.nome,
-            numeracao: documento.numeracao,
-            visibilidade: documento.publico,
-            tipo: documento.tipo,
-            data: data,
-            descrição: documento.descricao
+        if (this.props.location.pathname != "/cadastro") {
+            console.log(this.props.location.pathname);
+
+            try {
+                let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
+                documento = documento.data
+
+                await this.setState({ edit: true })
+
+                console.log(this.state.edit)
+                let data = new Date(documento.data).toISOString().split("T")[0]
+                await this.setState({ id: documento.id })
+                console.log(this.state.id)
+                let doc = {
+                    nome: documento.nome,
+                    numeracao: documento.numeracao,
+                    visibilidade: documento.publico,
+                    tipo: documento.tipo,
+                    data: data,
+                    descrição: documento.descricao
+                }
+
+                await this.setState({ form: doc })
+
+                await this.setState({
+                    files: documento.arquivos.map((arq) => {
+                        return {
+                            preview: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                            name: arq.nome,
+                            ocr: arq.texto
+                        }
+                    })
+                })
+
+                await this.setState({
+                    militares: documento.militares.map((mil) => {
+                        return {
+                            nome: "",
+                            matricula: mil.matricula
+                        }
+                    }),
+                })
+                this.validate();
+
+            } catch (e) {
+                console.log(e)
+                this.setState({ redirect:true })
+
+            }
         }
-
-        await this.setState({ form: sim })
-
-        await this.setState({
-            files: documento.arquivos.map((arq) => {
-                return {
-                    preview: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
-                    name: arq.nome,
-                    ocr: arq.texto
-                }
-            })
-        })
-
-        await this.setState({
-            militares: documento.militares.map((mil) => {
-                return {
-                    nome: "",
-                    matricula: mil.matricula
-                }
-            }),
-        })
-        this.validate();
     }
 
     render() {
-        return (
-            <AuthorizedElement roles={['app-user']}>
-                <div className="d-flex align-items-center justify-content-center container container-table pt-4">
-                    <Form onSubmit={this.onSubmit}>
-                        <Card className="card-default" style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
-                            <CardHeader  style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px', justifyContent: 'center' }}>
-                                <h3>Cadastro de documentos</h3>
-                            </CardHeader>
-                            <CardBody>
-                                <Row>
-                                    <Col md={12} lg={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <Nav pills vertical={true} >
-                                            <Row>
-                                                <Col sm={6} lg={10}>
-                                                    <NavItem >
-                                                        <Button
-                                                            type="button"
-                                                            outline color="danger"
-                                                            tag="div"
-                                                            className={classnames({
-                                                                active: this.state.activeStep === '1'
-                                                            })}
-                                                            onClick={() => this.toggleStep('1')}
-                                                            style={{ borderRadius: '15px', border: '2px solid' }}
-                                                            block
-                                                        >
-                                                            <h4 style={{ "font-size": "1.8rem" }} className="text-center my-3">Dados iniciais</h4>
-                                                        </Button>
-                                                        <div style={{ "height": "25px" }}></div>
-                                                    </NavItem>
-                                                </Col>
-                                                <Col sm={6} lg={10}>
-                                                    <NavItem >
-                                                        <Button
-                                                            type="button"
-                                                            outline color="danger"
-                                                            tag="div"
-                                                            className={classnames({
-                                                                active: this.state.activeStep === '2'
-                                                            })}
-                                                            onClick={() => this.toggleStep('2')}
-                                                            style={{ borderRadius: '15px', border: '2px solid' }}
-                                                            block
-                                                        >
-                                                            <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Edição</h4>
-                                                        </Button>
-                                                        <div style={{ "height": "25px" }}></div>
-                                                    </NavItem>
-                                                </Col>
-                                                <Col sm={6} lg={10}>
-                                                    <NavItem >
-                                                        <Button
-                                                            type="button"
-                                                            outline color="danger"
-                                                            tag="div"
-                                                            className={classnames({
-                                                                active: this.state.activeStep === '3'
-                                                            })}
-                                                            onClick={() => this.toggleStep('3')}
-                                                            style={{ borderRadius: '15px', border: '2px solid' }}
-                                                            block
-                                                        >
-                                                            <h4 style={{ "font-size": "1.7rem" }} className=" text-center my-3">Arquivos</h4>
-                                                        </Button>
-                                                        <div style={{ "height": "25px" }}></div>
-                                                    </NavItem>
-                                                </Col>
-                                                <Col sm={6} lg={10}>
-                                                    <NavItem >
-                                                        <Button
-                                                            type="button"
-                                                            outline color="danger"
-                                                            tag="div"
-                                                            className={classnames({
-                                                                active: this.state.activeStep === '4'
-                                                            })}
-                                                            onClick={() => this.toggleStep('4')}
-                                                            style={{ borderRadius: '15px', border: '2px solid', }}
-                                                            block
-                                                        >
-                                                            <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Militares</h4>
-                                                        </Button>
-                                                        <div style={{ "height": "25px" }} />
-                                                    </NavItem>
-                                                </Col>
-                                            </Row>
-                                        </Nav>
-                                    </Col>
-                                    {/*linha vertical*/}
-                                    <div style={{ borderWidth: '1 px', borderLeft: ' 0.1px solid' }} />
-                                    <Col>
-                                        <div className="justify-content-center align-items-center">
-                                            <TabContent activeTab={this.state.activeStep} className="border-0">
-                                                <TabPane tabId="1">
-                                                    <div className="pt-3 mb-3">
-                                                        <fieldset>
-                                                            <div className="border-bottom">
-                                                                <h2>Dados Iniciais</h2>
-                                                                <p className="lead">
-                                                                    Digite as informações essenciais do arquivo
-                                                                </p>
-                                                            </div>
+        if (this.state.redirect === true){
+            return (
+                <Redirect to="/inicio" />
+            );
+
+        }else{
+            return (
+                <AuthorizedElement roles={['app-user']}>
+                    <div className="d-flex align-items-center justify-content-center container container-table pt-4">
+                        <Form onSubmit={this.onSubmit}>
+                            <Card className="card-default" style={{ borderRadius: '20px', "box-shadow": "#ccc", backgroundColor: "#FFF" }}>
+                                <CardHeader style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px', justifyContent: 'center' }}>
+                                    <h3>Cadastro de documentos</h3>
+                                </CardHeader>
+                                <CardBody>
+                                    <Row>
+                                        <Col md={12} lg={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                            <Nav pills vertical={true} >
+                                                <Row>
+                                                    <Col sm={6} lg={10}>
+                                                        <NavItem >
+                                                            <Button
+                                                                type="button"
+                                                                outline color="danger"
+                                                                tag="div"
+                                                                className={classnames({
+                                                                    active: this.state.activeStep === '1'
+                                                                })}
+                                                                onClick={() => this.toggleStep('1')}
+                                                                style={{ borderRadius: '15px', border: '2px solid' }}
+                                                                block
+                                                            >
+                                                                <h4 style={{ "font-size": "1.8rem" }} className="text-center my-3">Dados iniciais</h4>
+                                                            </Button>
+                                                            <div style={{ "height": "25px" }}></div>
+                                                        </NavItem>
+                                                    </Col>
+                                                    <Col sm={6} lg={10}>
+                                                        <NavItem >
+                                                            <Button
+                                                                type="button"
+                                                                outline color="danger"
+                                                                tag="div"
+                                                                className={classnames({
+                                                                    active: this.state.activeStep === '2'
+                                                                })}
+                                                                onClick={() => this.toggleStep('2')}
+                                                                style={{ borderRadius: '15px', border: '2px solid' }}
+                                                                block
+                                                            >
+                                                                <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Edição</h4>
+                                                            </Button>
+                                                            <div style={{ "height": "25px" }}></div>
+                                                        </NavItem>
+                                                    </Col>
+                                                    <Col sm={6} lg={10}>
+                                                        <NavItem >
+                                                            <Button
+                                                                type="button"
+                                                                outline color="danger"
+                                                                tag="div"
+                                                                className={classnames({
+                                                                    active: this.state.activeStep === '3'
+                                                                })}
+                                                                onClick={() => this.toggleStep('3')}
+                                                                style={{ borderRadius: '15px', border: '2px solid' }}
+                                                                block
+                                                            >
+                                                                <h4 style={{ "font-size": "1.7rem" }} className=" text-center my-3">Arquivos</h4>
+                                                            </Button>
+                                                            <div style={{ "height": "25px" }}></div>
+                                                        </NavItem>
+                                                    </Col>
+                                                    <Col sm={6} lg={10}>
+                                                        <NavItem >
+                                                            <Button
+                                                                type="button"
+                                                                outline color="danger"
+                                                                tag="div"
+                                                                className={classnames({
+                                                                    active: this.state.activeStep === '4'
+                                                                })}
+                                                                onClick={() => this.toggleStep('4')}
+                                                                style={{ borderRadius: '15px', border: '2px solid', }}
+                                                                block
+                                                            >
+                                                                <h4 style={{ "font-size": "1.7rem" }} className="text-center my-3">Militares</h4>
+                                                            </Button>
                                                             <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="nome"><h3>Nome do Documento *</h3></Label>
-                                                                <Input
-                                                                    className="form-control"
-                                                                    placeholder="Insira o nome do documento"
-                                                                    name="nome"
-                                                                    id="nome"
-                                                                    value={this.state.form.nome}
-                                                                    onChange={this.changeHandler}
-                                                                    valid={(this.state.form.nome != "" && this.state.validation.nome)}
-                                                                    invalid={((this.state.form.nome != "" || this.state.fullValidate) && !this.state.validation.nome)}
-                                                                />
-                                                                <span className="invalid-feedback">Insira um nome válido</span>
-                                                            </FormGroup>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="numeracao"><h3>Numeração do documento (Opcional)</h3></Label>
-                                                                <Input
-                                                                    className="form-control"
-                                                                    placeholder="Ex: 123456"
-                                                                    name="numeracao"
-                                                                    id="numeracao"
-                                                                    value={this.state.form.numeracao}
-                                                                    onChange={this.changeHandler}
-                                                                    valid={(this.state.form.numeracao.length > 0)}
-                                                                />
-                                                            </FormGroup>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="visibilidade"><h3>Quem pode ver esse documento?</h3></Label>
-                                                                <Input className="select"
-                                                                    type="select"
-                                                                    name="visibilidade"
-                                                                    id="visibilidade"
-                                                                    value={this.state.form.visibilidade}
-                                                                    onChange={this.changeHandler}
-                                                                    valid={(this.state.validation.visibilidade)}
-                                                                    invalid={((this.state.form.visibilidade != "" || this.state.fullValidate) && !this.state.validation.visibilidade)}
-                                                                >
-                                                                    <option hidden disabled value="">Selecione</option>
-                                                                    <option value={true}>Todos</option>
-                                                                    <option value={false}>Pessoas autorizadas</option>
-                                                                </Input>
-                                                                <span className="invalid-feedback">Selecione a visibilidade do documento</span>
-                                                            </FormGroup>
-                                                        </fieldset>
-                                                    </div>
-                                                    <hr />
-                                                    <div className="d-flex">
-                                                        <Button
-                                                            type="button"
-                                                            color="danger"
-                                                            href="#/"
-                                                            onClick={window.location.href}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            <em className="fa mr-2 fas fa-arrow-left" />Voltar
-                                                        </Button>
-                                                        <Button
-                                                            type="button"
-                                                            className="ml-auto"
-                                                            color="success"
-                                                            onClick={() => this.toggleStep('2')}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            Avançar <em className="fa ml-2 fas fa-arrow-right" />
-                                                        </Button>
-                                                    </div>
-                                                </TabPane>
-                                                <TabPane tabId="2">
-                                                    <div className="pt-3 mb-3">
-                                                        <fieldset>
-                                                            <div className="border-bottom">
-                                                                <h2>Edição</h2>
-                                                                <p className="lead">
-                                                                    Digite mais informações sobre o documento
-                                                                </p>
-                                                            </div>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="selectTipo"><h3>Tipo de Documento*</h3></Label>
-                                                                <Input
-                                                                    type="select"
-                                                                    name="tipo"
-                                                                    id="tipo"
-                                                                    value={this.state.form.tipo}
-                                                                    onChange={this.changeHandler}
-                                                                    valid={(this.state.validation.tipo)}
-                                                                    invalid={((this.state.form.tipo != "" || this.state.fullValidate) && !this.state.validation.tipo)}
-                                                                >
-                                                                    <option hidden disabled value="">Escolha o tipo</option>
-                                                                    <option value="bga">BGA</option>
-                                                                    <option value="bgo">BGO</option>
-                                                                    <option value="bir">BIR</option>
-                                                                    <option value="diario" disabled>Diário Oficial</option>
-                                                                    <option value="ficha" disabled>Ficha</option>
-                                                                    <option value="relatorio" disabled>Relatório de Processos</option>
-                                                                </Input>
-                                                                <span className="invalid-feedback">Selecione o tipo do documento</span>
-                                                            </FormGroup>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="data"><h3>Data do documento*</h3></Label>
-                                                                <Input
-                                                                    type="date"
-                                                                    name="data"
-                                                                    id="data"
-                                                                    max={new Date().toISOString().split("T")[0]}
-                                                                    value={this.state.form.data}
-                                                                    onChange={this.changeHandler}
-                                                                    valid={(this.state.form.data != "" && this.state.validation.data)}
-                                                                    invalid={((this.state.form.data != "" || this.state.fullValidate) && !this.state.validation.data)}
-                                                                />
-                                                            </FormGroup>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <FormGroup>
-                                                                <Label for="descrição"><h3>Descrição do documento</h3></Label>
-                                                                <Input
-                                                                    type="textarea"
-                                                                    name="descrição"
-                                                                    id="descrição"
-                                                                    maxlength="300"
-                                                                    value={this.state.form.descrição}
-                                                                    onChange={this.changeHandler}
-                                                                    style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
-                                                                    valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
-                                                                    invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
-                                                                />
-                                                                <span className="invalid-feedback">Insira a descrição do documento</span>
-                                                            </FormGroup>
-                                                        </fieldset>
-                                                    </div>
-                                                    <hr />
-                                                    <div className="d-flex">
-                                                        <Button
-                                                            type="button"
-                                                            color="danger"
-                                                            onClick={() => this.toggleStep('1')}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            <em className="fa mr-2 fas fa-arrow-left" />Voltar
-                                                        </Button>
-                                                        <Button
-                                                            type="button"
-                                                            className="ml-auto"
-                                                            color="success"
-                                                            onClick={() => this.toggleStep('3')}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            Avançar<em className="fa ml-2 fas fa-arrow-right" />
-                                                        </Button>
-                                                    </div>
-                                                </TabPane>
-                                                <TabPane tabId="3">
-                                                    <div className="pt-3 mb-3">
-                                                        <fieldset>
-                                                            <h2>Arquivos</h2>
-                                                            <p className="lead">
-                                                                Gerencie os arquivos neste documento!
-                                                            </p>
-                                                            <hr />
-                                                            <h3>Insira um Arquivo</h3>
-                                                            <Dropzone className="card p-3" onDrop={this.onDrop}>
-                                                                {({ getRootProps, getInputProps }) => (
-                                                                    <div {...getRootProps()} className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px', cursor: "pointer" }}>
-                                                                        <input {...getInputProps()} />
-                                                                        <p>Arraste os arquivos aqui, ou clique para seleciona-los</p>
-                                                                        <em className="fa fa-file fa-3x" />
-                                                                    </div>
-                                                                )}
-                                                            </Dropzone>
-                                                            <div className="mt-3">
-                                                                {this.state.files.length > 0 ?
-                                                                    (<div style={{ "maxHeight": "180px", "overflow": "auto" }}>
-                                                                        <Table>
-                                                                            <thead>
-                                                                                <th>#</th>
-                                                                                <th>Nome do Arquivo</th>
-                                                                                <th>Ações</th>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                {this.state.files.map(this.createImageItem)}
-                                                                            </tbody>
-                                                                        </Table>
-                                                                    </div>)
-                                                                    :
-                                                                    <div><small>Sem preview no momento.</small></div>
-                                                                }
-                                                            </div>
-                                                        </fieldset>
-                                                    </div>
-                                                    <hr />
-                                                    <div className="d-flex">
-                                                        <Button type="button"
-                                                            color="danger"
-                                                            onClick={() => this.toggleStep('2')}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            <em className="fa mr-2 fas fa-arrow-left" />Voltar
-                                                        </Button>
-                                                        <Button
-                                                            type="button"
-                                                            className="ml-auto"
-                                                            color="success"
-                                                            onClick={() => this.toggleStep('4')}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            Avançar<em className="fa ml-2 fas fa-arrow-right" />
-                                                        </Button>
-                                                    </div>
-                                                </TabPane>
-                                                <TabPane tabId="4">
-                                                    <div className="pt-3 mb-3">
-                                                        <fieldset className="mb-1 pb-1">
-                                                            <h2>Militares</h2>
-                                                            <p className="lead">
-                                                                Adicione os militares que estão ligados ao documento
-                                                            </p>
-                                                            <hr />
-                                                            <FormGroup>
-                                                                <Label for="typeBusca"><h3>Busca por nome ou matrícula de militares</h3></Label>
-                                                                <Input className="form-control"
-                                                                    type="select"
-                                                                    name="typeBusca"
-                                                                    id="typeBusca"
-                                                                    value={this.state.form.typeBusca}
-                                                                    onChange={this.changeHandler}
-                                                                >
-                                                                    <option hidden disabled value="">Tipo da busca</option>
-                                                                    <option disabled value="nome">Nome</option>
-                                                                    <option value="matrícula">Matrícula</option>
-                                                                </Input>
-                                                            </FormGroup>
-                                                            <div style={{ "height": "25px" }} />
-                                                            <div>
-                                                                <FormGroup >
-                                                                    <Label for="matricula"><h3>Buscar {this.state.form.typeBusca}</h3></Label>
-                                                                    <Row>
-                                                                        <Col sm={8}>
-                                                                            <Input
-                                                                                className="form-control"
-                                                                                placeholder={this.state.form.typeBusca}
-                                                                                name="matricula"
-                                                                                id="matricula"
-                                                                                value={this.state.form.matricula}
-                                                                                onChange={this.changeHandler}
-                                                                            />
-                                                                        </Col>
-                                                                        <Col sm={3}>
-                                                                            <Button
-                                                                                type="button"
-                                                                                className="ml-2"
-                                                                                onClick={this.buscarMilitares}
-                                                                                color="success"
-                                                                                style={{ "height": "35px" }}
-                                                                            >
-                                                                                <em className="fa mr-2 fas fa-search" />Buscar
-                                                                            </Button>
-                                                                        </Col>
-                                                                    </Row>
+                                                        </NavItem>
+                                                    </Col>
+                                                </Row>
+                                            </Nav>
+                                        </Col>
+                                        {/*linha vertical*/}
+                                        <div style={{ borderWidth: '1 px', borderLeft: ' 0.1px solid' }} />
+                                        <Col>
+                                            <div className="justify-content-center align-items-center">
+                                                <TabContent activeTab={this.state.activeStep} className="border-0">
+                                                    <TabPane tabId="1">
+                                                        <div className="pt-3 mb-3">
+                                                            <fieldset>
+                                                                <div className="border-bottom">
+                                                                    <h2>Dados Iniciais</h2>
+                                                                    <p className="lead">
+                                                                        Digite as informações essenciais do arquivo
+                                                                    </p>
+                                                                </div>
+                                                                <div style={{ "height": "25px" }} />
+                                                                <FormGroup>
+                                                                    <Label for="nome"><h3>Nome do Documento *</h3></Label>
+                                                                    <Input
+                                                                        className="form-control"
+                                                                        placeholder="Insira o nome do documento"
+                                                                        name="nome"
+                                                                        id="nome"
+                                                                        value={this.state.form.nome}
+                                                                        onChange={this.changeHandler}
+                                                                        valid={(this.state.form.nome != "" && this.state.validation.nome)}
+                                                                        invalid={((this.state.form.nome != "" || this.state.fullValidate) && !this.state.validation.nome)}
+                                                                    />
+                                                                    <span className="invalid-feedback">Insira um nome válido</span>
                                                                 </FormGroup>
-                                                            </div>
-                                                        </fieldset>
-                                                        <Row>
-                                                            <Col className="mt-3">
-                                                                {this.state.busca.length > 0 ?
-                                                                    (<div style={{ "maxHeight": "220px", "overflow": "auto" }}>
-                                                                        <Table>
-                                                                            <thead>
-                                                                                <th>#</th>
-                                                                                <th>Nome</th>
-                                                                                <th>Matricula</th>
-                                                                                <th>Ações</th>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                {this.state.busca.map(this.createBuscaItem)}
-                                                                            </tbody>
-                                                                        </Table>
-                                                                    </div>)
-                                                                    :
-                                                                    <div><small>Sem preview no momento.</small></div>
-                                                                }
-                                                            </Col>
-                                                            <hr />
-                                                            <Col className="mt-3">
-                                                                {this.state.militares.length > 0 ?
-                                                                    (<div style={{ "maxHeight": "220px", "overflow": "auto" }}>
-                                                                        <Table>
-                                                                            <thead>
-                                                                                <th>#</th>
-                                                                                <th>Nome</th>
-                                                                                <th>Matricula</th>
-                                                                                <th>Ações</th>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                {this.state.militares.map(this.createMilitarItem)}
-                                                                            </tbody>
-                                                                        </Table>
-                                                                    </div>)
-                                                                    :
-                                                                    <div><small>Sem preview no momento.</small></div>
-                                                                }
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                    <hr />
-                                                    <div className="d-flex">
-                                                        <Button
-                                                            type="button"
-                                                            color="danger"
-                                                            onClick={() => this.toggleStep('3')}
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            <em className="fa mr-2 fas fa-arrow-left" />Voltar
-                                                        </Button>
-                                                        <Button
-                                                            className="ml-auto"
-                                                            type="submit"
-                                                            color="success"
-                                                            style={{ "height": "35px", "width": "110px" }}>
-                                                            Cadastrar<em className="fa ml-2 fas fa-check" />
-                                                        </Button>
-                                                    </div>
-                                                </TabPane>
-                                            </TabContent>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Form>
-                </div >
-            </AuthorizedElement>
-        );
+                                                                <div style={{ "height": "25px" }} />
+                                                                <FormGroup>
+                                                                    <Label for="numeracao"><h3>Numeração do documento (Opcional)</h3></Label>
+                                                                    <Input
+                                                                        className="form-control"
+                                                                        placeholder="Ex: 123456"
+                                                                        name="numeracao"
+                                                                        id="numeracao"
+                                                                        value={this.state.form.numeracao}
+                                                                        onChange={this.changeHandler}
+                                                                        valid={(this.state.form.numeracao.length > 0)}
+                                                                    />
+                                                                </FormGroup>
+                                                                <div style={{ "height": "25px" }} />
+                                                                <FormGroup>
+                                                                    <Label for="visibilidade"><h3>Quem pode ver esse documento?</h3></Label>
+                                                                    <Input className="select"
+                                                                        type="select"
+                                                                        name="visibilidade"
+                                                                        id="visibilidade"
+                                                                        value={this.state.form.visibilidade}
+                                                                        onChange={this.changeHandler}
+                                                                        valid={(this.state.validation.visibilidade)}
+                                                                        invalid={((this.state.form.visibilidade != "" || this.state.fullValidate) && !this.state.validation.visibilidade)}
+                                                                    >
+                                                                        <option hidden disabled value="">Selecione</option>
+                                                                        <option value={true}>Todos</option>
+                                                                        <option value={false}>Pessoas autorizadas</option>
+                                                                    </Input>
+                                                                    <span className="invalid-feedback">Selecione a visibilidade do documento</span>
+                                                                </FormGroup>
+                                                            </fieldset>
+                                                        </div>
+                                                        <hr />
+                                                        <div className="d-flex">
+                                                            <Button
+                                                                type="button"
+                                                                color="danger"
+                                                                href="#/"
+                                                                onClick={window.location.href}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                <em className="fa mr-2 fas fa-arrow-left" />Voltar
+                                                            </Button>
+                                                            <Button
+                                                                type="button"
+                                                                className="ml-auto"
+                                                                color="success"
+                                                                onClick={() => this.toggleStep('2')}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                Avançar <em className="fa ml-2 fas fa-arrow-right" />
+                                                            </Button>
+                                                        </div>
+                                                    </TabPane>
+                                                    <TabPane tabId="2">
+                                                        <div className="pt-3 mb-3">
+                                                            <fieldset>
+                                                                <div className="border-bottom">
+                                                                    <h2>Edição</h2>
+                                                                    <p className="lead">
+                                                                        Digite mais informações sobre o documento
+                                                                    </p>
+                                                                </div>
+                                                                <div style={{ "height": "25px" }} />
+                                                                <FormGroup>
+                                                                    <Label for="selectTipo"><h3>Tipo de Documento*</h3></Label>
+                                                                    <Input
+                                                                        type="select"
+                                                                        name="tipo"
+                                                                        id="tipo"
+                                                                        value={this.state.form.tipo}
+                                                                        onChange={this.changeHandler}
+                                                                        valid={(this.state.validation.tipo)}
+                                                                        invalid={((this.state.form.tipo != "" || this.state.fullValidate) && !this.state.validation.tipo)}
+                                                                    >
+                                                                        <option hidden disabled value="">Escolha o tipo</option>
+                                                                        <option value="bga">BGA</option>
+                                                                        <option value="bgo">BGO</option>
+                                                                        <option value="bir">BIR</option>
+                                                                        <option value="diario" disabled>Diário Oficial</option>
+                                                                        <option value="ficha" disabled>Ficha</option>
+                                                                        <option value="relatorio" disabled>Relatório de Processos</option>
+                                                                    </Input>
+                                                                    <span className="invalid-feedback">Selecione o tipo do documento</span>
+                                                                </FormGroup>
+                                                                <div style={{ "height": "25px" }} />
+                                                                <FormGroup>
+                                                                    <Label for="data"><h3>Data do documento*</h3></Label>
+                                                                    <Input
+                                                                        type="date"
+                                                                        name="data"
+                                                                        id="data"
+                                                                        max={new Date().toISOString().split("T")[0]}
+                                                                        value={this.state.form.data}
+                                                                        onChange={this.changeHandler}
+                                                                        valid={(this.state.form.data != "" && this.state.validation.data)}
+                                                                        invalid={((this.state.form.data != "" || this.state.fullValidate) && !this.state.validation.data)}
+                                                                    />
+                                                                </FormGroup>
+                                                                <div style={{ "height": "25px" }} />
+                                                                <FormGroup>
+                                                                    <Label for="descrição"><h3>Descrição do documento</h3></Label>
+                                                                    <Input
+                                                                        type="textarea"
+                                                                        name="descrição"
+                                                                        id="descrição"
+                                                                        maxlength="300"
+                                                                        value={this.state.form.descrição}
+                                                                        onChange={this.changeHandler}
+                                                                        style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
+                                                                        valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
+                                                                        invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
+                                                                    />
+                                                                    <span className="invalid-feedback">Insira a descrição do documento</span>
+                                                                </FormGroup>
+                                                            </fieldset>
+                                                        </div>
+                                                        <hr />
+                                                        <div className="d-flex">
+                                                            <Button
+                                                                type="button"
+                                                                color="danger"
+                                                                onClick={() => this.toggleStep('1')}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                <em className="fa mr-2 fas fa-arrow-left" />Voltar
+                                                            </Button>
+                                                            <Button
+                                                                type="button"
+                                                                className="ml-auto"
+                                                                color="success"
+                                                                onClick={() => this.toggleStep('3')}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                Avançar<em className="fa ml-2 fas fa-arrow-right" />
+                                                            </Button>
+                                                        </div>
+                                                    </TabPane>
+                                                    <TabPane tabId="3">
+                                                        <div className="pt-3 mb-3">
+                                                            <fieldset>
+                                                                <h2>Arquivos</h2>
+                                                                <p className="lead">
+                                                                    Gerencie os arquivos neste documento!
+                                                                </p>
+                                                                <hr />
+                                                                <h3>Insira um Arquivo</h3>
+                                                                <Dropzone className="card p-3" onDrop={this.onDrop}>
+                                                                    {({ getRootProps, getInputProps }) => (
+                                                                        <div {...getRootProps()} className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px', cursor: "pointer" }}>
+                                                                            <input {...getInputProps()} />
+                                                                            <p>Arraste os arquivos aqui, ou clique para seleciona-los</p>
+                                                                            <em className="fa fa-file fa-3x" />
+                                                                        </div>
+                                                                    )}
+                                                                </Dropzone>
+                                                                <div className="mt-3">
+                                                                    {this.state.files.length > 0 ?
+                                                                        (<div style={{ "maxHeight": "180px", "overflow": "auto" }}>
+                                                                            <Table>
+                                                                                <thead>
+                                                                                    <th>#</th>
+                                                                                    <th>Nome do Arquivo</th>
+                                                                                    <th>Ações</th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {this.state.files.map(this.createImageItem)}
+                                                                                </tbody>
+                                                                            </Table>
+                                                                        </div>)
+                                                                        :
+                                                                        <div><small>Sem preview no momento.</small></div>
+                                                                    }
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                        <hr />
+                                                        <div className="d-flex">
+                                                            <Button type="button"
+                                                                color="danger"
+                                                                onClick={() => this.toggleStep('2')}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                <em className="fa mr-2 fas fa-arrow-left" />Voltar
+                                                            </Button>
+                                                            <Button
+                                                                type="button"
+                                                                className="ml-auto"
+                                                                color="success"
+                                                                onClick={() => this.toggleStep('4')}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                Avançar<em className="fa ml-2 fas fa-arrow-right" />
+                                                            </Button>
+                                                        </div>
+                                                    </TabPane>
+                                                    <TabPane tabId="4">
+                                                        <div className="pt-3 mb-3">
+                                                            <fieldset className="mb-1 pb-1">
+                                                                <h2>Militares</h2>
+                                                                <p className="lead">
+                                                                    Adicione os militares que estão ligados ao documento
+                                                                </p>
+                                                                <hr />
+                                                                <FormGroup>
+                                                                    <Label for="typeBusca"><h3>Busca por nome ou matrícula de militares</h3></Label>
+                                                                    <Input className="form-control"
+                                                                        type="select"
+                                                                        name="typeBusca"
+                                                                        id="typeBusca"
+                                                                        value={this.state.form.typeBusca}
+                                                                        onChange={this.changeHandler}
+                                                                    >
+                                                                        <option hidden disabled value="">Tipo da busca</option>
+                                                                        <option disabled value="nome">Nome</option>
+                                                                        <option value="matrícula">Matrícula</option>
+                                                                    </Input>
+                                                                </FormGroup>
+                                                                <div style={{ "height": "25px" }} />
+                                                                <div>
+                                                                    <FormGroup >
+                                                                        <Label for="matricula"><h3>Buscar {this.state.form.typeBusca}</h3></Label>
+                                                                        <Row>
+                                                                            <Col sm={8}>
+                                                                                <Input
+                                                                                    className="form-control"
+                                                                                    placeholder={this.state.form.typeBusca}
+                                                                                    name="matricula"
+                                                                                    id="matricula"
+                                                                                    value={this.state.form.matricula}
+                                                                                    onChange={this.changeHandler}
+                                                                                />
+                                                                            </Col>
+                                                                            <Col sm={3}>
+                                                                                <Button
+                                                                                    type="button"
+                                                                                    className="ml-2"
+                                                                                    onClick={this.buscarMilitares}
+                                                                                    color="success"
+                                                                                    style={{ "height": "35px" }}
+                                                                                >
+                                                                                    <em className="fa mr-2 fas fa-search" />Buscar
+                                                                                </Button>
+                                                                            </Col>
+                                                                        </Row>
+                                                                    </FormGroup>
+                                                                </div>
+                                                            </fieldset>
+                                                            <Row>
+                                                                <Col className="mt-3">
+                                                                    {this.state.busca.length > 0 ?
+                                                                        (<div style={{ "maxHeight": "220px", "overflow": "auto" }}>
+                                                                            <Table>
+                                                                                <thead>
+                                                                                    <th>#</th>
+                                                                                    <th>Nome</th>
+                                                                                    <th>Matricula</th>
+                                                                                    <th>Ações</th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {this.state.busca.map(this.createBuscaItem)}
+                                                                                </tbody>
+                                                                            </Table>
+                                                                        </div>)
+                                                                        :
+                                                                        <div><small>Sem preview no momento.</small></div>
+                                                                    }
+                                                                </Col>
+                                                                <hr />
+                                                                <Col className="mt-3">
+                                                                    {this.state.militares.length > 0 ?
+                                                                        (<div style={{ "maxHeight": "220px", "overflow": "auto" }}>
+                                                                            <Table>
+                                                                                <thead>
+                                                                                    <th>#</th>
+                                                                                    <th>Nome</th>
+                                                                                    <th>Matricula</th>
+                                                                                    <th>Ações</th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {this.state.militares.map(this.createMilitarItem)}
+                                                                                </tbody>
+                                                                            </Table>
+                                                                        </div>)
+                                                                        :
+                                                                        <div><small>Sem preview no momento.</small></div>
+                                                                    }
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                        <hr />
+                                                        <div className="d-flex">
+                                                            <Button
+                                                                type="button"
+                                                                color="danger"
+                                                                onClick={() => this.toggleStep('3')}
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                <em className="fa mr-2 fas fa-arrow-left" />Voltar
+                                                            </Button>
+                                                            <Button
+                                                                className="ml-auto"
+                                                                type="submit"
+                                                                color="success"
+                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                Cadastrar<em className="fa ml-2 fas fa-check" />
+                                                            </Button>
+                                                        </div>
+                                                    </TabPane>
+                                                </TabContent>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </CardBody>
+                            </Card>
+                        </Form>
+                    </div >
+                </AuthorizedElement>
+            );
+
+        }
+        
 
     }
 }
