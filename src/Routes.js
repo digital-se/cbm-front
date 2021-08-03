@@ -5,6 +5,7 @@ import PageLoader from './components/Common/PageLoader';
 import Base from './components/Layout/Base';
 import BasePage from './components/Layout/BasePage';
 import { PrivateRoute } from './util/PrivateRoute';
+import { useKeycloak } from '@react-keycloak/web';
 
 const Busca = lazy(() => import('./components/Busca/Busca'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
@@ -24,6 +25,11 @@ const Routes = ({ location }) => {
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
     const animationName = 'rag-fadeIn'
+    
+    const { initialized } = useKeycloak();
+    if (!initialized) {
+        return <h3>Carregando... (é pra ser uma bolinha rodando no meio da tela)</h3>;
+    }
 
     if (listofPages.indexOf(location.pathname) > -1) {
         return (
@@ -40,6 +46,7 @@ const Routes = ({ location }) => {
     }
     else {
         return (
+            
             // Use <BaseHorizontal> to change layout
             <Suspense fallback={<PageLoader />}>
                 <Base>
@@ -55,6 +62,7 @@ const Routes = ({ location }) => {
                                         <Route path="/protected" component={ProtectedPage} />
                                         <Route path="/editar/:id" component={Cadastro} />
                                         {/* keycloak */}
+
                                         <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
                                         <Redirect to="/inicio" />
                                     </Switch>
