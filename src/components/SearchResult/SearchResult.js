@@ -12,7 +12,7 @@ class SearchResult extends React.Component {
         dropdownOpen: false,
         resultados: [],
         waitResult: false, 
-        searching:"Buscando...",
+        searching:<div className='whirl'/>
     }
 
     toggle = () => {
