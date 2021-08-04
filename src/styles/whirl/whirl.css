@@ -12,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 /* whirl base styling */
 .whirl {
-  position: relative;
+  position: flex;
 }
 .whirl:before {
   content: "";
@@ -22,8 +22,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #999999;
-  opacity: 0.6;
+  background-color: #f5f7fa;
+  opacity: 1;
 }
 .whirl:after {
   z-index: 2;
