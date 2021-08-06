@@ -28,7 +28,9 @@ const Routes = ({ location }) => {
     
     const { initialized } = useKeycloak();
     if (!initialized) {
-        return <div className = "whirl"></div>;
+        return (  
+            <PageLoader />     
+        )
     }
 
     if (listofPages.indexOf(location.pathname) > -1) {
