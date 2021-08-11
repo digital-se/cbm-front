@@ -41,10 +41,20 @@ class Busca extends React.Component {
         e.preventDefault();
     }
 
-    showResult = () => {
+    showResult = async () => {
         this.setState({
             busca: true
         });
+
+        if (this.state.busca == true){
+            await this.setState({
+                busca: false
+            });
+            this.setState({
+                busca: true
+            });
+            
+        }
     }
 
     render() {
