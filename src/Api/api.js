@@ -12,9 +12,9 @@ class Api {
             let data = response.data
             return data
         } catch (error) {
-            let sim = [];
+            let noResults = [];
             console.error(error);
-            return sim;
+            return noResults; 
         }
     }
 
