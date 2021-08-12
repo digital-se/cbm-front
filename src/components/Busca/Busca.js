@@ -23,7 +23,7 @@ class Busca extends React.Component {
             matricula: "",
             nomeMilitar: "",
         },
-        resultados: []
+        resultados: [],
 
     }
 
@@ -199,7 +199,8 @@ class Busca extends React.Component {
                             </Col>
                             <Col>
                                 {this.state.busca ?
-                                    <SearchResult />
+                                    <SearchResult 
+                                    values={this.state.form}/>
                                     :
                                     <p>Os resultados aparecerão aqui :)</p>
                                 }
