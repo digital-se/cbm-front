@@ -5,15 +5,17 @@ class Api {
         this.url = 'https://sandbox-api.cbm.se.gov.br/api-digitalse'
     }
 
-    async getSearch() {
+    async getSearch(values) {
         
         try {
-            const response = await axios.get(`${this.url}/documentos`);
+            const response = await axios.get(`${this.url}/documentos/`, { params: values } );
+
             let data = response.data
             return data
+
         } catch (error) {
-            let noResults = [];
             console.error(error);
+            let noResults = [];
             return noResults; 
         }
     }
