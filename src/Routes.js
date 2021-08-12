@@ -64,8 +64,8 @@ const Routes = ({ location }) => {
                                         <Route path="/protected" component={ProtectedPage} />
                                         
                                         {/* keycloak */}
-                                        <PrivateRoute roles={['app-user']} path="/editar/:id" component={Cadastro} />
-                                        <PrivateRoute roles={['app-user']} path="/cadastro" component={Cadastro} />
+                                        <PrivateRoute roles={['bmrh.user']} path="/editar/:id" component={Cadastro} />
+                                        <PrivateRoute roles={['bmrh.user']} path="/cadastro" component={Cadastro} />
                                         <Redirect to="/inicio" />
                                     </Switch>
                                 </Suspense>
