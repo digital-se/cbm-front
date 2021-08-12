@@ -5,8 +5,13 @@ import ResultCard from "../Comp/ResultCard"
 import api from "../../Api/api"
 import 'loaders.css/loaders.css';
 import 'spinkit/css/spinkit.css';
+import PropTypes from 'prop-types';
 
 class SearchResult extends React.Component {
+    constructor(props) {
+        super(props)
+        this.values = this.props.values
+    }
 
     state = {
         dropdownOpen: false,
@@ -23,7 +28,7 @@ class SearchResult extends React.Component {
 
     getSearch() {
         this.n = 0
-        api.getSearch().then(resultados => {
+        api.getSearch(this.values).then(resultados => {
             this.setState({ resultados: resultados })  
             this.awaitResult(true)
         })
@@ -72,6 +77,9 @@ class SearchResult extends React.Component {
             </ContentWrapper>
         );
     }
+}
+SearchResult.propTypes = {
+    values: PropTypes.any,
 }
 
 export default (SearchResult);
