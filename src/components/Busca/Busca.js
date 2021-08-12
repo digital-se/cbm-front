@@ -17,7 +17,7 @@ class Busca extends React.Component {
         form: {
             nome: "",
             tipo: "",
-            searchString: "",
+            palavras: "",
             dataInicial: "",
             dataFinal: "",
             matricula: "",
