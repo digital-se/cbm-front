@@ -5,7 +5,8 @@ import ResultCard from "../Comp/ResultCard"
 import api from "../../Api/api"
 import 'loaders.css/loaders.css';
 import 'spinkit/css/spinkit.css';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { withKeycloak } from '@react-keycloak/web';
 
 class SearchResult extends React.Component {
     constructor(props) {
@@ -26,17 +27,18 @@ class SearchResult extends React.Component {
         });
     }
 
+
     getSearch() {
         this.n = 0
-        api.getSearch(this.values).then(resultados => {
+        api.getSearch(this.values,this.props.keycloak.token).then(resultados => {
             this.setState({ resultados: resultados })  
             this.awaitResult(true)
         })
     }
 
     componentDidMount() {
-        this.getSearch()
         
+        this.getSearch()
     }
     
     awaitResult = async (q) => {
@@ -82,4 +84,4 @@ SearchResult.propTypes = {
     values: PropTypes.any,
 }
 
-export default (SearchResult);
+export default withKeycloak(SearchResult);
