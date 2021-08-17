@@ -29,6 +29,7 @@ class SearchResult extends React.Component {
 
 
     getSearch() {
+
         this.n = 0
         api.getSearch(this.values,this.props.keycloak.token).then(resultados => {
             this.setState({ resultados: resultados })  
@@ -82,6 +83,7 @@ class SearchResult extends React.Component {
 }
 SearchResult.propTypes = {
     values: PropTypes.any,
+    keycloak: PropTypes.object
 }
 
 export default withKeycloak(SearchResult);
