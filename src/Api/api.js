@@ -5,10 +5,13 @@ class Api {
         this.url = 'https://sandbox-api.cbm.se.gov.br/api-digitalse'
     }
 
-    async getSearch(values) {
-        
-        try {
-            const response = await axios.get(`${this.url}/documentos/`, { params: values } );
+    async getSearch(values,token) {
+
+        console.log(token)
+        try {   
+            const response = await axios.get(`${this.url}/documentos/`, 
+                             { params: values },  
+                             { headers: {"Authorization" : `Bearer ${token}`}} );
 
             let data = response.data
             return data
