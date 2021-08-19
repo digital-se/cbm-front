@@ -144,7 +144,7 @@ class Cadastro extends Component {
             </td>
         </tr>
     )
-
+    //Fazer funcionar
     buscarMilitares = async () => {
         let militares = [{ nome: "João Pedro Nimuendaju Santana Santos", matricula: "12345678T" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }]
 
