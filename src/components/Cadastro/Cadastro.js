@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import Swal from '../Comp/Swal';
 import AuthorizedElement from '../Protected/AuthorizedElement';
 import { Redirect } from 'react-router-dom';
+import { withKeycloak } from '@react-keycloak/web';
 
 
 class Cadastro extends Component {
@@ -216,7 +217,11 @@ class Cadastro extends Component {
 
         //CADASTRO
         if (this.state.edit === false) {
-            let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc)
+            let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc, {
+                headers: {
+                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                }
+            })
             console.log(documento)
             const formData = new FormData()
             let fileData = []
@@ -234,7 +239,8 @@ class Cadastro extends Component {
             formData.append("arquivosDTO", blob)
             await axios.post(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${documento.data.id}/arquivos`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${this.props.keycloak.token}`
                 }
             })
 
@@ -243,7 +249,13 @@ class Cadastro extends Component {
             //EDIÇÃO
         } else {
 
-            let documento = await axios.put(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.state.id}`, doc)
+            let documento = await axios.put(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.state.id}`, doc, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                }
+            })
+
             this.props.history.push('/documentos/' + documento.data.id);
         }
 
@@ -760,7 +772,8 @@ Cadastro.propTypes = {
     history: PropTypes.node,
     match: PropTypes.node,
     location: PropTypes.string,
+    keycloak: PropTypes.object
     
 }
 
-export default Cadastro;
+export default withKeycloak(Cadastro);
