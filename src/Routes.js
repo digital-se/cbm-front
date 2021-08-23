@@ -12,6 +12,7 @@ const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Inicio = lazy(() => import('./components/Inicio/Inicio'));
 const Cadastro = lazy(() => import('./components/Cadastro/Cadastro'));
 const Documento = lazy(() => import("./components/Documento/Documento"));
+const Arquivo = lazy(() => import("./components/Arquivo/Arquivo"));
 const ProtectedPage = lazy(() => import("./components/Protected/ProtectedPage"));
 
 // List of routes that uses the page layout
@@ -60,11 +61,12 @@ const Routes = ({ location }) => {
                                         <Route path="/busca" component={Busca} />
                                         <Route path="/submenu" component={SubMenu} />
                                         <Route path="/inicio" component={Inicio} />
-                                        <Route path="/documentos/:id" component={Documento} />
+                                        <Route path="/documentos/:id_documento" component={Documento} />
                                         <Route path="/protected" component={ProtectedPage} />
                                         
                                         {/* keycloak */}
-                                        <PrivateRoute roles={['bmrh.user']} path="/editar/:id" component={Cadastro} />
+                                        <PrivateRoute roles={['bmrh.user']} path="/editar/:id_documento" component={Cadastro} />
+                                        <PrivateRoute roles={['bmrh.user']} path="/documento/arquivo" component={Arquivo} />
                                         <PrivateRoute roles={['bmrh.user']} path="/cadastro" component={Cadastro} />
                                         <Redirect to="/inicio" />
                                     </Switch>
