@@ -61,13 +61,14 @@ const Routes = ({ location }) => {
                                         <Route path="/busca" component={Busca} />
                                         <Route path="/submenu" component={SubMenu} />
                                         <Route path="/inicio" component={Inicio} />
-                                        <Route path="/documentos/:id_documento" component={Documento} />
+                                        <Route exact path="/documentos/:id_documento" component={Documento} />
                                         <Route path="/protected" component={ProtectedPage} />
+                                        <Route path="/arquivo" component={Arquivo} />        
                                         
-                                        {/* keycloak */}
-                                        <PrivateRoute roles={['bmrh.user']} path="/documentos/:id_documento/editar" component={Cadastro} />
+                                        {/* keycloak */}          
                                         <PrivateRoute roles={['bmrh.user']} path="/documentos/:id_documento/arquivos/:id_arquivo/editar" component={Arquivo} />
-                                        <PrivateRoute roles={['bmrh.user']} path="/cadastro" component={Cadastro} />
+                                        <PrivateRoute roles={['bmrh.user']} exact path="/cadastro" component={Cadastro} />
+                                        <PrivateRoute roles={['bmrh.user']} path="/documentos/:id_documento/editar" component={Cadastro} />
                                         <Redirect to="/inicio" />
                                     </Switch>
                                 </Suspense>
