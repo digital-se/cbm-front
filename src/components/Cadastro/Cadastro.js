@@ -265,10 +265,6 @@ class Cadastro extends Component {
         await this.setState({ militares: [] })
     }
 
-    redirect = () => {
-        alert('Cu')
-    }
-
 
     async componentDidMount() {
 
