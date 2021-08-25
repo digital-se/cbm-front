@@ -20,11 +20,11 @@ class Documento extends React.Component {
         documento: {
             id: "",
             campos: {
-                nome: "Carregando...",
-                numeracao: "Carregando...",
-                data: "Carregando...",
-                tipo: "Carregando...",
-                descricao: "Carregando...",
+                nome: "",
+                numeracao: "",
+                data: "",
+                tipo: "",
+                descricao: "",
                 militares: [],
             },
             arquivos: []
@@ -72,8 +72,23 @@ class Documento extends React.Component {
     }
 
     async componentDidMount() {
+
         try {
             let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
+
+            this.setState({
+                documento: {
+                    ...this.state.documento, campos:
+                    {
+                        nome: "Carregando...",
+                        numeracao: "Carregando...",
+                        data: "Carregando...",
+                        tipo: "Carregando...",
+                        descricao: "Carregando...",
+
+                    }
+                }
+            });
 
             documento = documento.data
 
@@ -107,7 +122,8 @@ class Documento extends React.Component {
             this.awaitResult(true)
 
         } catch (e) {
-          this.setState({ redirect: true })
+            alert("Documento inexistente!")
+            this.setState({ redirect: true })
         }
     }
 

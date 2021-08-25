@@ -19,8 +19,8 @@ class Arquivo extends React.Component {
         arquivo: {
             id: "",
             campos: {
-                nome: "Carregando...",
-                descricao: "Carregando...",
+                nome: "",
+                descricao: "",
             },
             arquivos: []
         },
@@ -90,6 +90,7 @@ class Arquivo extends React.Component {
     async componentDidMount() {
         try {
             let arquivo = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}`)
+            this.setState({arquivo: {...this.state.arquivo, campos: {nome: "Carregando..."}}})
 
             let arq = {
                 id: arquivo.id,
@@ -111,7 +112,8 @@ class Arquivo extends React.Component {
 
 
         } catch (e) {
-            this.setState({ redirect: true })
+            alert("Arquivo inexistente")
+            await this.setState({ redirect: true })
 
         }
 
