@@ -116,7 +116,12 @@ class Documento extends React.Component {
                 },
                 arquivos: documento.arquivos.map((arq) => {
                     return {
-                        src: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        src: (`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${this.props.keycloak.token}`
+                            }
+                        }),
                         caption: arq.nome,
                         ocr: arq.texto,
                     }
