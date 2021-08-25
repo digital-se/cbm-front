@@ -89,13 +89,13 @@ class Arquivo extends React.Component {
 
     async componentDidMount() {
         try {
-            let arquivo = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}`, 
-            {
-                headers: {
-                    "Authorization": `Bearer ${this.props.keycloak.token}`
-                }
-            });
-            this.setState({arquivo: {...this.state.arquivo, campos: {nome: "Carregando..."}}})
+            let arquivo = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${this.props.keycloak.token}`
+                    }
+                });
+            this.setState({ arquivo: { ...this.state.arquivo, campos: { nome: "Carregando..." } } })
 
             let arq = {
                 id: arquivo.id,
@@ -105,7 +105,12 @@ class Arquivo extends React.Component {
                 },
                 arquivos: arquivo.arquivos.map((arq) => {
                     return {
-                        src: `https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        src: (`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${this.props.keycloak.token}`
+                            }
+                        }),
                         caption: arq.nome,
                         ocr: arq.texto
                     }
