@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
@@ -12,6 +11,7 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 import axios from "axios"
+import { withKeycloak } from '@react-keycloak/web';
 
 class Documento extends React.Component {
 
@@ -74,7 +74,12 @@ class Documento extends React.Component {
     async componentDidMount() {
 
         try {
-            let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
+            let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${this.props.keycloak.token}`
+                    }
+                });
 
             this.setState({
                 documento: {
@@ -113,7 +118,7 @@ class Documento extends React.Component {
                     return {
                         src: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
-                        ocr: arq.texto
+                        ocr: arq.texto,
                     }
                 })
             }
@@ -333,7 +338,8 @@ class Documento extends React.Component {
     }
 }
 Documento.propTypes = {
-    match: PropTypes.node
+    match: PropTypes.node,
+    keycloak: PropTypes.object
 }
 
-export default withTranslation()(Documento);
+export default withKeycloak(Documento);
