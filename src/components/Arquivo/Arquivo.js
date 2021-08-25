@@ -89,7 +89,12 @@ class Arquivo extends React.Component {
 
     async componentDidMount() {
         try {
-            let arquivo = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}`)
+            let arquivo = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}`, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                }
+            });
             this.setState({arquivo: {...this.state.arquivo, campos: {nome: "Carregando..."}}})
 
             let arq = {
@@ -239,7 +244,8 @@ class Arquivo extends React.Component {
     }
 }
 Arquivo.propTypes = {
-    match: PropTypes.node
+    match: PropTypes.node,
+    keycloak: PropTypes.object
 }
 
 export default withTranslation()(Arquivo);
