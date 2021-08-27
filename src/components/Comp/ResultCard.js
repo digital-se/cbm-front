@@ -65,109 +65,55 @@ class ResultCard extends Component {
     }
 
     render() {
+        return (
+            <a
+                href={this.url}
+                style={{
+                    width: "14rem",
+                    justifyContent: "center",
+                    color: "#FFFF",
+                    cursor: "pointer",
+                    textDecoration: 'none'
+                }}>
+                <Card className="border" style={{ borderRadius: '11px', width: "14rem", justifyContent: "center" }}>
+                    <CardHeader className="col-12" style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: this.color, color: "#FFFF", justifyContent: "center" }}>
 
-        if (this.publico === false) {
-            return (
+                        <Row >
+                            <div className="col-3 d-flex align-items-center align-content-center justify-content-auto">
+                                {this.icon}
+                            </div>
+                            <div className="col-9 py-2 align-items-center align-content-center justify-content-auto">
+                                <div className="h5">{this.nome}</div>
+                            </div>
+                        </Row>
+                    </CardHeader>
+                    <CardBody style={{ color: '#343a40' }}>
+                        <Row>
+                            <Col>
+                                <div style={{ width: "15px" }} />
+                                <Label>Tipo: {" " + this.tipo}</Label>
+                                <div style={{ width: "15px" }} />
+                                <Label>Data: {" " + this.data}</Label>
+                                <div style={{ width: "15px" }} />
+                                <Label>{this.militaresLabel}</Label>
+                            </Col>
+                        </Row>
+                        <Label for="descricao">Descrição</Label>
+                        <Input
+                            disabled
+                            type="textarea"
+                            value={this.descricao}
+                            style={{
+                                resize: "none",
+                                height: "75px",
+                                cursor: "pointer",
+                            }}
+                        />
+                    </CardBody>
+                </Card>
+            </a >
+        );
 
-                <AuthorizedElement roles={["app-user"]}>
-                    <a
-                        href={this.url}
-                        style={{
-                            width: "14rem",
-                            justifyContent: "center",
-                            color: "#FFFF",
-                            cursor: "pointer",
-                            textDecoration: 'none'
-                        }}>
-                        <Card className="border" style={{ borderRadius: '11px', width: "14rem", justifyContent: "center" }}>
-                            <CardHeader className="col-12" style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: this.color, color: "#FFFF", justifyContent: "center" }}>
-
-                                <Row >
-                                    <div className="col-3 d-flex align-items-center align-content-center justify-content-auto">
-                                        {this.icon}
-                                    </div>
-                                    <div className="col-9 py-2 align-items-center align-content-center justify-content-auto">
-                                        <div className="h5">{this.nome}</div>
-                                    </div>
-                                </Row>
-                            </CardHeader>
-                            <CardBody style={{ color: '#343a40' }}>
-                                <Row>
-                                    <Col>
-                                        <div style={{ width: "15px" }} />
-                                        <Label>Tipo: {" " + this.tipo}</Label>
-                                        <div style={{ width: "15px" }} />
-                                        <Label>Data: {" " + this.data}</Label>
-                                        <div style={{ width: "15px" }} />
-                                        <Label>{this.militaresLabel}</Label>
-                                    </Col>
-                                </Row>
-                                <Label for="descricao">Descrição</Label>
-                                <Input
-                                    disabled
-                                    type="textarea"
-                                    value={this.descricao}
-                                    style={{
-                                        resize: "none",
-                                        height: "75px",
-                                        cursor: "pointer",
-                                    }}
-                                />
-                            </CardBody>
-                        </Card>
-                    </a >
-                </AuthorizedElement>
-            );
-        }else {
-            return (
-                <a
-                    href={this.url}
-                    style={{
-                        width: "14rem",
-                        justifyContent: "center",
-                        color: "#FFFF",
-                        cursor: "pointer",
-                        textDecoration: 'none'
-                    }}>
-                    <Card className="border" style={{ borderRadius: '11px', width: "14rem", justifyContent: "center" }}>
-                        <CardHeader className="col-12" style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: this.color, color: "#FFFF", justifyContent: "center" }}>
-
-                            <Row >
-                                <div className="col-3 d-flex align-items-center align-content-center justify-content-auto">
-                                    {this.icon}
-                                </div>
-                                <div className="col-9 py-2 align-items-center align-content-center justify-content-auto">
-                                    <div className="h5">{this.nome}</div>
-                                </div>
-                            </Row>
-                        </CardHeader>
-                        <CardBody style={{ color: '#343a40' }}>
-                            <Row>
-                                <Col>
-                                    <div style={{ width: "15px" }} />
-                                    <Label>Tipo: {" " + this.tipo}</Label>
-                                    <div style={{ width: "15px" }} />
-                                    <Label>Data: {" " + this.data}</Label>
-                                    <div style={{ width: "15px" }} />
-                                    <Label>{this.militaresLabel}</Label>
-                                </Col>
-                            </Row>
-                            <Label for="descricao">Descrição</Label>
-                            <Input
-                                disabled
-                                type="textarea"
-                                value={this.descricao}
-                                style={{
-                                    resize: "none",
-                                    height: "75px",
-                                    cursor: "pointer",
-                                }}
-                            />
-                        </CardBody>
-                    </Card>
-                </a >
-            );
-        }
     }
 }
 ResultCard.propTypes = {
