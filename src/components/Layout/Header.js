@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../store/actions/actions';
 
+import { Link } from 'react-router-dom';
 
 import { Button } from 'reactstrap'
 
@@ -53,14 +54,14 @@ class Header extends Component {
                 <nav className="navbar topnavbar">
                     { /* START navbar header */}
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="#/">
+                        <Link to={"/"} className="navbar-brand">
                             <div className="brand-logo">
                                 <img className="img-fluid" src="img/logobomb.png" alt="App Logo" width={45} />
                             </div>
                             <div className="brand-logo-collapsed">
                                 <img className="img-fluid" src="img/logobomb.png" alt="App Logo" width={45} />
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     { /* END navbar header */}
 
