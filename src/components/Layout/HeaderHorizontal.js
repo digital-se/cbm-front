@@ -57,14 +57,14 @@ class HeaderHorizontal extends Component {
                 <nav className="navbar topnavbar navbar-expand-lg navbar-light">
                     { /* START navbar header */}
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="#/">
+                        <Link to={"/"} className="navbar-brand">
                             <div className="brand-logo">
                                 <img className="img-fluid" src="img/logo.png" alt="App Logo" />
                             </div>
                             <div className="brand-logo-collapsed">
                                 <img className="img-fluid" src="img/logo-single.png" alt="App Logo" />
                             </div>
-                        </a>
+                        </Link>
                         <NavbarToggler onClick={this.toggle} />
                     </div>
                     { /* END navbar header */}

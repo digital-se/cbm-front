@@ -4,7 +4,8 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Row, Col } from 'reactstrap';
 import { Label } from 'reactstrap';
 import { Input } from 'reactstrap';
-import AuthorizedElement from '../Protected/AuthorizedElement';
+import { Link } from 'react-router-dom';
+// import AuthorizedElement from '../Protected/AuthorizedElement';
 
 class ResultCard extends Component {
 
@@ -66,15 +67,16 @@ class ResultCard extends Component {
 
     render() {
         return (
-            <a
-                href={this.url}
+            <Link
+                to={this.url}
                 style={{
                     width: "14rem",
                     justifyContent: "center",
                     color: "#FFFF",
                     cursor: "pointer",
                     textDecoration: 'none'
-                }}>
+                }}
+            >
                 <Card className="border" style={{ borderRadius: '11px', width: "14rem", justifyContent: "center" }}>
                     <CardHeader className="col-12" style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: this.color, color: "#FFFF", justifyContent: "center" }}>
 
@@ -111,7 +113,7 @@ class ResultCard extends Component {
                         />
                     </CardBody>
                 </Card>
-            </a >
+            </Link>
         );
 
     }
