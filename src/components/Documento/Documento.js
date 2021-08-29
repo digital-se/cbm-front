@@ -8,9 +8,10 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
-import axios from "axios"
+// import axios from "axios"
+import api from "../../modules/api"
 import { withKeycloak } from '@react-keycloak/web';
 
 class Documento extends React.Component {
@@ -74,26 +75,26 @@ class Documento extends React.Component {
     async componentDidMount() {
 
         try {
-            let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`,
+            let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
                 {
                     headers: {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
                     }
                 });
 
-            this.setState({
-                documento: {
-                    ...this.state.documento, campos:
-                    {
-                        nome: "Carregando...",
-                        numeracao: "Carregando...",
-                        data: "Carregando...",
-                        tipo: "Carregando...",
-                        descricao: "Carregando...",
+            // this.setState({
+            //     documento: {
+            //         ...this.state.documento, campos:
+            //         {
+            //             nome: "Carregando...",
+            //             numeracao: "Carregando...",
+            //             data: "Carregando...",
+            //             tipo: "Carregando...",
+            //             descricao: "Carregando...",
 
-                    }
-                }
-            });
+            //         }
+            //     }
+            // });
 
             documento = documento.data
 
@@ -116,12 +117,7 @@ class Documento extends React.Component {
                 },
                 arquivos: documento.arquivos.map((arq) => {
                     return {
-                        src: (`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
-                        {
-                            headers: {
-                                "Authorization": `Bearer ${this.props.keycloak.token}`
-                            }
-                        }),
+                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
                         ocr: arq.texto,
                     }
@@ -212,7 +208,7 @@ class Documento extends React.Component {
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
                                     <Button
-                                        disabled={this.state.loading}
+                                        disabled={true || this.state.loading}
                                         color="danger">
                                         <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
                                     </Button >
@@ -233,11 +229,13 @@ class Documento extends React.Component {
                                     <h3>Informações adicionais</h3>
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                    <Button href={"/documentos/" + this.state.documento.id + "/editar"}
-                                        color="danger"
-                                        disabled={this.state.loading}>
-                                        <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
-                                    </Button>
+                                    <Link to={"/documentos/" + this.state.documento.id + "/editar"}>
+                                        <Button
+                                            color="danger"
+                                            disabled={this.state.loading}>
+                                            <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
+                                        </Button>
+                                    </Link>
                                 </div>
                                 <CardBody>
                                     <div>
@@ -327,7 +325,7 @@ class Documento extends React.Component {
                                                 <Label for="militares"><h4>Militares</h4></Label>
                                                 <ListGroup id="militares" style={{ "maxHeight": "195px", "overflow": "auto" }}>
                                                     {this.state.documento.campos.militares.map((item, index) => {
-                                                        return (<ListGroupItem key={index}>{item.nome}</ListGroupItem>)
+                                                        return (<ListGroupItem key={index}>{item.matricula}</ListGroupItem>)
                                                     })}
                                                 </ListGroup>
                                             </Col>
