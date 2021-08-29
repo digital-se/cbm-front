@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
+// import axios from "axios"
+import api from "../../modules/api"
 import { Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table } from 'reactstrap';
 import 'react-datetime/css/react-datetime.css';
 import classnames from 'classnames';
@@ -23,8 +24,7 @@ class Cadastro extends Component {
             tipo: "",
             data: "",
             descrição: "",
-            matricula: "",
-            typeBusca: "",
+            typeBusca: "nome",
             valorBusca: "",
         },
         fullValidate: false,
@@ -41,8 +41,8 @@ class Cadastro extends Component {
         edit: false,
         busca: [],
         militares: [],
-        files: []
-
+        files: [],
+        submitting: false
     };
 
     validate = async () => {
@@ -100,6 +100,7 @@ class Cadastro extends Component {
                     ...this.state.files,
                     ...acceptedFiles.map(file =>
                         Object.assign(file, {
+                            id: null,
                             preview: URL.createObjectURL(file),
                             ocr: true
                         })
@@ -108,8 +109,16 @@ class Cadastro extends Component {
             });
     };
 
-    removeArquivo = async (index) => {
-        this.state.files.splice(index, 1)
+    removeArquivo = async (i) => {
+        if (this.state.files[i].id) {
+            await api.delete(`documentos/${this.state.id}/arquivos/${this.state.files[i].id}`, {
+                headers: {
+                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                }
+            })
+        }
+
+        this.state.files.splice(i, 1)
         await this.setState({ files: this.state.files })
     }
 
@@ -147,7 +156,15 @@ class Cadastro extends Component {
     )
     //Fazer funcionar
     buscarMilitares = async () => {
-        let militares = [{ nome: "João Pedro Nimuendaju Santana Santos", matricula: "12345678T" }, { nome: "c", matricula: "d" }, { nome: "e", matricula: "f" }]
+        let militares = []
+
+        if (this.state.form.typeBusca === "nome") {
+            militares = (await api.get("/militares/query", { params: { nome: this.state.form.valorBusca } })).data
+        } else if (this.state.form.typeBusca === "matricula") {
+            militares = (await api.get("/militares/query", { params: { matricula: this.state.form.valorBusca } })).data
+        }
+
+        console.log(militares)
 
         await this.setState({ busca: militares })
     }
@@ -196,69 +213,115 @@ class Cadastro extends Component {
         console.log(this.state.militares);
     }
 
-
+    // TODO: Remover repetição excessiva de código
     onSubmit = async (e) => {
         e.preventDefault();
 
-        await this.setState({ fullValidate: true });
+        if (this.state.submitting) return;
 
-        await this.validate()
+        await this.setState({ submitting: true, fullValidate: true });
 
-        if (!this.state.allValid) return await this.toggleStep('1');
+        try {
+            await this.validate()
 
-        let doc = {
-            nome: this.state.form.nome,
-            tipo: this.state.form.tipo,
-            numeracao: this.state.form.numeracao,
-            data: this.state.form.data,
-            publico: this.state.form.visibilidade,
-            descricao: this.state.form.descrição
-        }
-
-        //CADASTRO
-        if (this.state.edit === false) {
-            let documento = await axios.post("https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos", doc, {
-                headers: {
-                    "Authorization": `Bearer ${this.props.keycloak.token}`
-                }
-            })
-            console.log(documento)
-            const formData = new FormData()
-            let fileData = []
-
-            for (let i = 0; i < this.state.files.length; i++) {
-                fileData.push({ ocr: this.state.files[i].ocr })
-                formData.append('files', this.state.files[i])
+            if (!this.state.allValid) {
+                await this.toggleStep('1')
+                return await this.setState({ submitting: false })
             }
 
-            const json = JSON.stringify(fileData);
-            const blob = new Blob([json], {
-                type: 'application/json'
-            });
+            let doc = {
+                nome: this.state.form.nome,
+                tipo: this.state.form.tipo,
+                numeracao: this.state.form.numeracao,
+                data: this.state.form.data,
+                publico: this.state.form.visibilidade,
+                descricao: this.state.form.descrição,
+                militares: this.state.militares
+            }
 
-            formData.append("arquivosDTO", blob)
-            await axios.post(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${documento.data.id}/arquivos`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    "Authorization": `Bearer ${this.props.keycloak.token}`
+            //CADASTRO
+            if (this.state.edit === false) {
+                let documento = await api.post("documentos", doc, {
+                    headers: {
+                        "Authorization": `Bearer ${this.props.keycloak.token}`
+                    }
+                })
+                console.log(documento)
+                if (this.state.files.length > 0) {
+                    const formData = new FormData()
+                    let fileData = []
+
+                    for (let i = 0; i < this.state.files.length; i++) {
+                        fileData.push({ ocr: this.state.files[i].ocr })
+                        formData.append('files', this.state.files[i])
+                    }
+
+                    const json = JSON.stringify(fileData);
+                    const blob = new Blob([json], {
+                        type: 'application/json'
+                    });
+
+                    formData.append("arquivosDTO", blob)
+                    await api.post(`documentos/${documento.data.id}/arquivos`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            "Authorization": `Bearer ${this.props.keycloak.token}`
+                        }
+                    })
                 }
-            })
 
-            this.props.history.push('/documentos/' + documento.data.id);
+                this.props.history.push('/documentos/' + documento.data.id);
 
-            //EDIÇÃO
-        } else {
+                //EDIÇÃO
+            } else {
 
-            let documento = await axios.put(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.state.id}`, doc, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                let documento = await api.put(`documentos/${this.state.id}`, doc, {
+                    headers: {
+                        "Authorization": `Bearer ${this.props.keycloak.token}`
+                    }
+                })
+
+                if (this.state.files.length > 0) {
+                    const formData = new FormData()
+                    let fileData = []
+
+                    for (let i = 0; i < this.state.files.length; i++) {
+                        if (this.state.files[i].id) {
+                            api.put(`documentos/${this.state.id}/arquivos/${this.state.files[i].id}`, {
+                                ocr: this.state.files[i].ocr
+                            }, {
+                                headers: {
+                                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                                }
+                            })
+                            continue;
+                        }
+
+                        fileData.push({ ocr: this.state.files[i].ocr })
+                        formData.append('files', this.state.files[i])
+                    }
+
+                    const json = JSON.stringify(fileData);
+                    const blob = new Blob([json], {
+                        type: 'application/json'
+                    });
+
+                    formData.append("arquivosDTO", blob)
+                    if (fileData.length > 0) {
+                        await api.post(`documentos/${documento.data.id}/arquivos`, formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                "Authorization": `Bearer ${this.props.keycloak.token}`
+                            }
+                        })
+                    }
                 }
-            })
 
-            this.props.history.push('/documentos/' + documento.data.id);
+                this.props.history.push('/documentos/' + documento.data.id);
+            }
+        } catch {
+            await this.setState({ submitting: false });
         }
-
     }
 
     cleanMilitares = async () => {
@@ -273,7 +336,7 @@ class Cadastro extends Component {
             console.log(this.props.location.pathname);
 
             try {
-                let documento = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}`)
+                let documento = await api.get(`documentos/${this.props.match.params.id_documento}`)
                 documento = documento.data
 
                 await this.setState({ edit: true })
@@ -288,7 +351,9 @@ class Cadastro extends Component {
                     visibilidade: documento.publico,
                     tipo: documento.tipo,
                     data: data,
-                    descrição: documento.descricao
+                    descrição: documento.descricao,
+                    typeBusca: "nome",
+                    valorBusca: ""
                 }
 
                 await this.setState({ form: doc })
@@ -296,9 +361,10 @@ class Cadastro extends Component {
                 await this.setState({
                     files: documento.arquivos.map((arq) => {
                         return {
-                            preview: `https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                            id: arq.id,
+                            preview: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
                             name: arq.nome,
-                            ocr: arq.texto
+                            ocr: arq.ocr
                         }
                     })
                 })
@@ -315,19 +381,19 @@ class Cadastro extends Component {
 
             } catch (e) {
                 console.log(e)
-                this.setState({ redirect:true })
+                this.setState({ redirect: true })
 
             }
         }
     }
 
     render() {
-        if (this.state.redirect === true){
+        if (this.state.redirect === true) {
             return (
                 <Redirect to="/inicio" />
             );
 
-        }else{
+        } else {
             return (
                 <AuthorizedElement roles={['bmrh.user']}>
                     <div className="d-flex align-items-center justify-content-center container container-table pt-4">
@@ -483,8 +549,7 @@ class Cadastro extends Component {
                                                             <Button
                                                                 type="button"
                                                                 color="danger"
-                                                                href="#/"
-                                                                onClick={window.location.href}
+                                                                onClick={() => this.toggleStep('1')}
                                                                 style={{ "height": "35px", "width": "110px" }}>
                                                                 <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                             </Button>
@@ -654,7 +719,7 @@ class Cadastro extends Component {
                                                                         onChange={this.changeHandler}
                                                                     >
                                                                         <option hidden disabled value="">Tipo da busca</option>
-                                                                        <option disabled value="nome">Nome</option>
+                                                                        <option value="nome">Nome</option>
                                                                         <option value="matrícula">Matrícula</option>
                                                                     </Input>
                                                                 </FormGroup>
@@ -667,9 +732,9 @@ class Cadastro extends Component {
                                                                                 <Input
                                                                                     className="form-control"
                                                                                     placeholder={this.state.form.typeBusca}
-                                                                                    name="matricula"
-                                                                                    id="matricula"
-                                                                                    value={this.state.form.matricula}
+                                                                                    name="valorBusca"
+                                                                                    id="valorBusca"
+                                                                                    value={this.state.form.valorBusca}
                                                                                     onChange={this.changeHandler}
                                                                                 />
                                                                             </Col>
@@ -743,7 +808,9 @@ class Cadastro extends Component {
                                                                 className="ml-auto"
                                                                 type="submit"
                                                                 color="success"
-                                                                style={{ "height": "35px", "width": "110px" }}>
+                                                                style={{ "height": "35px", "width": "110px" }}
+                                                                disabled={this.state.submitting}
+                                                            >
                                                                 Cadastrar<em className="fa ml-2 fas fa-check" />
                                                             </Button>
                                                         </div>
@@ -760,7 +827,7 @@ class Cadastro extends Component {
             );
 
         }
-        
+
 
     }
 }
@@ -769,7 +836,7 @@ Cadastro.propTypes = {
     match: PropTypes.node,
     location: PropTypes.string,
     keycloak: PropTypes.object
-    
+
 }
 
 export default withKeycloak(Cadastro);
