@@ -1,17 +1,21 @@
-const axios = require('axios');
+import axios from "axios"
+import apim from "../modules/api"
 
 class Api {
     constructor() {
-        this.url = 'https://sandbox-api.cbm.se.gov.br/api-digitalse'
+        // this.url = 'https://sandbox-api.cbm.se.gov.br/api-digitalse'
+        // this.url = 'http://localhost:8082'
     }
 
-    async getSearch(values,token) {
+    async getSearch(values, token) {
 
         console.log(token)
-        try {   
-            const response = await axios.get(`${this.url}/documentos/`, 
-                             { params: values },  
-                             { headers: {"Authorization" : `Bearer ${token}`}} );
+        try {
+            const response = await apim.get(`documentos/`,
+                {
+                    headers: { "Authorization": `Bearer ${token}` },
+                    params: values
+                });
 
             let data = response.data
             return data
@@ -19,13 +23,13 @@ class Api {
         } catch (error) {
             console.error(error);
             let noResults = [];
-            return noResults; 
+            return noResults;
         }
     }
 
     async getSearchFicha() {
         try {
-            const response = await axios.get(`${this.url}/busca/fichas`);
+            const response = await apim.get(`busca/fichas`);
             let data = response.data
             return data
         } catch (error) {
@@ -35,7 +39,7 @@ class Api {
 
     async getSearchDiario() {
         try {
-            const response = await axios.get(`${this.url}/busca/diarios`);
+            const response = await apim.get(`busca/diarios`);
             let data = response.data
             return data
         } catch (error) {
@@ -45,7 +49,7 @@ class Api {
 
     async getFicha(num) {
         try {
-            const response = await axios.get(`${this.url}/ficha/` + num);
+            const response = await apim.get(`ficha/` + num);
             let data = response.data
             console.log(data)
             return data
