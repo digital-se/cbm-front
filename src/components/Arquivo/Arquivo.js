@@ -10,7 +10,8 @@ import { Carousel, CarouselItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import Swal from '../Comp/Swal';
-import axios from "axios"
+// import axios from "axios"
+import api from "../../modules/api"
 
 class Arquivo extends React.Component {
 
@@ -89,7 +90,7 @@ class Arquivo extends React.Component {
 
     async componentDidMount() {
         try {
-            let arquivo = await axios.get(`https://sandbox-api.cbm.se.gov.br/api-digitalse/arquivo/${this.props.match.params.id}`,
+            let arquivo = await api.get(`arquivo/${this.props.match.params.id}`,
                 {
                     headers: {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
@@ -105,12 +106,7 @@ class Arquivo extends React.Component {
                 },
                 arquivos: arquivo.arquivos.map((arq) => {
                     return {
-                        src: (`https://sandbox-api.cbm.se.gov.br/api-digitalse/documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
-                        {
-                            headers: {
-                                "Authorization": `Bearer ${this.props.keycloak.token}`
-                            }
-                        }),
+                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
                         ocr: arq.texto
                     }
