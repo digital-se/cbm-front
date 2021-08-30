@@ -10,7 +10,6 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Redirect, Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
-// import axios from "axios"
 import api from "../../modules/api"
 import { withKeycloak } from '@react-keycloak/web';
 
@@ -61,7 +60,6 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-
     changeHandler = async (e) => { //alterar valores editados
         await this.setState({ editDoc: { ...this.state.editDoc, [e.target.name]: e.target.value } });
     }
@@ -81,20 +79,6 @@ class Documento extends React.Component {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
                     }
                 });
-
-            // this.setState({
-            //     documento: {
-            //         ...this.state.documento, campos:
-            //         {
-            //             nome: "Carregando...",
-            //             numeracao: "Carregando...",
-            //             data: "Carregando...",
-            //             tipo: "Carregando...",
-            //             descricao: "Carregando...",
-
-            //         }
-            //     }
-            // });
 
             documento = documento.data
 
