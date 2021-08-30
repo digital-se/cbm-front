@@ -327,9 +327,7 @@ class Cadastro extends Component {
         await this.setState({ militares: [] })
     }
 
-
     async componentDidMount() {
-
 
         if (this.props.location.pathname != "/cadastro") {
             console.log(this.props.location.pathname);
