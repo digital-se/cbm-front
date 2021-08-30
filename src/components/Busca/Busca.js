@@ -96,7 +96,6 @@ class Busca extends React.Component {
                                                                 value={this.state.form.tipo}
                                                                 onChange={this.changeHandler}
                                                             >
-                                                                {/*<option disabled value="">Selecione o tipo</option>*/}
                                                                 <option value="">Todos</option>
                                                                 <option value="bga">BGA</option>
                                                                 <option value="bgo">BGO</option>

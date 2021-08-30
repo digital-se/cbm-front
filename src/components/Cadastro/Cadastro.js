@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
-// import axios from "axios"
 import api from "../../modules/api"
 import { Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table } from 'reactstrap';
 import 'react-datetime/css/react-datetime.css';
