@@ -154,7 +154,7 @@ class Cadastro extends Component {
             </td>
         </tr>
     )
-    //Fazer funcionar
+    
     buscarMilitares = async () => {
         let militares = []
 
