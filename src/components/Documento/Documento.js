@@ -73,6 +73,11 @@ class Documento extends React.Component {
     async componentDidMount() {
 
         try {
+            if(this.props.keycloak.token == undefined) {
+                this.props.keycloak.token = null;
+            }
+            console.log(this.props.keycloak.token)
+            
             let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
                 {
                     headers: {
