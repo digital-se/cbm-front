@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
@@ -12,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 // import axios from "axios"
 import api from "../../modules/api"
+import { withKeycloak } from '@react-keycloak/web';
 
 class Arquivo extends React.Component {
 
@@ -21,7 +21,6 @@ class Arquivo extends React.Component {
             id: "",
             campos: {
                 nome: "",
-                descricao: "",
             },
             arquivos: []
         },
@@ -90,37 +89,36 @@ class Arquivo extends React.Component {
 
     async componentDidMount() {
         try {
-            let arquivo = await api.get(`arquivo/${this.props.match.params.id}`,
+            let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
                 {
                     headers: {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
                     }
                 });
-            this.setState({ arquivo: { ...this.state.arquivo, campos: { nome: "Carregando..." } } })
 
-            let arq = {
-                id: arquivo.id,
-                campos: {
-                    nome: arquivo.nome,
-                    descricao: arquivo.descricao,
-                },
-                arquivos: arquivo.arquivos.map((arq) => {
-                    return {
-                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
-                        caption: arq.nome,
-                        ocr: arq.texto
-                    }
-                })
-            }
-
-            await this.setState({ arquivo: arq })
+                documento = documento.data
+    
+                let doc = {
+                    campos: {
+                        nome: documento.nome,
+                    },
+                    arquivos: documento.arquivos.map((arq) => {
+                        return {
+                            src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
+                            caption: arq.nome,
+                            ocr: arq.texto,
+                        }
+                    })
+                }
+    
+                await this.setState({ arquivo: doc })
             this.awaitResult(true)
 
 
         } catch (e) {
+            console.log(e)
             alert("Arquivo inexistente")
             await this.setState({ redirect: true })
-
         }
 
 
@@ -249,4 +247,4 @@ Arquivo.propTypes = {
     keycloak: PropTypes.object
 }
 
-export default withTranslation()(Arquivo);
+export default withKeycloak(Arquivo);
