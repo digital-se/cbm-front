@@ -109,6 +109,7 @@ class Documento extends React.Component {
                         src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
                         ocr: arq.texto,
+                        id: arq.id
                     }
                 })
             }
@@ -196,7 +197,7 @@ class Documento extends React.Component {
                                     <h3>Texto Extraido</h3>
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                <Link to={`/documentos/${this.state.documento.id}/arquivos/sim/editar`}>
+                                <Link to={`/documentos/${this.state.documento.id}/arquivos/${this.state.documento.arquivos[this.state.carousel.activeIndex]?.id}/editar`}>
                                     <Button
                                         disabled={this.state.loading}
                                         color="danger">
