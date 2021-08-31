@@ -77,7 +77,7 @@ class Documento extends React.Component {
                 this.props.keycloak.token = null;
             }
             console.log(this.props.keycloak.token)
-            
+
             let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
                 {
                     headers: {
@@ -106,7 +106,7 @@ class Documento extends React.Component {
                 },
                 arquivos: documento.arquivos.map((arq) => {
                     return {
-                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
                         ocr: arq.texto,
                     }
