@@ -11,15 +11,26 @@ class Api {
 
         console.log(token)
         try {
-            const response = await apim.get(`documentos/`,
+
+            if(token != undefined) {
+                const response = await apim.get(`documentos/`,
                 {
                     headers: { "Authorization": `Bearer ${token}` },
                     params: values
                 });
+                let data = response.data
+                return data
 
-            let data = response.data
-            return data
+            } else {
+                const response = await apim.get(`documentos/`,
+                {
+                    params: values
+                });
 
+                let data = response.data
+                return data
+            }
+            
         } catch (error) {
             console.error(error);
             let noResults = [];
