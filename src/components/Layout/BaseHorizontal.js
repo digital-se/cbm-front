@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../store/actions/actions';
-
 import HeaderHorizontal from './HeaderHorizontal'
-import Offsidebar from './Offsidebar'
-import Footer from './Footer'
 
 class BaseHorizontal extends Component {
     /* Toggle Horizontal layout for demo purposes.
@@ -21,14 +18,9 @@ class BaseHorizontal extends Component {
         return (
             <div className="wrapper">
                 <HeaderHorizontal />
-
-                {/* <Offsidebar /> */}
-
                 <section className="section-container">
                     {this.props.children}
                 </section>
-
-                {/* <Footer /> */}
             </div>
         );
     }
