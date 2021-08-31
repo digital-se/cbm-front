@@ -33,18 +33,11 @@ class Header extends Component {
         this.resize()
     }
 
-    toggleAside = e => {
-        e.preventDefault()
-        this.props.actions.toggleSetting('asideToggled');
-    }
-
     resize() {
         // all IE friendly dispatchEvent
         var evt = document.createEvent('UIEvents');
         evt.initUIEvent('resize', true, false, window, 0);
         window.dispatchEvent(evt);
-        // modern dispatchEvent way
-        // window.dispatchEvent(new Event('resize'));
     }
 
     render() {
@@ -68,14 +61,9 @@ class Header extends Component {
                     { /* START Left navbar */}
                     <ul className="navbar-nav mr-auto flex-row">
                         <li className="nav-item">
-                            { /* Button used to collapse the left sidebar. Only visible on tablet and desktops */}
-                            <a href="" className="nav-link d-none d-md-block d-lg-block d-xl-block" onClick={this.toggleCollapsed}>
-                                <em className="fas fa-bars"></em>
-                            </a>
-                            { /* Button to show/hide the sidebar on mobile. Visible on mobile only. */}
-                            <a href="" className="nav-link sidebar-toggle d-md-none" onClick={this.toggleAside}>
-                                <em className="fas fa-bars"></em>
-                            </a>
+                            <Link  to={"/busca/"} className="nav-link d-none d-md-block d-lg-block d-xl-block" >
+                                <em className="fas fa-search"></em>
+                            </Link>
                         </li>
                     </ul>
                     { /* END Left navbar */}
@@ -86,31 +74,13 @@ class Header extends Component {
                         <li className="nav-item">
                             <a className="nav-link" href="" data-search-open="">
                                 {this.props.keycloak?.authenticated ?
-                                    (<Button onClick={(e) => { e.preventDefault(); this.props.keycloak.logout() }}>Logout ({this.props.keycloak.tokenParsed.preferred_username}) <em className="icon-user"></em></Button>)
+                                    (<Button style={{ backgroundColor: '#ffff' }} onClick={(e) => { e.preventDefault(); this.props.keycloak.logout() }}>Logout ({this.props.keycloak.tokenParsed.preferred_username}) <em className="icon-user"></em></Button>)
                                     :
-                                    (<Button onClick={(e) => { e.preventDefault(); this.props.keycloak.login() }}>Login <em className="icon-user"></em></Button>)}
+                                    (<Button style={{ backgroundColor: '#ffff' }}  onClick={(e) => { e.preventDefault(); this.props.keycloak.login() }}>Login <em className="icon-user"></em></Button>)}
                             </a>
                         </li>
-                        { /* START Offsidebar button */}
-                        <li className="nav-item" style={{ display: "none" }}>
-                            <a className="nav-link" href="" onClick={this.toggleOffsidebar}>
-                                <em className="icon-notebook"></em>
-                            </a>
-                        </li>
-                        { /* END Offsidebar menu */}
                     </ul>
                     { /* END Right Navbar */}
-
-                    { /* START Search form */}
-                    {/* <form className="navbar-form" role="search" action="search.html">
-                        <div className="form-group">
-                            <input className="form-control" type="text" placeholder="digite aqui ..." />
-                            <div className="fa fa-times navbar-form-close" data-search-dismiss=""></div>
-                        </div>
-                        <button className="d-none" type="submit">Submit</button>
-                    </form> */}
-                    { /* END Search form */}
-                    { /* ADD o status de funcionario logado, como? descubra nos próximos capitulos */}
                 </nav>
                 { /* END Top Navbar */}
             </header>
