@@ -73,7 +73,6 @@ class Arquivo extends React.Component {
     }
 
     salvarArquivo = () => {
-
         this.setState({ ...this.state, editArquivo: true });
     }
 
@@ -97,17 +96,25 @@ class Arquivo extends React.Component {
                 });
 
                 documento = documento.data
-    
+                var count = -1;
                 let doc = {
+                    
                     campos: {
                         nome: documento.nome,
                     },
                     arquivos: documento.arquivos.map((arq) => {
+                        
+                        count = count + 1;
+                        if (arq.id == this.props.match.params.id_arquivo){
+                            this.setState({ carousel: { ...this.state.carousel, activeIndex: count }})
+                        }
+
                         return {
                             src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                             caption: arq.nome,
-                            ocr: arq.texto,
+                            ocr: "textao no twitter",
                         }
+                        
                     })
                 }
     
@@ -197,20 +204,22 @@ class Arquivo extends React.Component {
                                                 </CardHeader>
                                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
                                                     <Button
+                                                        onClick={this.toggleEditArquivo}
                                                         disabled={this.state.loading}
                                                         color="danger">
-                                                        <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
+                                                        <em className="fa mr-2 fas fa-pencil-alt " />Editar Texto
                                                     </Button >
                                                 </div>
                                                 <CardBody>
-                                                    <Input disabled
+                                                    <Input 
+                                                        disabled = {this.state.editArquivo}
                                                         type="textarea"
                                                         name="ocr"
                                                         id="ocr"
                                                         value={this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr}
                                                         style={{ "resize": "none", "height": "390px" }} />
                                                     <Row>
-                                                        <div className="ml-auto mr-auto">
+                                                        <div className="ml-3">
                                                             <Button
                                                                 hidden={this.state.editArquivo}
                                                                 color="danger"
