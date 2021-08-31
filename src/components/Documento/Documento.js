@@ -196,11 +196,13 @@ class Documento extends React.Component {
                                     <h3>Texto Extraido</h3>
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                <Link to={`/documentos/${this.state.documento.id}/arquivos/sim/editar`}>
                                     <Button
-                                        disabled={true || this.state.loading}
+                                        disabled={this.state.loading}
                                         color="danger">
                                         <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
                                     </Button >
+                                </Link>
                                 </div>
                                 <CardBody>
                                     <Input disabled
@@ -218,7 +220,7 @@ class Documento extends React.Component {
                                     <h3>Informações adicionais</h3>
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                    <Link to={"/documentos/" + this.state.documento.id + "/editar"}>
+                                    <Link to={`/documentos/${this.state.documento.id}/editar`}>
                                         <Button
                                             color="danger"
                                             disabled={this.state.loading}>
