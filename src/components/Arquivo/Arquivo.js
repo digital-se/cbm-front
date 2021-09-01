@@ -32,7 +32,7 @@ class Arquivo extends React.Component {
         editArquivo: true,
         redirect: false,
         edited: {
-            text:""
+            text: ""
         }
     }
 
@@ -50,7 +50,7 @@ class Arquivo extends React.Component {
         this.setState({ ...this.state, editArquivo: true });
     }
 
-    previous = async() => {
+    previous = async () => {
         if (this.state.carousel.animating) return;
         const nextIndex = this.state.carousel.activeIndex === 0 ? this.state.arquivo.arquivos.length - 1 : this.state.carousel.activeIndex - 1;
         await this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
@@ -64,20 +64,30 @@ class Arquivo extends React.Component {
 
     toggleEditArquivo = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
         await this.setState({ ...this.state, editArquivo: false });
-        this.setState({ edited: { ...this.state.edited, text  : this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
+        this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
     }
 
     discardChangesArquivo = async () => {
         console.log(this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr)
-        await this.setState({ edited: { ...this.state.edited, text  : this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
+        await this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
         await this.setState({ ...this.state, editArquivo: true });
-        
-        
+
+
         console.log(this.state.edited.text)
     }
 
+    changeHandler = async (e) => { //alterar valores editados
+        await this.setState({ edited: { ...this.state.edited, text: e.target.value } });
+    }
+
+    awaitResult = async (q) => {
+        if (q == true) { //talvez se for false bota q n deu resultado
+            await this.setState({ ...this.state, loading: false });
+        }
+    }
+
     salvarArquivo = async () => {
-        try{
+        try {
             await api.put(`documentos/${this.props.match.params.id_documento}/arquivos/${this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.id}`, {
                 text: this.state.edited.text
             }, {
@@ -89,23 +99,13 @@ class Arquivo extends React.Component {
             this.setState({ ...this.state, editArquivo: true });
 
             let arquivos = [...this.state.arquivo.arquivos];
-            let arquivoAtual = {...arquivos[this.state.carousel.activeIndex]};
+            let arquivoAtual = { ...arquivos[this.state.carousel.activeIndex] };
             arquivoAtual.ocr = this.state.edited.text;
             arquivos[this.state.carousel.activeIndex] = arquivoAtual;
-            this.setState({ arquivo: {...this.state.arquivo, arquivos: arquivos}})
-            
-        }catch(e){
+            this.setState({ arquivo: { ...this.state.arquivo, arquivos: arquivos } })
+
+        } catch (e) {
             console.log(e)
-        }
-    }
-
-    changeHandler = async (e) => { //alterar valores editados
-        await this.setState({ edited: { ...this.state.edited, text  : e.target.value } });
-    }
-
-    awaitResult = async (q) => {
-        if (q == true) { //talvez se for false bota q n deu resultado
-            await this.setState({ ...this.state, loading: false });
         }
     }
 
@@ -118,31 +118,29 @@ class Arquivo extends React.Component {
                     }
                 });
 
-                documento = documento.data
-                var count = -1;
-                let doc = {  
-                    campos: {
-                        nome: documento.nome,
-                    },
-                    arquivos: documento.arquivos.map((arq) => {
-                        count = count + 1;
-                        if(arq.text == undefined){
-                            arq.text = ""
-                        }
-                        if (arq.id == this.props.match.params.id_arquivo){
-                            this.setState({ carousel: { ...this.state.carousel, activeIndex: count }})
-                            //this.setState({ edited: { ...this.state.edited, text: arq.text }})
-                        }
-                        
-                        return {
-                            src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
-                            caption: arq.nome,
-                            ocr: arq.text,
-                            id: arq.id
-                        }    
-                    })
-                }
-    
+            documento = documento.data
+            var count = -1;
+            let doc = {
+                campos: {
+                    nome: documento.nome,
+                },
+                arquivos: documento.arquivos.map((arq) => {
+                    count = count + 1;
+                    if (arq.text == undefined) {
+                        arq.text = ""
+                    }
+                    if (arq.id == this.props.match.params.id_arquivo) {
+                        this.setState({ carousel: { ...this.state.carousel, activeIndex: count } })
+                    }
+
+                    return {
+                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
+                        caption: arq.nome,
+                        ocr: arq.text,
+                        id: arq.id
+                    }
+                })
+            }
             await this.setState({ arquivo: doc })
             this.awaitResult(true)
 
@@ -151,8 +149,6 @@ class Arquivo extends React.Component {
             alert("Arquivo inexistente")
             await this.setState({ redirect: true })
         }
-
-
     }
 
     render() {
@@ -235,21 +231,21 @@ class Arquivo extends React.Component {
                                                     </Button >
                                                 </div>
                                                 <CardBody>
-                                                    <Input 
-                                                        disabled = {this.state.editArquivo}
+                                                    <Input
+                                                        disabled={this.state.editArquivo}
                                                         type="textarea"
                                                         name="text"
                                                         id="text"
                                                         onChange={this.changeHandler}
-                                                        value={this.state.editArquivo?
-                                                            this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr 
+                                                        value={this.state.editArquivo ?
+                                                            this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr
                                                             :
                                                             this.state.edited.text}
 
                                                         style={{ "resize": "none", "height": "550px" }} />
-
-                                                    <div style={{"height": "20px"}}/>
-                                                    <Row>                    
+                                                    <div style={{ "height": "20px" }} />
+                                                    
+                                                    <Row>
                                                         <div className="ml-3" >
                                                             <Button
                                                                 hidden={this.state.editArquivo}
