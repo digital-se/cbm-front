@@ -30,11 +30,10 @@ class Arquivo extends React.Component {
         },
         loading: true,
         editArquivo: true,
-        editArq: {
-            nome: "",
-            descricao: "",
-        },
         redirect: false,
+        edited: {
+            text:""
+        }
     }
 
     toggle = () => {
@@ -48,20 +47,24 @@ class Arquivo extends React.Component {
         const nextIndex = this.state.carousel.activeIndex === this.state.arquivo.arquivos.length - 1 ? 0 : this.state.carousel.activeIndex + 1;
         this.setState({ carousel: { activeIndex: nextIndex } })
         this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
+        this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr }})
     }
 
     previous = () => {
         if (this.state.carousel.animating) return;
         const nextIndex = this.state.carousel.activeIndex === 0 ? this.state.arquivo.arquivos.length - 1 : this.state.carousel.activeIndex - 1;
         this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
+        this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr }})
     }
     goToIndex = (newIndex) => {
         if (this.state.carousel.animating) return;
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
+        this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr }})
+        console.log(this.state.edited)
+       
     }
 
     toggleEditArquivo = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
-
         await this.setState({ ...this.state, editArquivo: false });
         await this.setState({ editArq: { ...this.state.editArq, nome: this.state.arquivo.campos.nome } });
         await this.setState({ editArq: { ...this.state.editArq, descricao: this.state.arquivo.campos.descricao } });
@@ -73,6 +76,7 @@ class Arquivo extends React.Component {
     }
 
     salvarArquivo = () => {
+
         this.setState({ ...this.state, editArquivo: true });
     }
 
@@ -97,30 +101,31 @@ class Arquivo extends React.Component {
 
                 documento = documento.data
                 var count = -1;
-                let doc = {
-                    
+                let doc = {  
                     campos: {
                         nome: documento.nome,
                     },
                     arquivos: documento.arquivos.map((arq) => {
                         
                         count = count + 1;
+                        if(arq.id == "4"){
+                            arq.text = "buxa"
+                        }
                         if (arq.id == this.props.match.params.id_arquivo){
                             this.setState({ carousel: { ...this.state.carousel, activeIndex: count }})
+                            this.setState({ edited: { ...this.state.edited, text: arq.text }})
+                            console.log(this.state.edited)
                         }
-
                         return {
                             src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                             caption: arq.nome,
-                            ocr: arq.text,
-                        }
-                        
+                            ocr: arq.text
+                        }    
                     })
                 }
     
-                await this.setState({ arquivo: doc })
+            await this.setState({ arquivo: doc })
             this.awaitResult(true)
-
 
         } catch (e) {
             console.log(e)
@@ -216,10 +221,14 @@ class Arquivo extends React.Component {
                                                         type="textarea"
                                                         name="ocr"
                                                         id="ocr"
-                                                        value={this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr}
+                                                        value={this.state.editArquivo? 
+                                                                this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr
+                                                                :
+                                                                this.state.edited.text }
                                                         style={{ "resize": "none", "height": "550px" }} />
-                                                    <Row>
-                                                        <div className="ml-3">
+                                                    <div style={{"height": "20px"}}/>
+                                                    <Row>                    
+                                                        <div className="ml-3" >
                                                             <Button
                                                                 hidden={this.state.editArquivo}
                                                                 color="danger"
