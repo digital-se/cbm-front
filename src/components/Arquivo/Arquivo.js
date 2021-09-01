@@ -89,7 +89,7 @@ class Arquivo extends React.Component {
     salvarArquivo = async () => {
         try {
             await api.put(`documentos/${this.props.match.params.id_documento}/arquivos/${this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.id}`, {
-                text: this.state.edited.text
+                texto: this.state.edited.text
             }, {
                 headers: {
                     "Authorization": `Bearer ${this.props.keycloak.token}`
@@ -126,8 +126,8 @@ class Arquivo extends React.Component {
                 },
                 arquivos: documento.arquivos.map((arq) => {
                     count = count + 1;
-                    if (arq.text == undefined) {
-                        arq.text = ""
+                    if (arq.texto == undefined) {
+                        arq.texto = ""
                     }
                     if (arq.id == this.props.match.params.id_arquivo) {
                         this.setState({ carousel: { ...this.state.carousel, activeIndex: count } })
@@ -136,7 +136,7 @@ class Arquivo extends React.Component {
                     return {
                         src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
-                        ocr: arq.text,
+                        ocr: arq.texto,
                         id: arq.id
                     }
                 })
