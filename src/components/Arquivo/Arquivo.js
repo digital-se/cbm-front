@@ -119,18 +119,19 @@ class Arquivo extends React.Component {
                 });
 
             documento = documento.data
-            var count = -1;
+            var count = 0;
             let doc = {
                 campos: {
                     nome: documento.nome,
                 },
                 arquivos: documento.arquivos.map((arq) => {
-                    count = count + 1;
                     if (arq.texto == undefined) {
                         arq.texto = ""
                     }
                     if (arq.id == this.props.match.params.id_arquivo) {
-                        this.setState({ carousel: { ...this.state.carousel, activeIndex: count } })
+                        this.setState({ carousel: { ...this.state.carousel, activeIndex: count } })        
+                    }else{
+                        count++;
                     }
 
                     return {
