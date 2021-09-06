@@ -147,7 +147,7 @@ class Arquivo extends React.Component {
 
         } catch (e) {
             console.log(e)
-            alert("Arquivo inexistente")
+            alert("Acesso inválido")
             await this.setState({ redirect: true })
         }
     }
