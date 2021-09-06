@@ -71,24 +71,27 @@ class Documento extends React.Component {
     }
 
     async componentDidMount() {
-
         try {
             if(this.props.keycloak.token == undefined) {
                 this.props.keycloak.token = null;
             }
             console.log(this.props.keycloak.token)
 
-            let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
+            let documento = null;
+            if (this.props.keycloak.token != undefined) {
+                documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
                 {
                     headers: {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
                     }
                 });
-
+            } else{
+                documento = await api.get(`documentos/${this.props.match.params.id_documento}`);
+                console.log("Não logado")
+            }
+            
             documento = documento.data
-
             let data = new Date(documento.data).toISOString().split("T")[0]
-
             let doc = {
                 id: documento.id,
                 campos: {
@@ -118,7 +121,7 @@ class Documento extends React.Component {
             this.awaitResult(true)
 
         } catch (e) {
-            alert("Documento inexistente!")
+            alert("Acesso inválido")
             this.setState({ redirect: true })
         }
     }
