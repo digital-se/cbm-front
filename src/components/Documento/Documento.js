@@ -242,6 +242,7 @@ class Documento extends React.Component {
                                             </Link>
                                             <div style={{ "height": "20px" }} />
                                             <Button
+                                                hidden ={ this.props.keycloak.token ? this.props.keycloak.token === undefined : true }
                                                 color="danger"
                                                 onClick={this.toggleModal}
                                                 disabled={this.state.loading}>
