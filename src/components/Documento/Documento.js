@@ -12,6 +12,7 @@ import { Redirect, Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 import api from "../../modules/api"
 import { withKeycloak } from '@react-keycloak/web';
+import AuthorizedElement from '../Protected/AuthorizedElement';
 
 class Documento extends React.Component {
 
@@ -206,6 +207,7 @@ class Documento extends React.Component {
                                 <CardHeader>
                                     <h3>Texto Extraido</h3>
                                 </CardHeader>
+                                <AuthorizedElement roles={['bmrh.user']}>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
                                     <Link to={`/documentos/${this.state.documento.id}/arquivos/${this.state.documento.arquivos[this.state.carousel.activeIndex]?.id}/editar`}>
                                         <Button
@@ -215,6 +217,7 @@ class Documento extends React.Component {
                                         </Button >
                                     </Link>
                                 </div>
+                                </AuthorizedElement>
                                 <CardBody>
                                     <Input disabled
                                         type="textarea"
@@ -231,6 +234,7 @@ class Documento extends React.Component {
                                     <h3>Informações adicionais</h3>
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
+                                <AuthorizedElement roles={['bmrh.user']}>
                                     <Row>
                                         <div className="ml-3">
                                             <Link to={`/documentos/${this.state.documento.id}/editar`}>
@@ -242,7 +246,6 @@ class Documento extends React.Component {
                                             </Link>
                                             <div style={{ "height": "20px" }} />
                                             <Button
-                                                hidden ={ this.props.keycloak.token ? this.props.keycloak.token === undefined : true }
                                                 color="danger"
                                                 onClick={this.toggleModal}
                                                 disabled={this.state.loading}>
@@ -270,9 +273,8 @@ class Documento extends React.Component {
                                                 </ModalHeader>
                                             </Modal>
                                         </div>
-
                                     </Row>
-
+                                </AuthorizedElement>                 
                                 </div>
                                 <CardBody>
                                     <div>
