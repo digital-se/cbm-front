@@ -116,6 +116,9 @@ class Documento extends React.Component {
                     })
                 },
                 arquivos: documento.arquivos.map((arq) => {
+                    if (arq.texto == undefined) {
+                        arq.texto = ""
+                    }
                     return {
                         src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
