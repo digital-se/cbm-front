@@ -153,7 +153,6 @@ class Cadastro extends Component {
             </td>
         </tr>
     )
-    
     buscarMilitares = async () => {
         let militares = []
 
@@ -328,7 +327,6 @@ class Cadastro extends Component {
     }
 
     async componentDidMount() {
-
         if (this.props.location.pathname != "/cadastro") {
             console.log(this.props.location.pathname);
 
