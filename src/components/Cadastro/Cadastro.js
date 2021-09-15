@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 import { Button, Form, FormGroup, Label } from 'reactstrap';
 import Dropzone from 'react-dropzone';
-// import axios from "axios"
 import api from "../../modules/api"
 import { Card, CardHeader, CardBody, TabContent, TabPane, Nav, NavItem, Row, Col, Table } from 'reactstrap';
 import 'react-datetime/css/react-datetime.css';
@@ -154,7 +153,6 @@ class Cadastro extends Component {
             </td>
         </tr>
     )
-    //Fazer funcionar
     buscarMilitares = async () => {
         let militares = []
 
@@ -328,10 +326,7 @@ class Cadastro extends Component {
         await this.setState({ militares: [] })
     }
 
-
     async componentDidMount() {
-
-
         if (this.props.location.pathname != "/cadastro") {
             console.log(this.props.location.pathname);
 

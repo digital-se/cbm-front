@@ -185,7 +185,7 @@ html, body, #app {
 
         .section-container,
         .footer-container {
-            margin-left: $aside-wd;
+            // margin-left: $aside-wd;
         }
 
         .section-container {
@@ -320,19 +320,6 @@ html, body, #app {
                 width: $aside-wd-collapsed;
             }
             .nav-floating {
-                margin-left: $aside-wd-collapsed;
-            }
-        }
-    }
-}
-
-// Margin only exists above tablet
-@include media-breakpoint-up(md) {
-    // Aside status toggled via JS
-    .aside-collapsed {
-        .wrapper {
-            .section-container,
-            .footer-container {
                 margin-left: $aside-wd-collapsed;
             }
         }

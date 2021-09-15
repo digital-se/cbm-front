@@ -7,12 +7,12 @@ import { Button, FormGroup, Label } from 'reactstrap';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { Carousel, CarouselItem } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Pagination, PaginationItem, PaginationLink,Modal,ModalHeader } from 'reactstrap';
 import { Redirect, Link } from 'react-router-dom';
 import Swal from '../Comp/Swal';
-// import axios from "axios"
 import api from "../../modules/api"
 import { withKeycloak } from '@react-keycloak/web';
+import AuthorizedElement from '../Protected/AuthorizedElement';
 
 class Documento extends React.Component {
 
@@ -35,7 +35,8 @@ class Documento extends React.Component {
             animating: false
         },
         loading: true,
-        redirect: false
+        redirect: false,
+        modal: false
     }
 
     toggle = () => {
@@ -61,7 +62,6 @@ class Documento extends React.Component {
         this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
     }
 
-
     changeHandler = async (e) => { //alterar valores editados
         await this.setState({ editDoc: { ...this.state.editDoc, [e.target.name]: e.target.value } });
     }
@@ -72,34 +72,34 @@ class Documento extends React.Component {
         }
     }
 
+    toggleModal = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
     async componentDidMount() {
-
         try {
-            let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
-                {
-                    headers: {
-                        "Authorization": `Bearer ${this.props.keycloak.token}`
-                    }
-                });
+            if (this.props.keycloak.token == undefined) {
+                this.props.keycloak.token = null;
+            }
+            console.log(this.props.keycloak.token)
 
-            // this.setState({
-            //     documento: {
-            //         ...this.state.documento, campos:
-            //         {
-            //             nome: "Carregando...",
-            //             numeracao: "Carregando...",
-            //             data: "Carregando...",
-            //             tipo: "Carregando...",
-            //             descricao: "Carregando...",
-
-            //         }
-            //     }
-            // });
+            let documento = null;
+            if (this.props.keycloak.token != undefined) {
+                documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${this.props.keycloak.token}`
+                        }
+                    });
+            } else {
+                documento = await api.get(`documentos/${this.props.match.params.id_documento}`);
+                console.log("Não logado")
+            }
 
             documento = documento.data
-
             let data = new Date(documento.data).toISOString().split("T")[0]
-
             let doc = {
                 id: documento.id,
                 campos: {
@@ -116,10 +116,14 @@ class Documento extends React.Component {
                     })
                 },
                 arquivos: documento.arquivos.map((arq) => {
+                    if (arq.texto == undefined) {
+                        arq.texto = ""
+                    }
                     return {
-                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
                         ocr: arq.texto,
+                        id: arq.id
                     }
                 })
             }
@@ -128,7 +132,7 @@ class Documento extends React.Component {
             this.awaitResult(true)
 
         } catch (e) {
-            alert("Documento inexistente!")
+            alert("Acesso inválido")
             this.setState({ redirect: true })
         }
     }
@@ -206,13 +210,17 @@ class Documento extends React.Component {
                                 <CardHeader>
                                     <h3>Texto Extraido</h3>
                                 </CardHeader>
+                                <AuthorizedElement roles={['bmrh.user']}>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                    <Button
-                                        disabled={true || this.state.loading}
-                                        color="danger">
-                                        <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
-                                    </Button >
+                                    <Link to={`/documentos/${this.state.documento.id}/arquivos/${this.state.documento.arquivos[this.state.carousel.activeIndex]?.id}/editar`}>
+                                        <Button
+                                            disabled={this.state.loading}
+                                            color="danger">
+                                            <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
+                                        </Button >
+                                    </Link>
                                 </div>
+                                </AuthorizedElement>
                                 <CardBody>
                                     <Input disabled
                                         type="textarea"
@@ -229,13 +237,47 @@ class Documento extends React.Component {
                                     <h3>Informações adicionais</h3>
                                 </CardHeader>
                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
-                                    <Link to={"/documentos/" + this.state.documento.id + "/editar"}>
-                                        <Button
-                                            color="danger"
-                                            disabled={this.state.loading}>
-                                            <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
-                                        </Button>
-                                    </Link>
+                                <AuthorizedElement roles={['bmrh.user']}>
+                                    <Row>
+                                        <div className="ml-3">
+                                            <Link to={`/documentos/${this.state.documento.id}/editar`}>
+                                                <Button
+                                                    color="danger"
+                                                    disabled={this.state.loading}>
+                                                    <em className="fa mr-2 fas fa-pencil-alt " />Editar Documento
+                                                </Button>
+                                            </Link>
+                                            <div style={{ "height": "20px" }} />
+                                            <Button
+                                                color="danger"
+                                                onClick={this.toggleModal}
+                                                disabled={this.state.loading}>
+                                                <em className="fa mr-2 fas fa-times" />Excluir Documento
+                                            </Button>
+                                            <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+                                                <ModalHeader >
+                                                    <h3 style={{font: "1.5rem"}}>Tem certeza que deseja excluir este documento? </h3>
+                                                    <div style={{ "height": "20px" }} />
+                
+                                                            <Button
+                                                                color="primary"
+                                                                onClick={this.toggleModal}
+                                                                style={{ "height": "35px", "width": "99px" }}>
+                                                                Não
+                                                            </Button>
+                                                            <Button
+                                                                color="danger"
+                                                                onClick={this.excluirDocumento}
+                                                                type="button"
+                                                                className="ml-4"
+                                                                style={{ "height": "35px", "width": "99px" }}>
+                                                                Sim
+                                                            </Button>
+                                                </ModalHeader>
+                                            </Modal>
+                                        </div>
+                                    </Row>
+                                </AuthorizedElement>                 
                                 </div>
                                 <CardBody>
                                     <div>

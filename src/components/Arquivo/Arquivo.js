@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import ContentWrapper from '../Layout/ContentWrapper';
 import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
@@ -12,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 import Swal from '../Comp/Swal';
 // import axios from "axios"
 import api from "../../modules/api"
+import { withKeycloak } from '@react-keycloak/web';
 
 class Arquivo extends React.Component {
 
@@ -21,7 +21,6 @@ class Arquivo extends React.Component {
             id: "",
             campos: {
                 nome: "",
-                descricao: "",
             },
             arquivos: []
         },
@@ -31,11 +30,10 @@ class Arquivo extends React.Component {
         },
         loading: true,
         editArquivo: true,
-        editArq: {
-            nome: "",
-            descricao: "",
-        },
         redirect: false,
+        edited: {
+            text: ""
+        }
     }
 
     toggle = () => {
@@ -44,42 +42,42 @@ class Arquivo extends React.Component {
         });
     }
 
-    next = () => {
+    next = async () => {
         if (this.state.carousel.animating) return;
         const nextIndex = this.state.carousel.activeIndex === this.state.arquivo.arquivos.length - 1 ? 0 : this.state.carousel.activeIndex + 1;
         this.setState({ carousel: { activeIndex: nextIndex } })
-        this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
+        await this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
+        this.setState({ ...this.state, editArquivo: true });
     }
 
-    previous = () => {
+    previous = async () => {
         if (this.state.carousel.animating) return;
         const nextIndex = this.state.carousel.activeIndex === 0 ? this.state.arquivo.arquivos.length - 1 : this.state.carousel.activeIndex - 1;
-        this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
+        await this.setState({ carousel: { ...this.state.carousel, activeIndex: nextIndex } })
+        this.setState({ ...this.state, editArquivo: true });
     }
-    goToIndex = (newIndex) => {
+    goToIndex = async (newIndex) => {
         if (this.state.carousel.animating) return;
-        this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
+        await this.setState({ carousel: { ...this.state.carousel, activeIndex: newIndex } })
+        this.setState({ ...this.state, editArquivo: true });
     }
 
     toggleEditArquivo = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
-
         await this.setState({ ...this.state, editArquivo: false });
-        await this.setState({ editArq: { ...this.state.editArq, nome: this.state.arquivo.campos.nome } });
-        await this.setState({ editArq: { ...this.state.editArq, descricao: this.state.arquivo.campos.descricao } });
-
+        this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
     }
 
-    discardChangesArquivo = () => {
-        this.setState({ ...this.state, editArquivo: true });
-    }
+    discardChangesArquivo = async () => {
+        console.log(this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr)
+        await this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
+        await this.setState({ ...this.state, editArquivo: true });
 
-    salvarArquivo = () => {
 
-        this.setState({ ...this.state, editArquivo: true });
+        console.log(this.state.edited.text)
     }
 
     changeHandler = async (e) => { //alterar valores editados
-        await this.setState({ editArq: { ...this.state.editArq, [e.target.name]: e.target.value } });
+        await this.setState({ edited: { ...this.state.edited, text: e.target.value } });
     }
 
     awaitResult = async (q) => {
@@ -88,42 +86,70 @@ class Arquivo extends React.Component {
         }
     }
 
+    salvarArquivo = async () => {
+        try {
+            await api.put(`documentos/${this.props.match.params.id_documento}/arquivos/${this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.id}`, {
+                texto: this.state.edited.text
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${this.props.keycloak.token}`
+                }
+            })
+            console.log(this.state.edited)
+            this.setState({ ...this.state, editArquivo: true });
+
+            let arquivos = [...this.state.arquivo.arquivos];
+            let arquivoAtual = { ...arquivos[this.state.carousel.activeIndex] };
+            arquivoAtual.ocr = this.state.edited.text;
+            arquivos[this.state.carousel.activeIndex] = arquivoAtual;
+            this.setState({ arquivo: { ...this.state.arquivo, arquivos: arquivos } })
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     async componentDidMount() {
         try {
-            let arquivo = await api.get(`arquivo/${this.props.match.params.id}`,
+            let documento = await api.get(`documentos/${this.props.match.params.id_documento}`,
                 {
                     headers: {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
                     }
                 });
-            this.setState({ arquivo: { ...this.state.arquivo, campos: { nome: "Carregando..." } } })
 
-            let arq = {
-                id: arquivo.id,
+            documento = documento.data
+            var count = 0;
+            let doc = {
                 campos: {
-                    nome: arquivo.nome,
-                    descricao: arquivo.descricao,
+                    nome: documento.nome,
                 },
-                arquivos: arquivo.arquivos.map((arq) => {
+                arquivos: documento.arquivos.map((arq) => {
+                    if (arq.texto == undefined) {
+                        arq.texto = ""
+                    }
+                    if (arq.id == this.props.match.params.id_arquivo) {
+                        this.setState({ carousel: { ...this.state.carousel, activeIndex: count } })        
+                    }else{
+                        count++;
+                    }
+
                     return {
-                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id}/arquivos/${arq.id}/arquivo`,
+                        src: (process.env.NODE_ENV == 'production' ? "https://sandbox-api.cbm.se.gov.br/api-digitalse/" : "http://localhost:8082/") + `documentos/${this.props.match.params.id_documento}/arquivos/${arq.id}/arquivo`,
                         caption: arq.nome,
-                        ocr: arq.texto
+                        ocr: arq.texto,
+                        id: arq.id
                     }
                 })
             }
-
-            await this.setState({ arquivo: arq })
+            await this.setState({ arquivo: doc })
             this.awaitResult(true)
 
-
         } catch (e) {
-            alert("Arquivo inexistente")
+            console.log(e)
+            alert("Acesso inválido")
             await this.setState({ redirect: true })
-
         }
-
-
     }
 
     render() {
@@ -199,20 +225,29 @@ class Arquivo extends React.Component {
                                                 </CardHeader>
                                                 <div style={{ "padding": "15px", "max-width": "200px" }}>
                                                     <Button
+                                                        onClick={this.toggleEditArquivo}
                                                         disabled={this.state.loading}
                                                         color="danger">
-                                                        <em className="fa mr-2 fas fa-pencil-alt " />Editar Arquivo
+                                                        <em className="fa mr-2 fas fa-pencil-alt " />Editar Texto
                                                     </Button >
                                                 </div>
                                                 <CardBody>
-                                                    <Input disabled
+                                                    <Input
+                                                        disabled={this.state.editArquivo}
                                                         type="textarea"
-                                                        name="ocr"
-                                                        id="ocr"
-                                                        value={this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr}
-                                                        style={{ "resize": "none", "height": "390px" }} />
+                                                        name="text"
+                                                        id="text"
+                                                        onChange={this.changeHandler}
+                                                        value={this.state.editArquivo ?
+                                                            this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr
+                                                            :
+                                                            this.state.edited.text}
+
+                                                        style={{ "resize": "none", "height": "550px" }} />
+                                                    <div style={{ "height": "20px" }} />
+                                                    
                                                     <Row>
-                                                        <div className="ml-auto mr-auto">
+                                                        <div className="ml-3" >
                                                             <Button
                                                                 hidden={this.state.editArquivo}
                                                                 color="danger"
@@ -249,4 +284,4 @@ Arquivo.propTypes = {
     keycloak: PropTypes.object
 }
 
-export default withTranslation()(Arquivo);
+export default withKeycloak(Arquivo);
