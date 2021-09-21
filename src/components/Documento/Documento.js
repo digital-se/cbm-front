@@ -83,8 +83,6 @@ class Documento extends React.Component {
             if (this.props.keycloak.token == undefined) {
                 this.props.keycloak.token = null;
             }
-            console.log(this.props.keycloak.token)
-
             let documento = null;
             if (this.props.keycloak.token != undefined) {
                 documento = await api.get(`documentos/${this.props.match.params.id_documento}`,

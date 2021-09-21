@@ -63,6 +63,7 @@ class Arquivo extends React.Component {
     }
 
     toggleEditArquivo = async () => { //backup pra caso rejeite as alterações e recuperar os dados antigos pois serão alterados diretamente
+        console.log(this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr)
         await this.setState({ ...this.state, editArquivo: false });
         this.setState({ edited: { ...this.state.edited, text: this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.ocr } });
     }
@@ -89,7 +90,8 @@ class Arquivo extends React.Component {
     salvarArquivo = async () => {
         try {
             await api.put(`documentos/${this.props.match.params.id_documento}/arquivos/${this.state.arquivo.arquivos[this.state.carousel.activeIndex]?.id}`, {
-                texto: this.state.edited.text
+                texto: this.state.edited.text,
+                orc: true
             }, {
                 headers: {
                     "Authorization": `Bearer ${this.props.keycloak.token}`

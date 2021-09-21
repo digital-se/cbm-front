@@ -8,8 +8,6 @@ class Api {
     }
 
     async getSearch(values, token) {
-
-        console.log(token)
         try {
 
             if(token != undefined) {
