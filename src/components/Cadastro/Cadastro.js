@@ -93,6 +93,7 @@ class Cadastro extends Component {
     };
 
     onDrop = acceptedFiles => {
+        console.log(this.state.files)
         this.setState(
             {
                 files: [
@@ -649,7 +650,7 @@ class Cadastro extends Component {
                                                                 </p>
                                                                 <hr />
                                                                 <h3>Insira um Arquivo</h3>
-                                                                <Dropzone className="card p-3" onDrop={this.onDrop}>
+                                                                <Dropzone className="card p-3" accept="image/*" onDrop={this.onDrop}>
                                                                     {({ getRootProps, getInputProps }) => (
                                                                         <div {...getRootProps()} className="text-center box-placeholder m-0" style={{ "height": "200px", borderRadius: '20px', cursor: "pointer" }}>
                                                                             <input {...getInputProps()} />
