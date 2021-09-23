@@ -549,7 +549,7 @@ class Cadastro extends Component {
                                                                 </FormGroup>
                                                                 <div style={{ "height": "25px" }} />
                                                                 <FormGroup>
-                                                                    <Label for="visibilidade"><h3>Quem pode ver esse documento?</h3></Label>
+                                                                    <Label for="visibilidade"><h3>Quem pode ver esse documento?*</h3></Label>
                                                                     <Input className="select"
                                                                         type="select"
                                                                         name="visibilidade"
@@ -630,10 +630,11 @@ class Cadastro extends Component {
                                                                         valid={(this.state.form.data != "" && this.state.validation.data)}
                                                                         invalid={((this.state.form.data != "" || this.state.fullValidate) && !this.state.validation.data)}
                                                                     />
+                                                                    <span className="invalid-feedback">Insira uma data</span>
                                                                 </FormGroup>
                                                                 <div style={{ "height": "25px" }} />
                                                                 <FormGroup>
-                                                                    <Label for="descrição"><h3>Descrição do documento</h3></Label>
+                                                                    <Label for="descrição"><h3>Descrição do documento*</h3></Label>
                                                                     <Input
                                                                         type="textarea"
                                                                         name="descrição"
