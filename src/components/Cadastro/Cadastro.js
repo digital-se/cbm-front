@@ -611,14 +611,14 @@ class Cadastro extends Component {
                                                                         type="textarea"
                                                                         name="descrição"
                                                                         id="descrição"
-                                                                        maxlength="300"
+                                                                        maxlength="255"
                                                                         value={this.state.form.descrição}
                                                                         onChange={this.changeHandler}
                                                                         style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
                                                                         valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
                                                                         invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                                     />
-                                                                    <span className="invalid-feedback">Insira a descrição do documento</span>
+                                                                    <span className="invalid-feedback">Insira no minimo 11 caracteres</span>
                                                                 </FormGroup>
                                                             </fieldset>
                                                         </div>
