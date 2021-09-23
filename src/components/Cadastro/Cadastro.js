@@ -11,9 +11,12 @@ import Swal from '../Comp/Swal';
 import AuthorizedElement from '../Protected/AuthorizedElement';
 import { Redirect } from 'react-router-dom';
 import { withKeycloak } from '@react-keycloak/web';
+import { Tooltip } from 'reactstrap';
 
+//const [tooltipOpen, setTooltipOpen] = useState(false);
 
 class Cadastro extends Component {
+    
     state = {
         activeStep: '1',
         form: {
@@ -28,6 +31,7 @@ class Cadastro extends Component {
         },
         fullValidate: false,
         allValid: false,
+
         validation: {
             nome: false,
             visibilidade: false,
@@ -41,9 +45,15 @@ class Cadastro extends Component {
         busca: [],
         militares: [],
         files: [],
-        submitting: false
-    };
+        submitting: false,
 
+        //botar esss 3 bagulho igual o form ali de cima 
+        view:false,
+        excluir:false,
+        turnOcr:false
+        
+    };
+    
     validate = async () => {
         await this.setState({ allValid: true });
 
@@ -77,6 +87,20 @@ class Cadastro extends Component {
             await this.setState({ validation: { ...this.state.validation, descrição: true } });
         }
     }
+    toggleTooltipView = async() => 
+    this.setState({
+        view: !this.state.view
+    });
+
+    toggleTooltipOcr= () => 
+        this.setState({
+            turnOcr: !this.state.turnOcr
+        });
+    
+    toggleTooltipExcluir = () => 
+        this.setState({
+            excluir: !this.state.excluir
+        });
 
     changeHandler = async (e) => {
         await this.setState({ form: { ...this.state.form, [e.target.name]: e.target.value } });
@@ -139,10 +163,10 @@ class Cadastro extends Component {
                     showConfirmButton: false,
                     showCloseButton: true
                 }} className="btn m-0 p-0">
-                    <Button color="primary"><em style={{ fontSize: "18px" }} className="fas fa-expand" /></Button>
+                    <Button id="visualizar" color="primary"><em style={{ fontSize: "18px" }} className="fas fa-expand" /></Button>
                 </Swal>
-                <Button color="danger" onClick={() => this.removeArquivo(index)} className="ml-2"><em style={{ fontSize: "18px" }} className="fas fa-file-excel" /></Button>
-                <Button color="warning" onClick={() => this.changeOcr(index)} className="ml-2">
+                <Button id="excluir" color="danger" onClick={() => this.removeArquivo(index)} className="ml-2"><em style={{ fontSize: "18px" }} className="fas fa-file-excel" /></Button>
+                <Button id="ocr" color="warning" onClick={() => this.changeOcr(index)} className="ml-2">
                     {
                         this.state.files[index].ocr ?
                             (<em style={{ fontSize: "18px" }} className="far fa-eye" />)
@@ -151,6 +175,10 @@ class Cadastro extends Component {
                     }
                 </Button>
                 <Button color="secondary" className="ml-2" disabled><em style={{ fontSize: "18px" }} className="fas fa-bars" /></Button>
+
+                <Tooltip placement="top" isOpen={this.state.view} target="visualizar" toggle={this.toggleTooltipView}> Visualizar </Tooltip>
+                <Tooltip placement="top" isOpen={this.state.excluir} target="excluir" toggle={this.toggleTooltipExcluir}> Excluir </Tooltip>
+                <Tooltip placement="top" isOpen={this.state.turnOcr} target="ocr" toggle={this.toggleTooltipOcr}> {this.state.files[index].ocr? "Desligar OCR" : "Ligar OCR" }</Tooltip>
             </td>
         </tr>
     )
@@ -245,7 +273,6 @@ class Cadastro extends Component {
                         "Authorization": `Bearer ${this.props.keycloak.token}`
                     }
                 })
-                console.log(documento)
                 if (this.state.files.length > 0) {
                     const formData = new FormData()
                     let fileData = []
@@ -681,20 +708,25 @@ class Cadastro extends Component {
                                                         </div>
                                                         <hr />
                                                         <div className="d-flex">
+                                                            
                                                             <Button type="button"
+                                                                id="btnVoltar"
                                                                 color="danger"
                                                                 onClick={() => this.toggleStep('2')}
                                                                 style={{ "height": "35px", "width": "110px" }}>
                                                                 <em className="fa mr-2 fas fa-arrow-left" />Voltar
                                                             </Button>
+                                                            
                                                             <Button
                                                                 type="button"
+                                                                id='btnAvançar'
                                                                 className="ml-auto"
                                                                 color="success"
                                                                 onClick={() => this.toggleStep('4')}
                                                                 style={{ "height": "35px", "width": "110px" }}>
                                                                 Avançar<em className="fa ml-2 fas fa-arrow-right" />
                                                             </Button>
+
                                                         </div>
                                                     </TabPane>
                                                     <TabPane tabId="4">
