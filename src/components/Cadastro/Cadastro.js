@@ -649,7 +649,6 @@ class Cadastro extends Component {
                                                                     />
                                                                     <span className="invalid-feedback">Insira no minimo 11 caracteres</span>
                                                                     <span className="valid-feedback">Insira no máximo 255 caracteres</span>
-                                                                    
                                                                 </FormGroup>
                                                             </fieldset>
                                                         </div>
