@@ -640,6 +640,7 @@ class Cadastro extends Component {
                                                                         name="descrição"
                                                                         id="descrição"
                                                                         maxlength="255"
+                                                                        minlength="11"
                                                                         value={this.state.form.descrição}
                                                                         onChange={this.changeHandler}
                                                                         style={{ "height": "100px", minHeight: "90px", maxHeight: "150px", resize: "vertical" }}
@@ -647,6 +648,8 @@ class Cadastro extends Component {
                                                                         invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                                     />
                                                                     <span className="invalid-feedback">Insira no minimo 11 caracteres</span>
+                                                                    <span className="valid-feedback">Insira no máximo 255 caracteres</span>
+                                                                    
                                                                 </FormGroup>
                                                             </fieldset>
                                                         </div>
