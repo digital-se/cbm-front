@@ -27,10 +27,20 @@ const Routes = ({ location }) => {
     const timeout = { enter: 500, exit: 500 };
     const animationName = 'rag-fadeIn'
     
+    //Consertar, não funciona sem keycloak
+    //
     const { initialized } = useKeycloak();
     if (!initialized) {
         return (  
-            <PageLoader />     
+            <div className="container h-100">
+                <div className="row h-100 justify-content-center align-items-center" >
+                    <h2 style={{"text-align":"center", "color":"#F05050"}}>Não foi possível conectar com o serviço de autenticação :(</h2> 
+                </div>
+                <div>
+                    <PageLoader /> 
+                </div>
+            </div>
+            
         )
     }
 
