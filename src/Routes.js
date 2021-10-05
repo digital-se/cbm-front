@@ -6,6 +6,8 @@ import Base from './components/Layout/Base';
 import BasePage from './components/Layout/BasePage';
 import { PrivateRoute } from './util/PrivateRoute';
 import { useKeycloak } from '@react-keycloak/web';
+import { Button} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const Busca = lazy(() => import('./components/Busca/Busca'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
@@ -35,12 +37,8 @@ const Routes = ({ location }) => {
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center" >
                     <h2 style={{"text-align":"center", "color":"#F05050"}}>Não foi possível conectar com o serviço de autenticação :(</h2> 
-                </div>
-                <div>
-                    <PageLoader /> 
-                </div>
+                </div>              
             </div>
-            
         )
     }
 
