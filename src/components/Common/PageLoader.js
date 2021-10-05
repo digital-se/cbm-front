@@ -4,7 +4,7 @@ import React from 'react';
 // https://fontawesome.com/how-to-use/on-the-web/styling/animating-icons
 const PageLoader = () => (
     <div className="page-loader">
-        <em className="fas fa-circle-notch fa-spin fa-2x text-muted"></em>
+        <em className='whirl'> </em>
     </div>
 )
 
