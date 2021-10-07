@@ -12,7 +12,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 /* whirl base styling */
 .whirl {
-  position: absolute;
+  position: static;
+  top: 3;
   background-color: #FFF;
 }
 .whirl:before {
