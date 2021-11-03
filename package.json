@@ -119,7 +119,7 @@
     "sweetalert": "2.1.2",
     "sweetalert2": "^10.13.0",
     "sweetalert2-react-content": "^3.2.2",
-    "validator": "13.6.0",
+    "validator": "13.7.0",
     "weather-icons": "1.3.2",
     "web-vitals": "^1.1.2"
   },
