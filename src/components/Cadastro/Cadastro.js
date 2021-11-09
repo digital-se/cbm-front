@@ -53,7 +53,7 @@ class Cadastro extends Component {
         turnOcr:false
         
     };
-    
+   
     validate = async () => {
         await this.setState({ allValid: true });
 
@@ -647,7 +647,7 @@ class Cadastro extends Component {
                                                                         valid={(this.state.form.descrição != "" && this.state.validation.descrição)}
                                                                         invalid={((this.state.form.descrição != "" || this.state.fullValidate) && !this.state.validation.descrição)}
                                                                     />
-                                                                    <span className="invalid-feedback">Insira no minimo 11 caracteres</span>
+                                                                    <span className="invalid-feedback">Campo obrigatório, insira no mínimo 11 caracters</span>
                                                                     <span className="valid-feedback">Insira no máximo 255 caracteres</span>
                                                                 </FormGroup>
                                                             </fieldset>
