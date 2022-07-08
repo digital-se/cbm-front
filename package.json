@@ -82,7 +82,7 @@
     "loaders.css": "0.1.2",
     "matchmedia": "0.1.2",
     "modernizr": "3.11.7",
-    "moment": "2.29.1",
+    "moment": "2.29.4",
     "pdfmake": "0.1.71",
     "prop-types": "^15.7.2",
     "raf": "3.4.1",
